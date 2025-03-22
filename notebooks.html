@@ -378,6 +378,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
 </ul>
             </nav>
@@ -392,6 +393,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="etl-eda">
 <h1>ETL &amp; EDA<a class="headerlink" href="#etl-eda" title="Link to this heading">#</a></h1>
+<section id="extraer-transformar-y-cargar-etl">
+<h2>Extraer, Transformar y Cargar (ETL)<a class="headerlink" href="#extraer-transformar-y-cargar-etl" title="Link to this heading">#</a></h2>
 <p>Los datos fueron suministrados por <strong>CARBONES COLOMBIANOS DEL CERREJON SAS</strong>. Estos fueron recibidos mediante un “<em>.zip</em>” el cual contenia 18 archivos “<em>.csv</em>” correspondientes a los datos de ambas suspensiones traseras (Derecha e izquierda) de cada camion. Con el siguiente codigo pudimos combinar cada unos de los “<em>.csv</em>” en un solo DataFrame.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -458,15 +461,16 @@ document.write(`
 </div>
 </div>
 <p>Una vez unificado el DataFrame, procedemos al analisis de los datos para poder encontrar patrones e informacion relevante para la investigacion.</p>
+</section>
 <section id="analisis-exploratorio-de-datos-eda">
 <h2>Analisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h2>
 <p>Este documento presenta un análisis del comportamiento de las presiones en los camiones Hitachi EH5000. Se analizarán un total de 12 camiones, cada uno de los cuales está equipado con dos suspensiones: la suspensión derecha y la suspensión izquierda trasera, sumando un total de 24 suspensiones. A lo largo del análisis, se estudiará el comportamiento de las presiones a través del tiempo. Para ello, contamos con información adicional de dos variables relacionadas con la presión: el payload y la velocidad.</p>
-<p>Para cada camión, se tiene registrado cuál fue la suspensión que falló. En la tabla siguiente se detalla la información de las suspensiones de cada camión, incluyendo la fecha de montaje y desmontaje, el componente que falló y las horas en operación.</p>
 <p>En los siguientes codigos, observaremos el desarrollo realizado para el analisis de la base de datos correspondiente a los datos de las suspensiones.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 
 <span class="c1"># Datos</span>
 <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Fallas&quot;</span><span class="p">,</span> <span class="s2">&quot;Sin Falla&quot;</span><span class="p">]</span>
@@ -494,12 +498,19 @@ document.write(`
 
 <span class="c1"># Mostrar el gráfico</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt; .output_png { display: block; margin: auto; } &lt;/style&gt;&quot;</span><span class="p">))</span>
+
+<span class="c1"># Crear gráfico</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Gráfico centrado&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" src="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" />
+<div class="output text_html"><style> .output_png { display: block; margin: auto; } </style></div><img alt="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" src="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" />
+<img alt="_images/a2a096b81e63b9000fd01f234fbcf23519a06e537a673483f83b3f13ec7171a9.png" src="_images/a2a096b81e63b9000fd01f234fbcf23519a06e537a673483f83b3f13ec7171a9.png" />
 </div>
 </div>
 </section>
@@ -569,6 +580,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
 </ul>
   </nav></div>
