@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Content with notebooks &#8212; Proyecto ML - Analisis de fallas</title>
+    <title>Estado de las suspensiones &#8212; Proyecto ML - Analisis de fallas</title>
   
   
   
@@ -57,8 +57,6 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -183,7 +181,7 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Content with notebooks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estado de las suspensiones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 </ul>
 
@@ -357,9 +355,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -370,21 +366,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Content with notebooks</h1>
+    <h1>Estado de las suspensiones</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markdown-notebooks">Markdown + notebooks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#myst-markdown">MyST markdown</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-blocks-and-outputs">Code blocks and outputs</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -394,104 +380,22 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="content-with-notebooks">
-<h1>Content with notebooks<a class="headerlink" href="#content-with-notebooks" title="Link to this heading">#</a></h1>
-<p>You can also create content with Jupyter Notebooks. This means that you can include
-code blocks and their outputs in your book.</p>
-<section id="markdown-notebooks">
-<h2>Markdown + notebooks<a class="headerlink" href="#markdown-notebooks" title="Link to this heading">#</a></h2>
-<p>As it is markdown, you can embed images, HTML, etc into your posts!</p>
-<p><img alt="" src="https://myst-parser.readthedocs.io/en/latest/_static/logo-wide.svg" /></p>
-<p>You can also <span class="math notranslate nohighlight">\(add_{math}\)</span> and</p>
-<div class="math notranslate nohighlight">
-\[
-math^{blocks}
-\]</div>
-<p>or</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{aligned}
-\mbox{mean} la_{tex} \\ \\
-math blocks
-\end{aligned}
-\end{split}\]</div>
-<p>But make sure you $Escape $your $dollar signs $you want to keep!</p>
-</section>
-<section id="myst-markdown">
-<h2>MyST markdown<a class="headerlink" href="#myst-markdown" title="Link to this heading">#</a></h2>
-<p>MyST markdown works in Jupyter Notebooks as well. For more information about MyST markdown, check
-out <a class="reference external" href="https://jupyterbook.org/content/myst.html">the MyST guide in Jupyter Book</a>,
-or see <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">the MyST markdown documentation</a>.</p>
-</section>
-<section id="code-blocks-and-outputs">
-<h2>Code blocks and outputs<a class="headerlink" href="#code-blocks-and-outputs" title="Link to this heading">#</a></h2>
-<p>Jupyter Book will also embed your code blocks and output in your book.
-For example, here’s some sample Matplotlib code:</p>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear el DataFrame</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20240411&quot;</span><span class="p">,</span> <span class="s2">&quot;20240413&quot;</span><span class="p">,</span> <span class="s2">&quot;20240430&quot;</span><span class="p">,</span> <span class="s2">&quot;20240518&quot;</span><span class="p">,</span> 
-                        <span class="s2">&quot;20240616&quot;</span><span class="p">,</span> <span class="s2">&quot;20240623&quot;</span><span class="p">,</span> <span class="s2">&quot;20240724&quot;</span><span class="p">,</span> <span class="s2">&quot;20240725&quot;</span><span class="p">,</span> 
-                        <span class="s2">&quot;20240804&quot;</span><span class="p">,</span> <span class="s2">&quot;20240815&quot;</span><span class="p">,</span> <span class="s2">&quot;20240818&quot;</span><span class="p">,</span> <span class="s2">&quot;20240818&quot;</span><span class="p">,</span> 
-                        <span class="s2">&quot;20240824&quot;</span><span class="p">,</span> <span class="s2">&quot;20240909&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20240215&quot;</span><span class="p">,</span> <span class="s2">&quot;20240217&quot;</span><span class="p">,</span> <span class="s2">&quot;20240211&quot;</span><span class="p">,</span> <span class="s2">&quot;20240113&quot;</span><span class="p">,</span> 
-                      <span class="s2">&quot;20240319&quot;</span><span class="p">,</span> <span class="s2">&quot;20240519&quot;</span><span class="p">,</span> <span class="s2">&quot;20240307&quot;</span><span class="p">,</span> <span class="s2">&quot;20231222&quot;</span><span class="p">,</span> 
-                      <span class="s2">&quot;20240528&quot;</span><span class="p">,</span> <span class="s2">&quot;20240707&quot;</span><span class="p">,</span> <span class="s2">&quot;20240225&quot;</span><span class="p">,</span> <span class="s2">&quot;20240714&quot;</span><span class="p">,</span> 
-                      <span class="s2">&quot;20231228&quot;</span><span class="p">,</span> <span class="s2">&quot;20240622&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;No_Componente&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;02247572E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247810E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247881E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247824E&quot;</span><span class="p">,</span> 
-                      <span class="s2">&quot;02247705E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247735E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247904E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247786E&quot;</span><span class="p">,</span> 
-                      <span class="s2">&quot;02247704E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247708N&quot;</span><span class="p">,</span> <span class="s2">&quot;02247746E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247570E-2&quot;</span><span class="p">,</span> 
-                      <span class="s2">&quot;02247984E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247721E&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;Cod_Comp&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SUSP&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">14</span><span class="p">,</span>  
-    <span class="s2">&quot;Mod&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> 
-            <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;No_Equipo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;0220833&quot;</span><span class="p">,</span> <span class="s2">&quot;0220848&quot;</span><span class="p">,</span> <span class="s2">&quot;0220740&quot;</span><span class="p">,</span> <span class="s2">&quot;0220847&quot;</span><span class="p">,</span> <span class="s2">&quot;0220826&quot;</span><span class="p">,</span> 
-                  <span class="s2">&quot;0220847&quot;</span><span class="p">,</span> <span class="s2">&quot;0220849&quot;</span><span class="p">,</span> <span class="s2">&quot;0220843&quot;</span><span class="p">,</span> <span class="s2">&quot;0220830&quot;</span><span class="p">,</span> <span class="s2">&quot;0220823&quot;</span><span class="p">,</span> 
-                  <span class="s2">&quot;0220836&quot;</span><span class="p">,</span> <span class="s2">&quot;0220836&quot;</span><span class="p">,</span> <span class="s2">&quot;0220831&quot;</span><span class="p">,</span> <span class="s2">&quot;0220832&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;Horas&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">685.77</span><span class="p">,</span> <span class="mf">954.59</span><span class="p">,</span> <span class="mf">998.27</span><span class="p">,</span> <span class="mf">1534.82</span><span class="p">,</span> <span class="mf">994.1</span><span class="p">,</span> <span class="mf">473.7</span><span class="p">,</span> <span class="mf">1922.72</span><span class="p">,</span> <span class="mf">2907.45</span><span class="p">,</span> 
-              <span class="mf">919.5</span><span class="p">,</span> <span class="mf">454.7</span><span class="p">,</span> <span class="mf">2556.31</span><span class="p">,</span> <span class="mf">488.1</span><span class="p">,</span> <span class="mf">3220.33</span><span class="p">,</span> <span class="mf">993.1</span><span class="p">]</span>
-<span class="p">})</span>
-
-<span class="c1"># Convertir columnas de fechas a tipo datetime</span>
-<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Ordenar por Fecha_Montaje</span>
-<span class="n">data_ordenada</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">)</span>
-
-<span class="c1"># Renombrar columnas</span>
-<span class="n">data_ordenada</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Fecha Desmonte&quot;</span><span class="p">,</span> <span class="s2">&quot;Fecha Montaje&quot;</span><span class="p">,</span> <span class="s2">&quot;No. Componente&quot;</span><span class="p">,</span> <span class="s2">&quot;Comp&quot;</span><span class="p">,</span> <span class="s2">&quot;Mod&quot;</span><span class="p">,</span> <span class="s2">&quot;No. Equipo&quot;</span><span class="p">,</span> <span class="s2">&quot;Horas&quot;</span><span class="p">]</span>
-
-<span class="c1"># Mostrar tabla en formato tabulado</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">data_ordenada</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;grid&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="estado-de-las-suspensiones">
+<h1>Estado de las suspensiones<a class="headerlink" href="#estado-de-las-suspensiones" title="Link to this heading">#</a></h1>
+<p>En el siguiente codigo podemos observar el codigo donde se creo la tabla para poder observar</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hola&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="c1"># Mostrar imagen desde una ruta local</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;ESTADOSUSPENSIONES.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>hola
-</pre></div>
+<img alt="_images/6342139724b48a49dc5d0d62d8311504165351a2e5c873dc5a97d22914316619.png" src="_images/6342139724b48a49dc5d0d62d8311504165351a2e5c873dc5a97d22914316619.png" />
 </div>
 </div>
-</div>
-<p>There is a lot more that you can do with outputs (such as including interactive outputs)
-with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -548,23 +452,6 @@ with your book. For more information about this, see <a class="reference externa
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markdown-notebooks">Markdown + notebooks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#myst-markdown">MyST markdown</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-blocks-and-outputs">Code blocks and outputs</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
