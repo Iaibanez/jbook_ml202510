@@ -18,16 +18,61 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+import os
 import pandas as pd
-from tabulate import tabulate
+
+def identify_delimiter(file_path):
+    """Identifica si el archivo CSV usa coma o punto y coma como delimitador."""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        first_line = file.readline()
+        if ',' in first_line:
+            return ','
+        elif ';' in first_line:
+            return ';'
+        else:
+            return None  # No se encontró un delimitador claro
+
+# Ruta de la carpeta donde están los archivos CSV
+folder_path = os.path.expanduser('/Users/user/Library/CloudStorage/OneDrive-UniversidaddelNorte/Noveno semestre/TESIS DE GRADO/Mario liñan')
+
+# Obtener la lista de archivos CSV en la carpeta
+files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith(".csv")]
+
+# Identificar delimitadores para cada archivo
+delimiters = {file: identify_delimiter(file) for file in files}
+
+# Separar archivos según su delimitador
+files_semicolon = [file for file, delim in delimiters.items() if delim == ';']
+files_comma = [file for file, delim in delimiters.items() if delim == ',']
+
+# Leer archivos con punto y coma como separador
+df_list_semicolon = [pd.read_csv(file, sep=';', encoding='utf-8') for file in files_semicolon]
+
+# Leer archivos con coma como separador
+df_list_comma = [pd.read_csv(file, sep=',', encoding='utf-8') for file in files_comma]
+
+# Combinar todos los dataframes
+df_semicolon = pd.concat(df_list_semicolon, ignore_index=True) if df_list_semicolon else pd.DataFrame()
+df_comma = pd.concat(df_list_comma, ignore_index=True) if df_list_comma else pd.DataFrame()
+
+dfcamiones = pd.concat([df_semicolon, df_comma], ignore_index=True)
+
+# Convertir la columna AdjustedReadTime a formato datetime si existe en el dataframe
+if 'AdjustedReadTime' in dfcamiones.columns:
+    dfcamiones['AdjustedReadTime'] = pd.to_datetime(dfcamiones['AdjustedReadTime'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
+
+# Mostrar las primeras filas
+display(dfcamiones.head(10))
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
 [31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
-[32m      2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mtabulate[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m tabulate
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
+[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mos[39;00m
+[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
+[32m      4[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34midentify_delimiter[39m(file_path):
+[32m      5[39m [38;5;250m    [39m[33;03m"""Identifica si el archivo CSV usa coma o punto y coma como delimitador."""[39;00m
 
 [31mModuleNotFoundError[39m: No module named 'pandas'
 
