@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=949a1ff5" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
@@ -45,7 +45,7 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=ff8fa330"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
@@ -429,44 +429,98 @@ or see <a class="reference external" href="https://myst-parser.readthedocs.io/en
 For example, here’s some sample Matplotlib code:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">rcParams</span><span class="p">,</span> <span class="n">cycler</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.pyplot._IonContext at 0x103b27c70&gt;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fixing random state for reproducibility</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">19680801</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear el DataFrame</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20240411&quot;</span><span class="p">,</span> <span class="s2">&quot;20240413&quot;</span><span class="p">,</span> <span class="s2">&quot;20240430&quot;</span><span class="p">,</span> <span class="s2">&quot;20240518&quot;</span><span class="p">,</span> 
+                        <span class="s2">&quot;20240616&quot;</span><span class="p">,</span> <span class="s2">&quot;20240623&quot;</span><span class="p">,</span> <span class="s2">&quot;20240724&quot;</span><span class="p">,</span> <span class="s2">&quot;20240725&quot;</span><span class="p">,</span> 
+                        <span class="s2">&quot;20240804&quot;</span><span class="p">,</span> <span class="s2">&quot;20240815&quot;</span><span class="p">,</span> <span class="s2">&quot;20240818&quot;</span><span class="p">,</span> <span class="s2">&quot;20240818&quot;</span><span class="p">,</span> 
+                        <span class="s2">&quot;20240824&quot;</span><span class="p">,</span> <span class="s2">&quot;20240909&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20240215&quot;</span><span class="p">,</span> <span class="s2">&quot;20240217&quot;</span><span class="p">,</span> <span class="s2">&quot;20240211&quot;</span><span class="p">,</span> <span class="s2">&quot;20240113&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;20240319&quot;</span><span class="p">,</span> <span class="s2">&quot;20240519&quot;</span><span class="p">,</span> <span class="s2">&quot;20240307&quot;</span><span class="p">,</span> <span class="s2">&quot;20231222&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;20240528&quot;</span><span class="p">,</span> <span class="s2">&quot;20240707&quot;</span><span class="p">,</span> <span class="s2">&quot;20240225&quot;</span><span class="p">,</span> <span class="s2">&quot;20240714&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;20231228&quot;</span><span class="p">,</span> <span class="s2">&quot;20240622&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;No_Componente&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;02247572E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247810E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247881E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247824E&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;02247705E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247735E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247904E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247786E&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;02247704E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247708N&quot;</span><span class="p">,</span> <span class="s2">&quot;02247746E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247570E-2&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;02247984E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247721E&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Cod_Comp&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SUSP&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">14</span><span class="p">,</span>  
+    <span class="s2">&quot;Mod&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;No_Equipo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;0220833&quot;</span><span class="p">,</span> <span class="s2">&quot;0220848&quot;</span><span class="p">,</span> <span class="s2">&quot;0220740&quot;</span><span class="p">,</span> <span class="s2">&quot;0220847&quot;</span><span class="p">,</span> <span class="s2">&quot;0220826&quot;</span><span class="p">,</span> 
+                  <span class="s2">&quot;0220847&quot;</span><span class="p">,</span> <span class="s2">&quot;0220849&quot;</span><span class="p">,</span> <span class="s2">&quot;0220843&quot;</span><span class="p">,</span> <span class="s2">&quot;0220830&quot;</span><span class="p">,</span> <span class="s2">&quot;0220823&quot;</span><span class="p">,</span> 
+                  <span class="s2">&quot;0220836&quot;</span><span class="p">,</span> <span class="s2">&quot;0220836&quot;</span><span class="p">,</span> <span class="s2">&quot;0220831&quot;</span><span class="p">,</span> <span class="s2">&quot;0220832&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Horas&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">685.77</span><span class="p">,</span> <span class="mf">954.59</span><span class="p">,</span> <span class="mf">998.27</span><span class="p">,</span> <span class="mf">1534.82</span><span class="p">,</span> <span class="mf">994.1</span><span class="p">,</span> <span class="mf">473.7</span><span class="p">,</span> <span class="mf">1922.72</span><span class="p">,</span> <span class="mf">2907.45</span><span class="p">,</span> 
+              <span class="mf">919.5</span><span class="p">,</span> <span class="mf">454.7</span><span class="p">,</span> <span class="mf">2556.31</span><span class="p">,</span> <span class="mf">488.1</span><span class="p">,</span> <span class="mf">3220.33</span><span class="p">,</span> <span class="mf">993.1</span><span class="p">]</span>
+<span class="p">})</span>
 
-<span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)))</span>
+<span class="c1"># Convertir columnas de fechas a tipo datetime</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
 
+<span class="c1"># Ordenar por Fecha_Montaje</span>
+<span class="n">data_ordenada</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
-<span class="n">custom_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">.5</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)]</span>
+<span class="c1"># Renombrar columnas</span>
+<span class="n">data_ordenada</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Fecha Desmonte&quot;</span><span class="p">,</span> <span class="s2">&quot;Fecha Montaje&quot;</span><span class="p">,</span> <span class="s2">&quot;No. Componente&quot;</span><span class="p">,</span> <span class="s2">&quot;Comp&quot;</span><span class="p">,</span> <span class="s2">&quot;Mod&quot;</span><span class="p">,</span> <span class="s2">&quot;No. Equipo&quot;</span><span class="p">,</span> <span class="s2">&quot;Horas&quot;</span><span class="p">]</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">custom_lines</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Cold&#39;</span><span class="p">,</span> <span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="s1">&#39;Hot&#39;</span><span class="p">]);</span>
+<span class="c1"># Mostrar tabla en formato tabulado</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">data_ordenada</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;grid&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e1eb49af32511c8cedf50f05acbc9f97e4a831ef6f9997aaadc9cf9dae5d8ecf.png" src="_images/e1eb49af32511c8cedf50f05acbc9f97e4a831ef6f9997aaadc9cf9dae5d8ecf.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|    | Fecha Desmonte      | Fecha Montaje       | No. Componente   | Comp   | Mod   |   No. Equipo |   Horas |
++====+=====================+=====================+==================+========+=======+==============+=========+
+|  7 | 2024-07-25 00:00:00 | 2023-12-22 00:00:00 | 02247786E        | SUSP   | IT    |      0220843 | 2907.45 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 12 | 2024-08-24 00:00:00 | 2023-12-28 00:00:00 | 02247984E        | SUSP   | IT    |      0220831 | 3220.33 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  3 | 2024-05-18 00:00:00 | 2024-01-13 00:00:00 | 02247824E        | SUSP   | IT    |      0220847 | 1534.82 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  2 | 2024-04-30 00:00:00 | 2024-02-11 00:00:00 | 02247881E-1      | SUSP   | IT    |      0220740 |  998.27 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  0 | 2024-04-11 00:00:00 | 2024-02-15 00:00:00 | 02247572E        | SUSP   | IT    |      0220833 |  685.77 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  1 | 2024-04-13 00:00:00 | 2024-02-17 00:00:00 | 02247810E-1      | SUSP   | IT    |      0220848 |  954.59 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 10 | 2024-08-18 00:00:00 | 2024-02-25 00:00:00 | 02247746E        | SUSP   | DT    |      0220836 | 2556.31 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  6 | 2024-07-24 00:00:00 | 2024-03-07 00:00:00 | 02247904E        | SUSP   | IT    |      0220849 | 1922.72 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  4 | 2024-06-16 00:00:00 | 2024-03-19 00:00:00 | 02247705E-1      | SUSP   | DT    |      0220826 |  994.1  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  5 | 2024-06-23 00:00:00 | 2024-05-19 00:00:00 | 02247735E-1      | SUSP   | IT    |      0220847 |  473.7  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  8 | 2024-08-04 00:00:00 | 2024-05-28 00:00:00 | 02247704E-1      | SUSP   | DT    |      0220830 |  919.5  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 13 | 2024-09-09 00:00:00 | 2024-06-22 00:00:00 | 02247721E        | SUSP   | IT    |      0220832 |  993.1  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  9 | 2024-08-15 00:00:00 | 2024-07-07 00:00:00 | 02247708N        | SUSP   | IT    |      0220823 |  454.7  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 11 | 2024-08-18 00:00:00 | 2024-07-14 00:00:00 | 02247570E-2      | SUSP   | IT    |      0220836 |  488.1  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+</pre></div>
+</div>
 </div>
 </div>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
