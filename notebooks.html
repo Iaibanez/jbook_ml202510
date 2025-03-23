@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ETL &amp; EDA &#8212; Proyecto ML - Analisis de fallas</title>
+    <title>Preprocesamiento de datos &#8212; Proyecto ML - Analisis de fallas</title>
   
   
   
@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=949a1ff5" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
@@ -45,7 +45,7 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/copybutton.js?v=ff8fa330"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
@@ -181,7 +181,7 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">ETL &amp; EDA</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preprocesamiento de datos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 </ul>
 
@@ -368,7 +368,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ETL & EDA</h1>
+    <h1>Preprocesamiento de datos</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -392,8 +392,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="etl-eda">
-<h1>ETL &amp; EDA<a class="headerlink" href="#etl-eda" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="preprocesamiento-de-datos">
+<h1>Preprocesamiento de datos<a class="headerlink" href="#preprocesamiento-de-datos" title="Link to this heading">#</a></h1>
 <section id="extraer-transformar-y-cargar-etl">
 <h2>Extraer, Transformar y Cargar (ETL)<a class="headerlink" href="#extraer-transformar-y-cargar-etl" title="Link to this heading">#</a></h2>
 <p>Los datos fueron suministrados por <strong>CARBONES COLOMBIANOS DEL CERREJON SAS</strong>. Para cada camión, se tiene registrado cuál fue la suspensión que falló. En la tabla siguiente se detalla la información de las suspensiones de cada camión, incluyendo la fecha de montaje y desmontaje, el componente que falló y las horas en operación.</p>
@@ -442,14 +442,37 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>  <span class="c1"># Para mostrar la tabla de forma bonita</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Crear el DataFrame</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|    | Fecha Desmonte      | Fecha Montaje       | No. Componente   | Comp   | Mod   |   No. Equipo |   Horas |
++====+=====================+=====================+==================+========+=======+==============+=========+
+|  7 | 2024-07-25 00:00:00 | 2023-12-22 00:00:00 | 02247786E        | SUSP   | IT    |      0220843 | 2907.45 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 12 | 2024-08-24 00:00:00 | 2023-12-28 00:00:00 | 02247984E        | SUSP   | IT    |      0220831 | 3220.33 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  3 | 2024-05-18 00:00:00 | 2024-01-13 00:00:00 | 02247824E        | SUSP   | IT    |      0220847 | 1534.82 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  2 | 2024-04-30 00:00:00 | 2024-02-11 00:00:00 | 02247881E-1      | SUSP   | IT    |      0220740 |  998.27 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  0 | 2024-04-11 00:00:00 | 2024-02-15 00:00:00 | 02247572E        | SUSP   | IT    |      0220833 |  685.77 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  1 | 2024-04-13 00:00:00 | 2024-02-17 00:00:00 | 02247810E-1      | SUSP   | IT    |      0220848 |  954.59 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 10 | 2024-08-18 00:00:00 | 2024-02-25 00:00:00 | 02247746E        | SUSP   | DT    |      0220836 | 2556.31 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  6 | 2024-07-24 00:00:00 | 2024-03-07 00:00:00 | 02247904E        | SUSP   | IT    |      0220849 | 1922.72 |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  4 | 2024-06-16 00:00:00 | 2024-03-19 00:00:00 | 02247705E-1      | SUSP   | DT    |      0220826 |  994.1  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  5 | 2024-06-23 00:00:00 | 2024-05-19 00:00:00 | 02247735E-1      | SUSP   | IT    |      0220847 |  473.7  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  8 | 2024-08-04 00:00:00 | 2024-05-28 00:00:00 | 02247704E-1      | SUSP   | DT    |      0220830 |  919.5  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 13 | 2024-09-09 00:00:00 | 2024-06-22 00:00:00 | 02247721E        | SUSP   | IT    |      0220832 |  993.1  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+|  9 | 2024-08-15 00:00:00 | 2024-07-07 00:00:00 | 02247708N        | SUSP   | IT    |      0220823 |  454.7  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
+| 11 | 2024-08-18 00:00:00 | 2024-07-14 00:00:00 | 02247570E-2      | SUSP   | IT    |      0220836 |  488.1  |
++----+---------------------+---------------------+------------------+--------+-------+--------------+---------+
 </pre></div>
 </div>
 </div>
@@ -946,81 +969,6 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convertir los resultados en un DataFrame adecuado</span>
-<span class="n">df_resultados</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;Camion&quot;</span><span class="p">:</span> <span class="n">camion</span><span class="p">,</span>
-        <span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="k">for</span> <span class="n">camion</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">resultados</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-<span class="p">])</span>
-
-<span class="c1"># Calcular la diferencia en porcentaje</span>
-<span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Diferencia&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
-
-<span class="c1"># Transformar el DataFrame</span>
-<span class="n">df_resultados_long</span> <span class="o">=</span> <span class="n">df_resultados</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">,</span> <span class="s2">&quot;Diferencia&quot;</span><span class="p">],</span> 
-                                        <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">,</span> <span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">],</span> 
-                                        <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;Mitad&quot;</span><span class="p">,</span> 
-                                        <span class="n">value_name</span><span class="o">=</span><span class="s2">&quot;Media&quot;</span><span class="p">)</span>
-
-<span class="c1"># Asignar categorías ordenadas a los camiones para posicionamiento</span>
-<span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Colores personalizados</span>
-<span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">:</span> <span class="s2">&quot;#436685&quot;</span><span class="p">,</span> <span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">:</span> <span class="s2">&quot;#BF2F24&quot;</span><span class="p">}</span>
-
-<span class="c1"># Crear gráfico</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-
-<span class="c1"># Convertir categorías de camión en valores numéricos</span>
-<span class="n">y_positions</span> <span class="o">=</span> <span class="p">{</span><span class="n">camion</span><span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">camion</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">categories</span><span class="p">)}</span>
-
-<span class="c1"># Dibujar líneas entre puntos</span>
-<span class="k">for</span> <span class="n">camion</span> <span class="ow">in</span> <span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-    <span class="n">datos_camion</span> <span class="o">=</span> <span class="n">df_resultados_long</span><span class="p">[</span><span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">camion</span><span class="p">]</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">datos_camion</span><span class="p">[</span><span class="s2">&quot;Media&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">y_positions</span><span class="p">[</span><span class="n">camion</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">datos_camion</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#E0E0E0&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Graficar puntos</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_resultados_long</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Media&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_resultados_long</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">y_positions</span><span class="p">),</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Mitad&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">color_map</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
-
-<span class="c1"># Ajustar etiquetas</span>
-<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_resultados_long</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">x_offset</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Mitad&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Media_Segunda_Mitad&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">20</span>  <span class="c1"># Separación en X</span>
-    <span class="n">y_offset</span> <span class="o">=</span> <span class="mf">3.2</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Mitad&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Media_Segunda_Mitad&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mf">3.2</span>  <span class="c1"># Separación en Y</span>
-
-    <span class="n">ax1</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Media&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">x_offset</span><span class="p">,</span> <span class="n">y_positions</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Camion&quot;</span><span class="p">]]</span> <span class="o">+</span> <span class="n">y_offset</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Media&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-             <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Mitad&quot;</span><span class="p">]],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
-
-<span class="c1"># Configurar el gráfico</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Presión (kPa)&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Comparación de Medias y Diferencias Porcentuales por Camión&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">y_positions</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">y_positions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c1"># Restaurar nombres originales de camiones</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="c1"># Crear eje secundario para diferencias porcentuales</span>
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ax1</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">())</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">dif</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">%&quot;</span> <span class="k">for</span> <span class="n">dif</span> <span class="ow">in</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Diferencia&quot;</span><span class="p">]])</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Diferencia (%)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Ajustar diseño</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/c50a4b0b3c08398fe876c076b5701b595539dd3a4b9065642f0f3cd910ebbfc0.png" src="_images/c50a4b0b3c08398fe876c076b5701b595539dd3a4b9065642f0f3cd910ebbfc0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
@@ -1101,6 +1049,44 @@ document.write(`
 <img alt="_images/1cf6476f4cb76b89bec3c07097c5d4dfae611ea41e0878299863d56938c69152.png" src="_images/1cf6476f4cb76b89bec3c07097c5d4dfae611ea41e0878299863d56938c69152.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># Calcular la diferencia en porcentaje</span>
+<span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Crear el gráfico de barras vertical con colores para positivos y negativos</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#BF2F24&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;#436685&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">]]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_resultados</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Camion&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="c1"># Agregar etiquetas de los valores sobre cada barra</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_resultados</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">y_offset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span>  <span class="c1"># Ajuste de posición de etiqueta</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_offset</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Diferencia_Porcentual&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span> 
+            <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span> 
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+
+<span class="c1"># Configurar el gráfico</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Camión&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Diferencia de Presión (%)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Diferencia Porcentual de Presión entre Primera y Segunda Mitad por Camión&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>  <span class="c1"># Ajustar el rango del eje Y</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Línea en el eje 0 para referencia</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e3412f6119d34f75f0f60ad046150674acd3152007edc2ee7feb98bb6983c40a.png" src="_images/e3412f6119d34f75f0f60ad046150674acd3152007edc2ee7feb98bb6983c40a.png" />
+</div>
+</div>
+<p>En esta grafica de barra, se observan las suspensiones que presentaron fallas por camion. Importante destacar que se obviaron los camiones 823 ya que no tenian datos de presion y el 831 - suspension izquierda <em>(Falla)</em> no contaba con datos.</p>
 </section>
 </section>
 
