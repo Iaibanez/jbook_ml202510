@@ -18,61 +18,55 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import os
 import pandas as pd
+from tabulate import tabulate  # Para mostrar la tabla de forma bonita
 
-def identify_delimiter(file_path):
-    """Identifica si el archivo CSV usa coma o punto y coma como delimitador."""
-    with open(file_path, 'r', encoding='utf-8') as file:
-        first_line = file.readline()
-        if ',' in first_line:
-            return ','
-        elif ';' in first_line:
-            return ';'
-        else:
-            return None  # No se encontró un delimitador claro
+# Crear el DataFrame
+data = pd.DataFrame({
+    "Fecha_Desmonte": ["20240411", "20240413", "20240430", "20240518", 
+                        "20240616", "20240623", "20240724", "20240725", 
+                        "20240804", "20240815", "20240818", "20240818", 
+                        "20240824", "20240909"],
+    "Fecha_Montaje": ["20240215", "20240217", "20240211", "20240113", 
+                      "20240319", "20240519", "20240307", "20231222", 
+                      "20240528", "20240707", "20240225", "20240714", 
+                      "20231228", "20240622"],
+    "No_Componente": ["02247572E", "02247810E-1", "02247881E-1", "02247824E", 
+                      "02247705E-1", "02247735E-1", "02247904E", "02247786E", 
+                      "02247704E-1", "02247708N", "02247746E", "02247570E-2", 
+                      "02247984E", "02247721E"],
+    "Cod_Comp": ["SUSP"] * 14,  
+    "Mod": ["IT", "IT", "IT", "IT", "DT", "IT", "IT", "IT", "DT", "IT", 
+            "DT", "IT", "IT", "IT"],
+    "No_Equipo": ["0220833", "0220848", "0220740", "0220847", "0220826", 
+                  "0220847", "0220849", "0220843", "0220830", "0220823", 
+                  "0220836", "0220836", "0220831", "0220832"],
+    "Horas": [685.77, 954.59, 998.27, 1534.82, 994.1, 473.7, 1922.72, 2907.45, 
+              919.5, 454.7, 2556.31, 488.1, 3220.33, 993.1]
+})
 
-# Ruta de la carpeta donde están los archivos CSV
-folder_path = os.path.expanduser('/Users/user/Library/CloudStorage/OneDrive-UniversidaddelNorte/Noveno semestre/TESIS DE GRADO/Mario liñan')
+# Convertir columnas de fechas a tipo datetime
+data["Fecha_Montaje"] = pd.to_datetime(data["Fecha_Montaje"], format="%Y%m%d")
+data["Fecha_Desmonte"] = pd.to_datetime(data["Fecha_Desmonte"], format="%Y%m%d")
 
-# Obtener la lista de archivos CSV en la carpeta
-files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith(".csv")]
+# Ordenar por Fecha_Montaje
+data_ordenada = data.sort_values(by="Fecha_Montaje")
 
-# Identificar delimitadores para cada archivo
-delimiters = {file: identify_delimiter(file) for file in files}
+# Renombrar columnas
+data_ordenada.columns = ["Fecha Desmonte", "Fecha Montaje", "No. Componente", "Comp", "Mod", "No. Equipo", "Horas"]
 
-# Separar archivos según su delimitador
-files_semicolon = [file for file, delim in delimiters.items() if delim == ';']
-files_comma = [file for file, delim in delimiters.items() if delim == ',']
+# Mostrar tabla en formato tabulado
+print(tabulate(data_ordenada, headers='keys', tablefmt='grid'))
 
-# Leer archivos con punto y coma como separador
-df_list_semicolon = [pd.read_csv(file, sep=';', encoding='utf-8') for file in files_semicolon]
-
-# Leer archivos con coma como separador
-df_list_comma = [pd.read_csv(file, sep=',', encoding='utf-8') for file in files_comma]
-
-# Combinar todos los dataframes
-df_semicolon = pd.concat(df_list_semicolon, ignore_index=True) if df_list_semicolon else pd.DataFrame()
-df_comma = pd.concat(df_list_comma, ignore_index=True) if df_list_comma else pd.DataFrame()
-
-dfcamiones = pd.concat([df_semicolon, df_comma], ignore_index=True)
-
-# Convertir la columna AdjustedReadTime a formato datetime si existe en el dataframe
-if 'AdjustedReadTime' in dfcamiones.columns:
-    dfcamiones['AdjustedReadTime'] = pd.to_datetime(dfcamiones['AdjustedReadTime'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
-
-# Mostrar las primeras filas
-display(dfcamiones.head(10))
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
 [31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mos[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
-[32m      4[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34midentify_delimiter[39m(file_path):
-[32m      5[39m [38;5;250m    [39m[33;03m"""Identifica si el archivo CSV usa coma o punto y coma como delimitador."""[39;00m
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
+[32m      2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mtabulate[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m tabulate  [38;5;66;03m# Para mostrar la tabla de forma bonita[39;00m
+[32m      4[39m [38;5;66;03m# Crear el DataFrame[39;00m
 
 [31mModuleNotFoundError[39m: No module named 'pandas'
 

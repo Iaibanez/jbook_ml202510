@@ -380,6 +380,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de transporte</a></li>
 </ul>
             </nav>
         </div>
@@ -395,7 +396,65 @@ document.write(`
 <h1>ETL &amp; EDA<a class="headerlink" href="#etl-eda" title="Link to this heading">#</a></h1>
 <section id="extraer-transformar-y-cargar-etl">
 <h2>Extraer, Transformar y Cargar (ETL)<a class="headerlink" href="#extraer-transformar-y-cargar-etl" title="Link to this heading">#</a></h2>
-<p>Los datos fueron suministrados por <strong>CARBONES COLOMBIANOS DEL CERREJON SAS</strong>. Estos fueron recibidos mediante un “<em>.zip</em>” el cual contenia 18 archivos “<em>.csv</em>” correspondientes a los datos de ambas suspensiones traseras (Derecha e izquierda) de cada camion. Con el siguiente codigo pudimos combinar cada unos de los “<em>.csv</em>” en un solo DataFrame.</p>
+<p>Los datos fueron suministrados por <strong>CARBONES COLOMBIANOS DEL CERREJON SAS</strong>. Para cada camión, se tiene registrado cuál fue la suspensión que falló. En la tabla siguiente se detalla la información de las suspensiones de cada camión, incluyendo la fecha de montaje y desmontaje, el componente que falló y las horas en operación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>  <span class="c1"># Para mostrar la tabla de forma bonita</span>
+
+<span class="c1"># Crear el DataFrame</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20240411&quot;</span><span class="p">,</span> <span class="s2">&quot;20240413&quot;</span><span class="p">,</span> <span class="s2">&quot;20240430&quot;</span><span class="p">,</span> <span class="s2">&quot;20240518&quot;</span><span class="p">,</span> 
+                        <span class="s2">&quot;20240616&quot;</span><span class="p">,</span> <span class="s2">&quot;20240623&quot;</span><span class="p">,</span> <span class="s2">&quot;20240724&quot;</span><span class="p">,</span> <span class="s2">&quot;20240725&quot;</span><span class="p">,</span> 
+                        <span class="s2">&quot;20240804&quot;</span><span class="p">,</span> <span class="s2">&quot;20240815&quot;</span><span class="p">,</span> <span class="s2">&quot;20240818&quot;</span><span class="p">,</span> <span class="s2">&quot;20240818&quot;</span><span class="p">,</span> 
+                        <span class="s2">&quot;20240824&quot;</span><span class="p">,</span> <span class="s2">&quot;20240909&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20240215&quot;</span><span class="p">,</span> <span class="s2">&quot;20240217&quot;</span><span class="p">,</span> <span class="s2">&quot;20240211&quot;</span><span class="p">,</span> <span class="s2">&quot;20240113&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;20240319&quot;</span><span class="p">,</span> <span class="s2">&quot;20240519&quot;</span><span class="p">,</span> <span class="s2">&quot;20240307&quot;</span><span class="p">,</span> <span class="s2">&quot;20231222&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;20240528&quot;</span><span class="p">,</span> <span class="s2">&quot;20240707&quot;</span><span class="p">,</span> <span class="s2">&quot;20240225&quot;</span><span class="p">,</span> <span class="s2">&quot;20240714&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;20231228&quot;</span><span class="p">,</span> <span class="s2">&quot;20240622&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;No_Componente&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;02247572E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247810E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247881E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247824E&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;02247705E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247735E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247904E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247786E&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;02247704E-1&quot;</span><span class="p">,</span> <span class="s2">&quot;02247708N&quot;</span><span class="p">,</span> <span class="s2">&quot;02247746E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247570E-2&quot;</span><span class="p">,</span> 
+                      <span class="s2">&quot;02247984E&quot;</span><span class="p">,</span> <span class="s2">&quot;02247721E&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Cod_Comp&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SUSP&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">14</span><span class="p">,</span>  
+    <span class="s2">&quot;Mod&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;DT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">,</span> <span class="s2">&quot;IT&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;No_Equipo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;0220833&quot;</span><span class="p">,</span> <span class="s2">&quot;0220848&quot;</span><span class="p">,</span> <span class="s2">&quot;0220740&quot;</span><span class="p">,</span> <span class="s2">&quot;0220847&quot;</span><span class="p">,</span> <span class="s2">&quot;0220826&quot;</span><span class="p">,</span> 
+                  <span class="s2">&quot;0220847&quot;</span><span class="p">,</span> <span class="s2">&quot;0220849&quot;</span><span class="p">,</span> <span class="s2">&quot;0220843&quot;</span><span class="p">,</span> <span class="s2">&quot;0220830&quot;</span><span class="p">,</span> <span class="s2">&quot;0220823&quot;</span><span class="p">,</span> 
+                  <span class="s2">&quot;0220836&quot;</span><span class="p">,</span> <span class="s2">&quot;0220836&quot;</span><span class="p">,</span> <span class="s2">&quot;0220831&quot;</span><span class="p">,</span> <span class="s2">&quot;0220832&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Horas&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">685.77</span><span class="p">,</span> <span class="mf">954.59</span><span class="p">,</span> <span class="mf">998.27</span><span class="p">,</span> <span class="mf">1534.82</span><span class="p">,</span> <span class="mf">994.1</span><span class="p">,</span> <span class="mf">473.7</span><span class="p">,</span> <span class="mf">1922.72</span><span class="p">,</span> <span class="mf">2907.45</span><span class="p">,</span> 
+              <span class="mf">919.5</span><span class="p">,</span> <span class="mf">454.7</span><span class="p">,</span> <span class="mf">2556.31</span><span class="p">,</span> <span class="mf">488.1</span><span class="p">,</span> <span class="mf">3220.33</span><span class="p">,</span> <span class="mf">993.1</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="c1"># Convertir columnas de fechas a tipo datetime</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Fecha_Desmonte&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ordenar por Fecha_Montaje</span>
+<span class="n">data_ordenada</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Fecha_Montaje&quot;</span><span class="p">)</span>
+
+<span class="c1"># Renombrar columnas</span>
+<span class="n">data_ordenada</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Fecha Desmonte&quot;</span><span class="p">,</span> <span class="s2">&quot;Fecha Montaje&quot;</span><span class="p">,</span> <span class="s2">&quot;No. Componente&quot;</span><span class="p">,</span> <span class="s2">&quot;Comp&quot;</span><span class="p">,</span> <span class="s2">&quot;Mod&quot;</span><span class="p">,</span> <span class="s2">&quot;No. Equipo&quot;</span><span class="p">,</span> <span class="s2">&quot;Horas&quot;</span><span class="p">]</span>
+
+<span class="c1"># Mostrar tabla en formato tabulado</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">data_ordenada</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;grid&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>  <span class="c1"># Para mostrar la tabla de forma bonita</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Crear el DataFrame</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Este documento presenta un análisis del comportamiento de las presiones en los camiones <strong>Hitachi EH5000</strong>. Se analizarán un total de <em>12 camiones</em>, cada uno de los cuales está equipado con dos suspensiones: la suspensión derecha y la suspensión izquierda trasera, sumando un total de <em>24 suspensiones</em>. A lo largo del análisis, se estudiará el comportamiento de las presiones a través del tiempo. Para ello, contamos con información adicional de dos variables relacionadas con la presión: el payload y la velocidad.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -447,24 +506,131 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">def</span><span class="w"> </span><span class="nf">identify_delimiter</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Identifica si el archivo CSV usa coma o punto y coma como delimitador.&quot;&quot;&quot;</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>EquipmentName</th>
+      <th>AdjustedReadTime</th>
+      <th>StrutPressLeftRear</th>
+      <th>StrutPressureRightRear</th>
+      <th>PayLoad</th>
+      <th>Road Ground</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>022-740</td>
+      <td>2024-02-28 20:57:57</td>
+      <td>2760.6</td>
+      <td>3983.6</td>
+      <td>255.6</td>
+      <td>8.8</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:00:31</td>
+      <td>3360.4</td>
+      <td>4465.9</td>
+      <td>106.5</td>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:07:03</td>
+      <td>3507.9</td>
+      <td>3316.8</td>
+      <td>0.0</td>
+      <td>31.2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:07:55</td>
+      <td>3016.5</td>
+      <td>4278.6</td>
+      <td>0.0</td>
+      <td>26.8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:16:04</td>
+      <td>3596.8</td>
+      <td>3777.6</td>
+      <td>298.3</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:17:34</td>
+      <td>3828.5</td>
+      <td>3271.9</td>
+      <td>383.5</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:20:04</td>
+      <td>4931.3</td>
+      <td>1832.5</td>
+      <td>319.6</td>
+      <td>1.6</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:21:34</td>
+      <td>3168.5</td>
+      <td>4067.5</td>
+      <td>225.6</td>
+      <td>3.2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:23:04</td>
+      <td>10255.2</td>
+      <td>8315.5</td>
+      <td>125.5</td>
+      <td>1.6</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>022-740</td>
+      <td>2024-02-28 21:25:35</td>
+      <td>15832.7</td>
+      <td>20498.5</td>
+      <td>295.9</td>
+      <td>13.3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Una vez unificado el DataFrame, procedemos al analisis de los datos para poder encontrar patrones e informacion relevante para la investigacion.</p>
 </section>
 <section id="analisis-exploratorio-de-datos-eda">
 <h2>Analisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h2>
-<p>Este documento presenta un análisis del comportamiento de las presiones en los camiones Hitachi EH5000. Se analizarán un total de 12 camiones, cada uno de los cuales está equipado con dos suspensiones: la suspensión derecha y la suspensión izquierda trasera, sumando un total de 24 suspensiones. A lo largo del análisis, se estudiará el comportamiento de las presiones a través del tiempo. Para ello, contamos con información adicional de dos variables relacionadas con la presión: el payload y la velocidad.</p>
 <p>En los siguientes codigos, observaremos el desarrollo realizado para el analisis de la base de datos correspondiente a los datos de las suspensiones.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -505,6 +671,158 @@ document.write(`
 <img alt="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" src="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" />
 </div>
 </div>
+<p>En el grafico anterior observamos la clasificacion del dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># Agrupar las horas por cada camión y ordenar de menor a mayor</span>
+<span class="n">data_summary</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">Total_Horas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Horas&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">))</span>
+<span class="n">data_summary</span> <span class="o">=</span> <span class="n">data_summary</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Total_Horas&quot;</span><span class="p">)</span>
+
+<span class="c1"># Cambiar &quot;0220&quot; por &quot;C-&quot;</span>
+<span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;^0220&quot;</span><span class="p">,</span> <span class="s2">&quot;C-&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Ordenar alfabéticamente</span>
+<span class="n">data_summary</span> <span class="o">=</span> <span class="n">data_summary</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">)</span>
+
+<span class="c1"># Crear la columna de colores para resaltar los tres camiones con más horas</span>
+<span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;highlight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;Total_Horas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+
+<span class="c1"># Asegurar que No_Equipo es de tipo string</span>
+<span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Ordenar alfabéticamente por No_Equipo</span>
+<span class="n">data_summary</span> <span class="o">=</span> <span class="n">data_summary</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Crear el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Total_Horas&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_summary</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">data_summary</span><span class="p">[</span><span class="s2">&quot;highlight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="c1"># Ajustar título y etiquetas</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Total de Horas de Operación&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Horas de Operación por Camión&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2c945fd4b8be15afc123bfeb458c312b5a250aa5e771c3cd6ba10c2e70691032.png" src="_images/2c945fd4b8be15afc123bfeb458c312b5a250aa5e771c3cd6ba10c2e70691032.png" />
+</div>
+</div>
+<p>En este grafico de barras, observamos el tiempo en operacion de cada camion, lo que nos das una idea del tiempo de operacion antes de falla de cada suspension.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Filtrar el camión específico</span>
+<span class="n">camion740</span> <span class="o">=</span> <span class="n">dfcamiones</span><span class="p">[</span><span class="n">dfcamiones</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;022-740&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Seleccionar solo los primeros 25 registros</span>
+<span class="n">subset_data</span> <span class="o">=</span> <span class="n">camion740</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">25</span><span class="p">]</span>
+
+<span class="c1"># Crear el gráfico</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Graficar la presión izquierda y derecha en el eje Y principal</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;AdjustedReadTime&quot;</span><span class="p">],</span> <span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;StrutPressLeftRear&quot;</span><span class="p">],</span> 
+         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Presión Izquierda&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;AdjustedReadTime&quot;</span><span class="p">],</span> <span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;StrutPressureRightRear&quot;</span><span class="p">],</span>  
+         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Presión Derecha&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Configurar eje Y principal</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Presión (en KPa)&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35000</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+
+<span class="c1"># Crear segundo eje Y para la velocidad</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;AdjustedReadTime&quot;</span><span class="p">],</span> <span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">],</span>  
+         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Velocidad&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+
+<span class="c1"># Configurar eje Y secundario</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Velocidad (en m/s)&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ajustar título y etiquetas</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gráfico de Presión Izquierda, Derecha y Velocidad&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Tiempo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Mostrar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/41de2e7e435063a4d9e8c380017879b78519f60a81c2712873cafa921853d5a2.png" src="_images/41de2e7e435063a4d9e8c380017879b78519f60a81c2712873cafa921853d5a2.png" />
+</div>
+</div>
+<p>Podemos ver el comportamiento de la presion de las suspensiones y la velocidad durante un ciclo de carga</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Filtrar el camión específico</span>
+<span class="n">camion740</span> <span class="o">=</span> <span class="n">dfcamiones</span><span class="p">[</span><span class="n">dfcamiones</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;022-740&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Seleccionar los primeros 30 registros</span>
+<span class="n">subset_data</span> <span class="o">=</span> <span class="n">camion740</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span>
+
+<span class="c1"># Crear el gráfico</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Graficar las presiones en el eje Y principal</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;AdjustedReadTime&quot;</span><span class="p">],</span> <span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;StrutPressLeftRear&quot;</span><span class="p">],</span> 
+         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Presión Izquierda (KPa)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;AdjustedReadTime&quot;</span><span class="p">],</span> <span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;StrutPressureRightRear&quot;</span><span class="p">],</span>  
+         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Presión Derecha (KPa)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Configurar eje Y principal (Presión)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Presión (en KPa)&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35000</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+
+<span class="c1"># Crear segundo eje Y para el Payload</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;AdjustedReadTime&quot;</span><span class="p">],</span> <span class="n">subset_data</span><span class="p">[</span><span class="s2">&quot;PayLoad&quot;</span><span class="p">],</span>  
+         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Payload (Ton met)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+
+<span class="c1"># Configurar eje Y secundario (Payload)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Payload (Ton met)&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">450</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ajustar título y etiquetas</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gráfico de Presión Izquierda, Derecha y Payload&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Tiempo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Mostrar el gráfico</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e31868f485250e430c9973eebfbe3fb3fa98d4c67655f3ab26d9732d626ddb7e.png" src="_images/e31868f485250e430c9973eebfbe3fb3fa98d4c67655f3ab26d9732d626ddb7e.png" />
+</div>
+</div>
+<p>Observamos el comportamiento de la carga de esteril (Payload) durante el ciclo de operacion del camion.</p>
+</section>
+<section id="etapa-de-transporte">
+<h2>Etapa de transporte<a class="headerlink" href="#etapa-de-transporte" title="Link to this heading">#</a></h2>
 </section>
 </section>
 
@@ -574,6 +892,7 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de transporte</a></li>
 </ul>
   </nav></div>
 
