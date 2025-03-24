@@ -1,4 +1,4 @@
-# Introduccion
+<h1 style="text-align: center;">Introducción</h1>
 
 En minería, la precisión en la medición del payload es clave para la eficiencia del acarreo. Sin embargo, estudios de CHM han identificado discrepancias entre la carga real y los valores registrados, debido en gran parte al estado de las suspensiones del camión.
 
