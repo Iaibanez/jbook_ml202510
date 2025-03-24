@@ -652,7 +652,7 @@ document.write(`
 </section>
 <section id="analisis-exploratorio-de-datos-eda">
 <h2>Análisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h2>
-<p>A continuación, se presentan los códigos utilizados para analizar la base de datos de las suspensiones, con el objetivo de identificar tendencias y patrones relevantes.</p>
+<p>A continuación, se presentan los códigos utilizados para analizar la base de datos de las suspensiones, con el objetivo de identificar tendencias y patrones relevantes. A lo largo del <strong>EDA</strong>, utilizaremos librerías como <strong>NumPy, Matplotlib, Pandas, Seaborn y Tabulate</strong> para mejorar la visualización de los gráficos y facilitar su interpretación.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -735,7 +735,7 @@ document.write(`
 <img alt="_images/2c945fd4b8be15afc123bfeb458c312b5a250aa5e771c3cd6ba10c2e70691032.png" src="_images/2c945fd4b8be15afc123bfeb458c312b5a250aa5e771c3cd6ba10c2e70691032.png" />
 </div>
 </div>
-<p>En este gráfico de barras se muestra el <strong>tiempo en operación</strong> de cada camión, lo que permite visualizar el período de funcionamiento de cada suspensión antes de presentar una falla.</p>
+<p>En este gráfico de barras se muestra el <strong>tiempo en operación</strong> de cada camión, lo que permite visualizar el período de funcionamiento de cada suspensión antes de presentar una falla. Se creo la grafica a partir de la tabla de reporte <strong>data</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar el camión específico</span>
@@ -783,7 +783,7 @@ document.write(`
 <img alt="_images/41de2e7e435063a4d9e8c380017879b78519f60a81c2712873cafa921853d5a2.png" src="_images/41de2e7e435063a4d9e8c380017879b78519f60a81c2712873cafa921853d5a2.png" />
 </div>
 </div>
-<p>En este gráfico, se observa el comportamiento de la <strong>presión de las suspensiones</strong> y la <strong>velocidad</strong> a lo largo de un ciclo de operación.</p>
+<p>En este gráfico, se observa el comportamiento de la <strong>presión de las suspensiones</strong> y la <strong>velocidad</strong> a lo largo de un ciclo de operación. Se filtró <strong>dfcamiones</strong> para obtener los datos de un camion en especifico, en este caso el <strong>camión 740</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar el camión específico</span>
@@ -831,7 +831,7 @@ document.write(`
 <img alt="_images/e31868f485250e430c9973eebfbe3fb3fa98d4c67655f3ab26d9732d626ddb7e.png" src="_images/e31868f485250e430c9973eebfbe3fb3fa98d4c67655f3ab26d9732d626ddb7e.png" />
 </div>
 </div>
-<p>En este gráfico, se analiza el comportamiento de la <strong>carga de estéril (payload)</strong> a lo largo del ciclo de operación del camión.</p>
+<p>En este gráfico, se analiza el comportamiento de la <strong>carga de estéril (payload)</strong> a lo largo del ciclo de operación del camión. Se realizó el mismo proceso que con la gráfica anterior.</p>
 </section>
 <section id="etapa-de-transporte">
 <h2>Etapa de Transporte<a class="headerlink" href="#etapa-de-transporte" title="Link to this heading">#</a></h2>
@@ -868,7 +868,7 @@ document.write(`
 <img alt="_images/b9ee12db78e7374f994822598a003132a11ea1314692d8b0685fd999e53d8a71.png" src="_images/b9ee12db78e7374f994822598a003132a11ea1314692d8b0685fd999e53d8a71.png" />
 </div>
 </div>
-<p>Se observa una mayor frecuencia de <strong>valores de presión elevados</strong> en la <strong>suspensión izquierda</strong>, la cual fue diagnosticada con falla.</p>
+<p>Se observa una mayor frecuencia de <strong>valores de presión elevados</strong> en la <strong>suspensión izquierda</strong>, la cual fue diagnosticada con falla. En este punto, creamos un <strong>Dataframe</strong> llamado <strong>dfcamiones2</strong> el cual es el mismo <strong>dfcamiones</strong> pero filtrado con velocidad mayor a <strong>10 Km/h</strong> y <strong>Payload</strong> mayor a <strong>150 Ton met</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar datos según las condiciones</span>
@@ -956,7 +956,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>En el código anterior, se dividieron los datos de cada suspensión con falla en dos partes para analizar su comportamiento de manera individual.</p>
+<p>En el código anterior, se dividieron los datos de cada suspensión con falla en dos partes para analizar su comportamiento de manera individual. Se eligieron manualmente las suspensiones que fallaron y despues de graficó su comportamiento.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convertir los resultados en un DataFrame adecuado</span>
@@ -1070,7 +1070,7 @@ document.write(`
 <img alt="_images/e3412f6119d34f75f0f60ad046150674acd3152007edc2ee7feb98bb6983c40a.png" src="_images/e3412f6119d34f75f0f60ad046150674acd3152007edc2ee7feb98bb6983c40a.png" />
 </div>
 </div>
-<p>En este gráfico de barras, se muestran las suspensiones que presentaron fallas por camión. Es importante destacar que se excluyeron los <strong>camiones 823</strong>, debido a la falta de datos de presión, y <strong>831 (suspensión izquierda - falla)</strong>, ya que no contaba con información disponible.</p>
+<p>En este gráfico de barras, se muestran las suspensiones que presentaron fallas por camión. Es importante destacar que se excluyeron los <strong>camiones 823</strong>, debido a la falta de datos de presión, y <strong>831 (suspensión izquierda - falla)</strong>, ya que no contaba con información disponible. En este código, se calculó la diferencia en porcentaje de cada mitad por suspensión y se graficaron.</p>
 </section>
 <section id="velocidad-vs-presion">
 <h2>Velocidad vs. Presión<a class="headerlink" href="#velocidad-vs-presion" title="Link to this heading">#</a></h2>
@@ -1202,7 +1202,7 @@ document.write(`
 <img alt="_images/c091b09387bec656ee797ce54f1cedcb1fa7d7eba63aefd01b0c4553820388c8.png" src="_images/c091b09387bec656ee797ce54f1cedcb1fa7d7eba63aefd01b0c4553820388c8.png" />
 </div>
 </div>
-<p>El gráfico anterior muestra un ejemplo de las <strong>presiones máximas</strong> alcanzadas durante picos de velocidad superiores al límite permitido. Con velocidades de <strong>40 km/h</strong>, se registran presiones que superan los <strong>45,000 kPa</strong>.</p>
+<p>El gráfico anterior muestra un ejemplo de las <strong>presiones máximas</strong> alcanzadas durante picos de velocidad superiores al límite permitido. Con velocidades de <strong>40 km/h</strong>, se registran presiones que superan los <strong>45,000 kPa</strong>. En este código, se filtró <strong>dfcamiones2</strong> por velocidades mayores a <strong>25 Km/h</strong> y se graficaron las dos variables de interes, <strong>Presión y Velocidad</strong>.</p>
 </section>
 </section>
 
