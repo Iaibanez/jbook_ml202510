@@ -1,9 +1,8 @@
 <h1 style="text-align: center;">CHM Minería SAS</h1>
 
 ```{figure} Hitachi_electric_drive_hydraulic_excavator.jpg
-:width: 300px
+:width: 600px
 :align: center
-Flota Hitachi
 ```
 
 # Introducción
