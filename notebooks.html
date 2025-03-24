@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Preprocesamiento y Analisis de datos &#8212; Proyecto ML - Analisis de fallas</title>
+    <title>Preprocesamiento y Análisis de Datos &#8212; Proyecto ML - Analisis de fallas</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=949a1ff5" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -179,7 +179,7 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preprocesamiento y Analisis de datos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preprocesamiento y Análisis de Datos</a></li>
 </ul>
 
     </div>
@@ -365,7 +365,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Preprocesamiento y Analisis de datos</h1>
+    <h1>Preprocesamiento y Análisis de Datos</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -375,10 +375,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de transporte</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs Presion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraccion-transformacion-y-carga-etl">Extracción, Transformación y Carga (ETL)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Análisis Exploratorio de Datos (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de Transporte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs. Presión</a></li>
 </ul>
             </nav>
         </div>
@@ -391,11 +391,11 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="preprocesamiento-y-analisis-de-datos">
-<h1>Preprocesamiento y Analisis de datos<a class="headerlink" href="#preprocesamiento-y-analisis-de-datos" title="Link to this heading">#</a></h1>
-<p>En este capitulo, se mostraran los desarollos y hallazgos encontrados durante el ETL y EDA.</p>
-<section id="extraer-transformar-y-cargar-etl">
-<h2>Extraer, Transformar y Cargar (ETL)<a class="headerlink" href="#extraer-transformar-y-cargar-etl" title="Link to this heading">#</a></h2>
-<p>Los datos fueron suministrados por <strong>CARBONES COLOMBIANOS DEL CERREJON SAS</strong>. Para cada camión, se tiene registrado cuál fue la suspensión que falló. En la tabla siguiente se detalla la información de las suspensiones de cada camión, incluyendo la fecha de montaje y desmontaje, el componente que falló y las horas en operación.</p>
+<h1>Preprocesamiento y Análisis de Datos<a class="headerlink" href="#preprocesamiento-y-analisis-de-datos" title="Link to this heading">#</a></h1>
+<p>En este capítulo se presentan los desarrollos y hallazgos obtenidos durante los procesos de ETL (Extracción, Transformación y Carga) y EDA (Análisis Exploratorio de Datos).</p>
+<section id="extraccion-transformacion-y-carga-etl">
+<h2>Extracción, Transformación y Carga (ETL)<a class="headerlink" href="#extraccion-transformacion-y-carga-etl" title="Link to this heading">#</a></h2>
+<p>Los datos fueron proporcionados por <strong>CARBONES COLOMBIANOS DEL CERREJÓN S.A.S.</strong> e incluyen registros detallados de las suspensiones de cada camión. Para cada unidad, se especifica cuál suspensión presentó fallas, junto con información sobre la fecha de montaje y desmontaje, el componente afectado y las horas de operación. La siguiente tabla resume estos datos.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -480,7 +480,6 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">identify_delimiter</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Identifica si el archivo CSV usa coma o punto y coma como delimitador.&quot;&quot;&quot;</span>
@@ -649,11 +648,11 @@ document.write(`
 </table>
 </div></div></div>
 </div>
-<p>Una vez unificado el DataFrame, procedemos al analisis de los datos para poder encontrar patrones e informacion relevante para la investigacion.</p>
+<p>Una vez unificado el <strong>DataFrame</strong>, se procede al análisis de datos con el objetivo de identificar patrones y extraer información relevante para la investigación.</p>
 </section>
 <section id="analisis-exploratorio-de-datos-eda">
-<h2>Analisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h2>
-<p>En los siguientes codigos, observaremos el desarrollo realizado para el analisis de la base de datos correspondiente a los datos de las suspensiones.</p>
+<h2>Análisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h2>
+<p>A continuación, se presentan los códigos utilizados para analizar la base de datos de las suspensiones, con el objetivo de identificar tendencias y patrones relevantes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -693,13 +692,10 @@ document.write(`
 <img alt="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" src="_images/9e0f06448d43b81dd57613c80e2723ea664abc84ce9fe39ba524c51f69ebfa8d.png" />
 </div>
 </div>
-<p>En el grafico anterior observamos la clasificacion del dataset.</p>
+<p>En el gráfico anterior se muestra la clasificación del dataset, donde se identifican <strong>14 suspensiones</strong> con <strong>falla</strong>, registradas en el reporte tabulado, y <strong>10 suspensiones sin falla</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
 <span class="c1"># Agrupar las horas por cada camión y ordenar de menor a mayor</span>
 <span class="n">data_summary</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;No_Equipo&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">Total_Horas</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Horas&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">))</span>
@@ -739,13 +735,10 @@ document.write(`
 <img alt="_images/2c945fd4b8be15afc123bfeb458c312b5a250aa5e771c3cd6ba10c2e70691032.png" src="_images/2c945fd4b8be15afc123bfeb458c312b5a250aa5e771c3cd6ba10c2e70691032.png" />
 </div>
 </div>
-<p>En este grafico de barras, observamos el tiempo en operacion de cada camion, lo que nos das una idea del tiempo de operacion antes de falla de cada suspension.</p>
+<p>En este gráfico de barras se muestra el <strong>tiempo en operación</strong> de cada camión, lo que permite visualizar el período de funcionamiento de cada suspensión antes de presentar una falla.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="c1"># Filtrar el camión específico</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar el camión específico</span>
 <span class="n">camion740</span> <span class="o">=</span> <span class="n">dfcamiones</span><span class="p">[</span><span class="n">dfcamiones</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;022-740&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># Seleccionar solo los primeros 25 registros</span>
@@ -790,13 +783,10 @@ document.write(`
 <img alt="_images/41de2e7e435063a4d9e8c380017879b78519f60a81c2712873cafa921853d5a2.png" src="_images/41de2e7e435063a4d9e8c380017879b78519f60a81c2712873cafa921853d5a2.png" />
 </div>
 </div>
-<p>Podemos ver el comportamiento de la presion de las suspensiones y la velocidad durante un ciclo de carga</p>
+<p>En este gráfico, se observa el comportamiento de la <strong>presión de las suspensiones</strong> y la <strong>velocidad</strong> a lo largo de un ciclo de operación.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="c1"># Filtrar el camión específico</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar el camión específico</span>
 <span class="n">camion740</span> <span class="o">=</span> <span class="n">dfcamiones</span><span class="p">[</span><span class="n">dfcamiones</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;022-740&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># Seleccionar los primeros 30 registros</span>
@@ -841,11 +831,11 @@ document.write(`
 <img alt="_images/e31868f485250e430c9973eebfbe3fb3fa98d4c67655f3ab26d9732d626ddb7e.png" src="_images/e31868f485250e430c9973eebfbe3fb3fa98d4c67655f3ab26d9732d626ddb7e.png" />
 </div>
 </div>
-<p>Observamos el comportamiento de la carga de esteril (Payload) durante el ciclo de operacion del camion.</p>
+<p>En este gráfico, se analiza el comportamiento de la <strong>carga de estéril (payload)</strong> a lo largo del ciclo de operación del camión.</p>
 </section>
 <section id="etapa-de-transporte">
-<h2>Etapa de transporte<a class="headerlink" href="#etapa-de-transporte" title="Link to this heading">#</a></h2>
-<p>En los siguientes codigos, encontraremos ek desarrollo del analisis del comportamiento del camion durante la etapa de transporte</p>
+<h2>Etapa de Transporte<a class="headerlink" href="#etapa-de-transporte" title="Link to this heading">#</a></h2>
+<p>A continuación, se presentan los códigos utilizados para analizar el comportamiento del camión durante la etapa de transporte.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar datos según las condiciones</span>
@@ -878,7 +868,7 @@ document.write(`
 <img alt="_images/b9ee12db78e7374f994822598a003132a11ea1314692d8b0685fd999e53d8a71.png" src="_images/b9ee12db78e7374f994822598a003132a11ea1314692d8b0685fd999e53d8a71.png" />
 </div>
 </div>
-<p>Se observa mayor frecuencia de valores de presiones altos en la suspension izquierda, la cual se diagnostico con falla.</p>
+<p>Se observa una mayor frecuencia de <strong>valores de presión elevados</strong> en la <strong>suspensión izquierda</strong>, la cual fue diagnosticada con falla.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar datos según las condiciones</span>
@@ -911,7 +901,7 @@ document.write(`
 <img alt="_images/2ac872b274aa4a415e4917a7d6477ffe8426d2b5d83e95cbbad56e137d94365d.png" src="_images/2ac872b274aa4a415e4917a7d6477ffe8426d2b5d83e95cbbad56e137d94365d.png" />
 </div>
 </div>
-<p>En este caso, el camion 836 presente el mismo comportamiento. Sin embargo, la suspension derecha fue la que presento fallas. A continuacion, realizaremos un calculo de diferencia de medias durante la primera y segunda mitad de la operacion.</p>
+<p>En este caso, el <strong>camión 836</strong> muestra un comportamiento similar; sin embargo, <strong>la suspensión derecha</strong> fue la que presentó fallas. A continuación, se calculará la <strong>diferencia de medias</strong> entre la primera y la segunda mitad de la operación.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar los datos según las condiciones iniciales</span>
@@ -966,13 +956,10 @@ document.write(`
 </div>
 </div>
 </div>
+<p>En el código anterior, se dividieron los datos de cada suspensión con falla en dos partes para analizar su comportamiento de manera individual.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-
-<span class="c1"># Convertir los resultados en un DataFrame adecuado</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convertir los resultados en un DataFrame adecuado</span>
 <span class="n">df_resultados</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
     <span class="p">{</span>
         <span class="s2">&quot;Camion&quot;</span><span class="p">:</span> <span class="n">camion</span><span class="p">,</span>
@@ -1031,12 +1018,12 @@ document.write(`
 <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># Crear eje secundario para diferencias porcentuales</span>
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ax1</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">())</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">dif</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">%&quot;</span> <span class="k">for</span> <span class="n">dif</span> <span class="ow">in</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Diferencia&quot;</span><span class="p">]])</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Diferencia (%)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Agregar leyenda personalizada</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Primera mitad&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;#436685&quot;</span><span class="p">),</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Segunda mitad&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;#BF2F24&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Periodos&quot;</span><span class="p">)</span>
 
 <span class="c1"># Ajustar diseño</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
@@ -1045,15 +1032,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1cf6476f4cb76b89bec3c07097c5d4dfae611ea41e0878299863d56938c69152.png" src="_images/1cf6476f4cb76b89bec3c07097c5d4dfae611ea41e0878299863d56938c69152.png" />
+<img alt="_images/d7061547b5157539be49da8735bd11bb600c6a6b4f205d456f2f59b4d6603411.png" src="_images/d7061547b5157539be49da8735bd11bb600c6a6b4f205d456f2f59b4d6603411.png" />
 </div>
 </div>
+<p>Se observa el <strong>promedio de presión</strong> en la primera y segunda mitad del ciclo total de operación de cada suspensión. Solo en un caso, la <strong>suspensión del camión 847</strong>, la presión en la primera mitad es mayor que en la segunda.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-
-<span class="c1"># Calcular la diferencia en porcentaje</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular la diferencia en porcentaje</span>
 <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Diferencia_Porcentual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
     <span class="p">(</span><span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Segunda_Mitad&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">df_resultados</span><span class="p">[</span><span class="s2">&quot;Media_Primera_Mitad&quot;</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
@@ -1085,11 +1070,11 @@ document.write(`
 <img alt="_images/e3412f6119d34f75f0f60ad046150674acd3152007edc2ee7feb98bb6983c40a.png" src="_images/e3412f6119d34f75f0f60ad046150674acd3152007edc2ee7feb98bb6983c40a.png" />
 </div>
 </div>
-<p>En esta grafica de barra, se observan las suspensiones que presentaron fallas por camion. Importante destacar que se obviaron los camiones 823 ya que no tenian datos de presion y el 831 - suspension izquierda <em>(Falla)</em> no contaba con datos.</p>
+<p>En este gráfico de barras, se muestran las suspensiones que presentaron fallas por camión. Es importante destacar que se excluyeron los <strong>camiones 823</strong>, debido a la falta de datos de presión, y <strong>831 (suspensión izquierda - falla)</strong>, ya que no contaba con información disponible.</p>
 </section>
 <section id="velocidad-vs-presion">
-<h2>Velocidad vs Presion<a class="headerlink" href="#velocidad-vs-presion" title="Link to this heading">#</a></h2>
-<p>CHM Minería tiene una hipótesis sobre las fallas de las suspensiones. La hipótesis se centra en las velocidades que registra el camión durante la etapa de transporte. El gerente de soporte tecnico menciona que en esta etapa las velocidades pueden estar afectando la suspension.</p>
+<h2>Velocidad vs. Presión<a class="headerlink" href="#velocidad-vs-presion" title="Link to this heading">#</a></h2>
+<p>CHM Minería plantea una hipótesis sobre las fallas en las suspensiones, enfocándose en <strong>la velocidad del camión durante la etapa de transporte</strong>. Según el gerente de soporte técnico, las variaciones en la velocidad en esta fase podrían estar afectando el rendimiento y la vida útil de las suspensiones.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar los datos para los camiones especificados</span>
@@ -1117,6 +1102,7 @@ document.write(`
 <img alt="_images/ba7cae7e41e3ccb6f620f0d64090d46721c15f5ad784cb268f529699087a826e.png" src="_images/ba7cae7e41e3ccb6f620f0d64090d46721c15f5ad784cb268f529699087a826e.png" />
 </div>
 </div>
+<p>Se observa un comportamiento similar en todos los casos; sin embargo, en cada uno se registran valores superiores a <strong>30 km/h</strong>, lo que podría indicar la presencia de <strong>altas velocidades</strong> durante la etapa de transporte.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extraer los nombres de los camiones a analizar</span>
@@ -1168,13 +1154,10 @@ document.write(`
 </div>
 </div>
 </div>
+<p>Al filtrar los datos de las suspensiones durante la etapa de transporte con <strong>velocidades superiores a 25 km/h</strong>, se identifican <strong>valores máximos muy por encima de los límites permitidos</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="c1"># Filtrar los datos</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar los datos</span>
 <span class="n">prueba</span> <span class="o">=</span> <span class="n">dfcamiones2</span><span class="p">[</span><span class="n">dfcamiones2</span><span class="p">[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">25</span><span class="p">]</span>
 <span class="n">data_plot</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">prueba</span><span class="p">[</span><span class="n">prueba</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;022-836&quot;</span><span class="p">]</span>
@@ -1219,6 +1202,7 @@ document.write(`
 <img alt="_images/c091b09387bec656ee797ce54f1cedcb1fa7d7eba63aefd01b0c4553820388c8.png" src="_images/c091b09387bec656ee797ce54f1cedcb1fa7d7eba63aefd01b0c4553820388c8.png" />
 </div>
 </div>
+<p>El gráfico anterior muestra un ejemplo de las <strong>presiones máximas</strong> alcanzadas durante picos de velocidad superiores al límite permitido. Con velocidades de <strong>40 km/h</strong>, se registran presiones que superan los <strong>45,000 kPa</strong>.</p>
 </section>
 </section>
 
@@ -1277,10 +1261,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de transporte</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs Presion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraccion-transformacion-y-carga-etl">Extracción, Transformación y Carga (ETL)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Análisis Exploratorio de Datos (EDA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de Transporte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs. Presión</a></li>
 </ul>
   </nav></div>
 
