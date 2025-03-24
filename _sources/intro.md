@@ -1,4 +1,10 @@
-<h1 style="text-align: center;">Introducción</h1>
+
+
+<h1 style="text-align: center;">CHM Minería SAS</h1>
+
+![Flota Hitachi](/Users/user/Desktop/Maestria 2025/Maestria Uninorte/Primer semestre 2025/Machine Learning/jbook_ml202510/docs/images.jpeg)
+
+# Introducción
 
 En minería, la precisión en la medición del payload es clave para la eficiencia del acarreo. Sin embargo, estudios de CHM han identificado discrepancias entre la carga real y los valores registrados, debido en gran parte al estado de las suspensiones del camión.
 
