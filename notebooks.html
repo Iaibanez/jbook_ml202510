@@ -1147,23 +1147,26 @@ document.write(`
 <span class="c1"># Combinar ambas tablas</span>
 <span class="n">tabla_combinada</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tabla_frecuencias</span><span class="p">,</span> <span class="n">velocidad_maxima</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
 
-<span class="c1"># Mostrar la tabla</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tabla_combinada</span><span class="p">)</span>
+<span class="c1"># Mostrar la tabla con formato tabulado</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">tabla_combinada</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;keys&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;pretty&quot;</span><span class="p">,</span> <span class="n">showindex</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  EquipmentName  Frecuencia  Porcentaje (%)  Velocidad Máxima
-0       022-740         879             6.4              45.2
-1       022-826         286             2.1              43.5
-2       022-830         189             1.4              42.4
-3       022-832         299             2.2              43.5
-4       022-833         700             5.1              45.6
-5       022-836        1401            10.2              45.5
-6       022-843        1710            12.5              45.2
-7       022-847        2136            15.6              45.4
-8       022-848         344             2.5              40.6
-9       022-849        5768            42.1              46.5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+------------+----------------+------------------+
+| EquipmentName | Frecuencia | Porcentaje (%) | Velocidad Máxima |
++---------------+------------+----------------+------------------+
+|    022-740    |    879     |      6.4       |       45.2       |
+|    022-826    |    286     |      2.1       |       43.5       |
+|    022-830    |    189     |      1.4       |       42.4       |
+|    022-832    |    299     |      2.2       |       43.5       |
+|    022-833    |    700     |      5.1       |       45.6       |
+|    022-836    |    1401    |      10.2      |       45.5       |
+|    022-843    |    1710    |      12.5      |       45.2       |
+|    022-847    |    2136    |      15.6      |       45.4       |
+|    022-848    |    344     |      2.5       |       40.6       |
+|    022-849    |    5768    |      42.1      |       46.5       |
++---------------+------------+----------------+------------------+
 </pre></div>
 </div>
 </div>
