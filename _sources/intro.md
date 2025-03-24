@@ -1,8 +1,7 @@
-
-
 <h1 style="text-align: center;">CHM Minería SAS</h1>
 
-![Flota Hitachi](/Users/user/Desktop/Maestria 2025/Maestria Uninorte/Primer semestre 2025/Machine Learning/jbook_ml202510/docs/images.jpeg)
+<img src="/Users/user/Desktop/Maestria 2025/Maestria Uninorte/Primer semestre 2025/Machine Learning/jbook_ml202510/docs/images.jpeg" alt="Flota Hitachi" width="600"/>
+
 
 # Introducción
 
