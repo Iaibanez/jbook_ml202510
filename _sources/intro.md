@@ -1,14 +1,13 @@
-# HOLA MUNDO
+# Introduccion
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+En minería, la precisión en la medición del payload es clave para la eficiencia del acarreo. Sin embargo, estudios de CHM han identificado discrepancias entre la carga real y los valores registrados, debido en gran parte al estado de las suspensiones del camión.
 
-Check out the content pages bundled with this sample book to see more.
+Las suspensiones no solo absorben impactos, sino que también influyen en el cálculo del payload, ya que las variaciones en su presión permiten estimar la carga transportada. Cuando estas fallan, las mediciones se alteran, afectando la operación y aumentando los mantenimientos correctivos.
+
+Esta investigación busca identificar las causas de las fallas en las suspensiones y desarrollar un modelo predictivo basado en el análisis de presión, con el fin de mejorar la precisión en el cálculo del payload y optimizar la gestión de la flota en la mina.
+
+El desarrollo de la investigacion se encuentra repartido en los siguientes capitulos.
 
 ```{tableofcontents}
 
 ```
-
-Aqui se ejecutan todos los cambios necesarios
