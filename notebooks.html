@@ -1173,55 +1173,6 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar los datos</span>
-<span class="n">prueba</span> <span class="o">=</span> <span class="n">dfcamiones2</span><span class="p">[</span><span class="n">dfcamiones2</span><span class="p">[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">25</span><span class="p">]</span>
-<span class="n">data_plot</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">prueba</span><span class="p">[</span><span class="n">prueba</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;022-836&quot;</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>  <span class="c1"># Tomar los primeros 1000 valores</span>
-    <span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="p">)</span>
-<span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Tiempo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_plot</span><span class="p">))</span>  <span class="c1"># Crear columna de tiempo</span>
-
-<span class="c1"># Escalar Road Ground para coincidir con StrutPressureRightRear</span>
-<span class="n">max_spr</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;StrutPressureRightRear&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="n">max_rg</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Road Ground Scaled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_spr</span> <span class="o">/</span> <span class="n">max_rg</span><span class="p">)</span>
-
-<span class="c1"># Crear el gráfico</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>  <span class="c1"># Crear segundo eje Y</span>
-
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Tiempo&quot;</span><span class="p">],</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;StrutPressureRightRear&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#69b3a2&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Presión&quot;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Tiempo&quot;</span><span class="p">],</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">&quot;Road Ground Scaled&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Velocidad&quot;</span><span class="p">)</span>
-
-<span class="c1"># Etiquetas y título</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Tiempo&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Presión&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#69b3a2&quot;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Velocidad&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Presión y Velocidad - 25 Km/h +&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
-
-<span class="c1"># Agregar círculo</span>
-<span class="n">circle_x</span> <span class="o">=</span> <span class="mi">520</span> <span class="o">+</span> <span class="mi">270</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">circle_y</span> <span class="o">=</span> <span class="mi">49000</span> <span class="o">+</span> <span class="mi">3000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">circle_x</span><span class="p">,</span> <span class="n">circle_y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;Límite alcanzado&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="n">max_spr</span> <span class="o">*</span> <span class="mi">1</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
-
-<span class="c1"># Combinar las leyendas de ambos ejes</span>
-<span class="n">lines1</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-<span class="n">lines2</span><span class="p">,</span> <span class="n">labels2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-
-<span class="c1"># Unir ambas leyendas en una sola</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines1</span> <span class="o">+</span> <span class="n">lines2</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">+</span> <span class="n">labels2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/e4e7ab91f83e8ce712eeb8cc8953b9896bd22d6b89bf6c9f779409584d867040.png" src="_images/e4e7ab91f83e8ce712eeb8cc8953b9896bd22d6b89bf6c9f779409584d867040.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
