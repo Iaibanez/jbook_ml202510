@@ -1,7 +1,8 @@
 <h1 style="text-align: center;">CHM Minería SAS</h1>
 
-<img src="/Users/user/Desktop/Maestria 2025/Maestria Uninorte/Primer semestre 2025/Machine Learning/jbook_ml202510/docs/images.jpeg" alt="Flota Hitachi" width="600"/>
-
+<div style="text-align: center;">
+<img src="/Users/user/Desktop/Maestria 2025/Maestria Uninorte/Primer semestre 2025/Machine Learning/jbook_ml202510/docs/images.jpg" alt="Flota Hitachi" width="600"/>
+</div>
 
 # Introducción
 
