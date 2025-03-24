@@ -381,6 +381,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de transporte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs Presion</a></li>
 </ul>
             </nav>
         </div>
@@ -1089,6 +1090,85 @@ document.write(`
 </div>
 <p>En esta grafica de barra, se observan las suspensiones que presentaron fallas por camion. Importante destacar que se obviaron los camiones 823 ya que no tenian datos de presion y el 831 - suspension izquierda <em>(Falla)</em> no contaba con datos.</p>
 </section>
+<section id="velocidad-vs-presion">
+<h2>Velocidad vs Presion<a class="headerlink" href="#velocidad-vs-presion" title="Link to this heading">#</a></h2>
+<p>CHM Minería tiene una hipótesis sobre las fallas de las suspensiones. La hipótesis se centra en las velocidades que registra el camión durante la etapa de transporte. El gerente de soporte tecnico menciona que en esta etapa las velocidades pueden estar afectando la suspension.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filtrar los datos para los camiones especificados</span>
+<span class="n">camiones</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">camiones_y_suspensiones</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">velocidades_camiones</span> <span class="o">=</span> <span class="n">dfcamiones2</span><span class="p">[</span><span class="n">dfcamiones2</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">camiones</span><span class="p">)][[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">,</span> <span class="s2">&quot;Road Ground&quot;</span><span class="p">]]</span>
+
+<span class="c1"># Crear el gráfico con FacetGrid para dividir por camión en 5 columnas</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">velocidades_camiones</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Agregar histogramas</span>
+<span class="n">g</span><span class="o">.</span><span class="n">map_dataframe</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Configurar etiquetas de los ejes</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_axis_labels</span><span class="p">(</span><span class="s2">&quot;Velocidad (Road Ground)&quot;</span><span class="p">,</span> <span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ajustar etiquetas del eje X para que sean visibles y rotadas</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ba7cae7e41e3ccb6f620f0d64090d46721c15f5ad784cb268f529699087a826e.png" src="_images/ba7cae7e41e3ccb6f620f0d64090d46721c15f5ad784cb268f529699087a826e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extraer los nombres de los camiones a analizar</span>
+<span class="n">camiones</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">camiones_y_suspensiones</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="c1"># Crear la primera tabla: Frecuencia y porcentaje de velocidades mayores a 25 km/h por camión</span>
+<span class="n">tabla_frecuencias</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">dfcamiones2</span><span class="p">[</span><span class="n">dfcamiones2</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">camiones</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dfcamiones2</span><span class="p">[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)]</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Calcular el porcentaje</span>
+<span class="n">tabla_frecuencias</span><span class="p">[</span><span class="s2">&quot;Porcentaje (%)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">tabla_frecuencias</span><span class="p">[</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">tabla_frecuencias</span><span class="p">[</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Crear la segunda tabla: Velocidades máximas por camión</span>
+<span class="n">velocidad_maxima</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">dfcamiones2</span><span class="p">[</span><span class="n">dfcamiones2</span><span class="p">[</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">camiones</span><span class="p">)]</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">)[</span><span class="s2">&quot;Road Ground&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Velocidad Máxima&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Combinar ambas tablas</span>
+<span class="n">tabla_combinada</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tabla_frecuencias</span><span class="p">,</span> <span class="n">velocidad_maxima</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;EquipmentName&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mostrar la tabla</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabla_combinada</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  EquipmentName  Frecuencia  Porcentaje (%)  Velocidad Máxima
+0       022-740         879             6.4              45.2
+1       022-826         286             2.1              43.5
+2       022-830         189             1.4              42.4
+3       022-832         299             2.2              43.5
+4       022-833         700             5.1              45.6
+5       022-836        1401            10.2              45.5
+6       022-843        1710            12.5              45.2
+7       022-847        2136            15.6              45.4
+8       022-848         344             2.5              40.6
+9       022-849        5768            42.1              46.5
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1158,6 +1238,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extraer-transformar-y-cargar-etl">Extraer, Transformar y Cargar (ETL)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Analisis Exploratorio de Datos (EDA)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de transporte</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs Presion</a></li>
 </ul>
   </nav></div>
 
