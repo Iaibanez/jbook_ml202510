@@ -1,7 +1,7 @@
 <h1 style="text-align: center;">CHM Minería SAS</h1>
 
 <div style="text-align: center;">
-<img src="Hitachi_electric_drive_hydraulic_excavator.jpg" width="600"/>
+    <img src="HITACHI1.jpg" width="600"/>
 </div>
 
 # Introducción
