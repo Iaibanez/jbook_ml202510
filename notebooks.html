@@ -379,7 +379,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Análisis Exploratorio de Datos (EDA)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de Transporte</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs. Presión</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesamiento-de-datos">Procesamiento de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-procesamiento-de-datos">Pre-procesamiento de datos</a></li>
 </ul>
             </nav>
         </div>
@@ -393,7 +393,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="preparacion-y-exploracion-de-datos">
 <h1>Preparación y Exploración de Datos<a class="headerlink" href="#preparacion-y-exploracion-de-datos" title="Link to this heading">#</a></h1>
-<p>En este capítulo se presentan los desarrollos y hallazgos obtenidos durante los procesos de <strong>ETL (Extracción, Transformación y Carga)</strong>, <strong>EDA (Análisis Exploratorio de Datos)</strong> y <strong>Preprocesamiento de datos</strong>.</p>
+<p>En este capítulo se presentan los desarrollos y hallazgos obtenidos durante los procesos de <strong>ETL (Extracción, Transformación y Carga)</strong>, <strong>EDA (Análisis Exploratorio de Datos)</strong> y <strong>Pre-procesamiento de datos</strong>.</p>
 <section id="extraccion-transformacion-y-carga-etl">
 <h2>Extracción, Transformación y Carga (ETL)<a class="headerlink" href="#extraccion-transformacion-y-carga-etl" title="Link to this heading">#</a></h2>
 <p>Los datos fueron proporcionados por <strong>CARBONES COLOMBIANOS DEL CERREJÓN S.A.S.</strong> e incluyen registros detallados de las suspensiones de cada camión. Para cada unidad, se especifica cuál suspensión presentó fallas, junto con información sobre la fecha de montaje y desmontaje, el componente afectado y las horas de operación. La siguiente tabla resume estos datos.</p>
@@ -1206,8 +1206,8 @@ document.write(`
 </div>
 <p>El gráfico anterior muestra un ejemplo de las <strong>presiones máximas</strong> alcanzadas durante picos de velocidad superiores al límite permitido. Con velocidades de <strong>40 km/h</strong>, se registran presiones que superan los <strong>45,000 kPa</strong>. En este código, se filtró <strong>dfcamiones2</strong> por velocidades mayores a <strong>25 Km/h</strong> y se graficaron las dos variables de interes, <strong>Presión y Velocidad</strong>.</p>
 </section>
-<section id="procesamiento-de-datos">
-<h2>Procesamiento de datos<a class="headerlink" href="#procesamiento-de-datos" title="Link to this heading">#</a></h2>
+<section id="pre-procesamiento-de-datos">
+<h2>Pre-procesamiento de datos<a class="headerlink" href="#pre-procesamiento-de-datos" title="Link to this heading">#</a></h2>
 <p>A partir de este analisis, para poder realizar modelos de clasificacion, se tomara la variable que mayor repercucion tiene en nuestra variable de respuesta, <strong>Presion (kPa)</strong>. Con esto disenamos las siguientes variables que nos ayudaran a comprender y predecir si una suspension fallara o no. estas son:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Media (en KPa) 
 - Desviación Estándar
@@ -1434,7 +1434,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-exploratorio-de-datos-eda">Análisis Exploratorio de Datos (EDA)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etapa-de-transporte">Etapa de Transporte</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocidad-vs-presion">Velocidad vs. Presión</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesamiento-de-datos">Procesamiento de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-procesamiento-de-datos">Pre-procesamiento de datos</a></li>
 </ul>
   </nav></div>
 
