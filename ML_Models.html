@@ -484,17 +484,13 @@ document.write(`
 </div>
 </div>
 </div>
+<p>En el codigo anterior podemos observar como se realizo el modelo KNN mediante el uso de paramgrid, Gridsearch y un pipeline. La validacion aplicada fue Nested Cross-Validation.</p>
+<p>En el siguiente codigo aplicamos SMOTE a los datos de entrenamiento</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar distribución antes de SMOTE</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución antes de SMOTE:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
-
-<span class="c1"># Aplicar SMOTE</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
-
-<span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
 <span class="c1"># Verificar distribución después de SMOTE</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Distribución después de SMOTE:&quot;</span><span class="p">)</span>
