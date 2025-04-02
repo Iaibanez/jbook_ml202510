@@ -408,406 +408,9 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;metricas_camiones.csv&quot;</span><span class="p">)</span>
-<span class="n">df</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Unnamed: 0</th>
-      <th>Equipo</th>
-      <th>Suspension</th>
-      <th>Falla</th>
-      <th>mean_presion</th>
-      <th>sd_presion</th>
-      <th>max_presion</th>
-      <th>min_presion</th>
-      <th>peaks_presion</th>
-      <th>median_presion</th>
-      <th>pressure_change_rate</th>
-      <th>high_duration_presion</th>
-      <th>cv_presion</th>
-      <th>num_trend_changes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>022-740</td>
-      <td>L</td>
-      <td>1</td>
-      <td>21641.506274</td>
-      <td>5260.175821</td>
-      <td>34473.8</td>
-      <td>1631.8</td>
-      <td>379</td>
-      <td>21790.10</td>
-      <td>2585.327605</td>
-      <td>30.874722</td>
-      <td>0.243060</td>
-      <td>4101</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>022-740</td>
-      <td>R</td>
-      <td>0</td>
-      <td>19801.161056</td>
-      <td>5206.772627</td>
-      <td>49117.1</td>
-      <td>2005.2</td>
-      <td>120</td>
-      <td>20042.30</td>
-      <td>2664.393305</td>
-      <td>26.602222</td>
-      <td>0.262953</td>
-      <td>4119</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>022-826</td>
-      <td>L</td>
-      <td>0</td>
-      <td>26095.888559</td>
-      <td>5403.453187</td>
-      <td>42847.2</td>
-      <td>3305.6</td>
-      <td>1290</td>
-      <td>26346.10</td>
-      <td>2305.921631</td>
-      <td>185.937778</td>
-      <td>0.207061</td>
-      <td>3429</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>022-826</td>
-      <td>R</td>
-      <td>1</td>
-      <td>17643.687250</td>
-      <td>5294.362156</td>
-      <td>38931.1</td>
-      <td>2166.7</td>
-      <td>92</td>
-      <td>17444.50</td>
-      <td>2437.081836</td>
-      <td>11.661389</td>
-      <td>0.300071</td>
-      <td>3247</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>022-830</td>
-      <td>L</td>
-      <td>0</td>
-      <td>20735.948609</td>
-      <td>8770.715037</td>
-      <td>42379.4</td>
-      <td>0.0</td>
-      <td>232</td>
-      <td>22112.20</td>
-      <td>2552.602642</td>
-      <td>13.269722</td>
-      <td>0.422971</td>
-      <td>1116</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>5</td>
-      <td>022-830</td>
-      <td>R</td>
-      <td>1</td>
-      <td>20362.288119</td>
-      <td>7051.834262</td>
-      <td>41785.6</td>
-      <td>572.2</td>
-      <td>173</td>
-      <td>20813.90</td>
-      <td>2943.257877</td>
-      <td>66.706111</td>
-      <td>0.346318</td>
-      <td>1143</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>6</td>
-      <td>022-832</td>
-      <td>L</td>
-      <td>1</td>
-      <td>26049.137374</td>
-      <td>5469.099930</td>
-      <td>44803.9</td>
-      <td>3952.2</td>
-      <td>2598</td>
-      <td>25959.20</td>
-      <td>2615.794375</td>
-      <td>341.459167</td>
-      <td>0.209953</td>
-      <td>6800</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>7</td>
-      <td>022-832</td>
-      <td>R</td>
-      <td>1</td>
-      <td>19161.502664</td>
-      <td>5473.768538</td>
-      <td>39605.6</td>
-      <td>1970.6</td>
-      <td>279</td>
-      <td>19073.05</td>
-      <td>2668.015273</td>
-      <td>34.658889</td>
-      <td>0.285665</td>
-      <td>6733</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>8</td>
-      <td>022-833</td>
-      <td>L</td>
-      <td>0</td>
-      <td>25824.587161</td>
-      <td>5795.656571</td>
-      <td>43979.4</td>
-      <td>1314.4</td>
-      <td>1305</td>
-      <td>26006.70</td>
-      <td>2230.039001</td>
-      <td>280.631389</td>
-      <td>0.224424</td>
-      <td>3329</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>9</td>
-      <td>022-833</td>
-      <td>R</td>
-      <td>1</td>
-      <td>17070.491458</td>
-      <td>5589.978325</td>
-      <td>36353.5</td>
-      <td>1295.6</td>
-      <td>87</td>
-      <td>16836.10</td>
-      <td>2378.520038</td>
-      <td>11.404444</td>
-      <td>0.327464</td>
-      <td>3218</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>10</td>
-      <td>022-836</td>
-      <td>L</td>
-      <td>0</td>
-      <td>21702.262692</td>
-      <td>7664.032764</td>
-      <td>43643.9</td>
-      <td>1408.2</td>
-      <td>1676</td>
-      <td>22894.50</td>
-      <td>2423.157821</td>
-      <td>179.615327</td>
-      <td>0.353144</td>
-      <td>9722</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>11</td>
-      <td>022-836</td>
-      <td>R</td>
-      <td>1</td>
-      <td>22997.799439</td>
-      <td>12907.443805</td>
-      <td>49000.0</td>
-      <td>945.0</td>
-      <td>2933</td>
-      <td>19883.30</td>
-      <td>2107.087760</td>
-      <td>-1862.262724</td>
-      <td>0.561247</td>
-      <td>8631</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>12</td>
-      <td>022-843</td>
-      <td>L</td>
-      <td>1</td>
-      <td>23880.691775</td>
-      <td>7094.501721</td>
-      <td>46830.0</td>
-      <td>2646.7</td>
-      <td>5115</td>
-      <td>24574.75</td>
-      <td>2311.084536</td>
-      <td>838.029167</td>
-      <td>0.297081</td>
-      <td>15650</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>13</td>
-      <td>022-843</td>
-      <td>R</td>
-      <td>1</td>
-      <td>20014.720807</td>
-      <td>6402.293117</td>
-      <td>43557.8</td>
-      <td>1387.8</td>
-      <td>1717</td>
-      <td>19850.80</td>
-      <td>2769.822974</td>
-      <td>288.799167</td>
-      <td>0.319879</td>
-      <td>15363</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>14</td>
-      <td>022-847</td>
-      <td>L</td>
-      <td>0</td>
-      <td>20982.545038</td>
-      <td>10339.650395</td>
-      <td>47375.0</td>
-      <td>0.0</td>
-      <td>3717</td>
-      <td>23416.10</td>
-      <td>2661.386818</td>
-      <td>397.419167</td>
-      <td>0.492774</td>
-      <td>11480</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>15</td>
-      <td>022-847</td>
-      <td>R</td>
-      <td>1</td>
-      <td>17767.302485</td>
-      <td>7033.945196</td>
-      <td>41377.2</td>
-      <td>991.7</td>
-      <td>700</td>
-      <td>18290.50</td>
-      <td>2656.441145</td>
-      <td>160.180833</td>
-      <td>0.395893</td>
-      <td>13100</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>16</td>
-      <td>022-848</td>
-      <td>L</td>
-      <td>0</td>
-      <td>23925.447116</td>
-      <td>7620.257833</td>
-      <td>44067.2</td>
-      <td>1462.2</td>
-      <td>1040</td>
-      <td>24912.20</td>
-      <td>2300.450332</td>
-      <td>211.469167</td>
-      <td>0.318500</td>
-      <td>3245</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>17</td>
-      <td>022-848</td>
-      <td>R</td>
-      <td>1</td>
-      <td>15576.650046</td>
-      <td>6830.255872</td>
-      <td>37453.3</td>
-      <td>0.0</td>
-      <td>111</td>
-      <td>15730.00</td>
-      <td>2577.724548</td>
-      <td>11.419167</td>
-      <td>0.438493</td>
-      <td>3000</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>18</td>
-      <td>022-849</td>
-      <td>L</td>
-      <td>0</td>
-      <td>15996.111193</td>
-      <td>8920.978051</td>
-      <td>34473.8</td>
-      <td>0.0</td>
-      <td>906</td>
-      <td>18072.90</td>
-      <td>2448.987047</td>
-      <td>39.594167</td>
-      <td>0.557697</td>
-      <td>18831</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>19</td>
-      <td>022-849</td>
-      <td>R</td>
-      <td>1</td>
-      <td>18118.352544</td>
-      <td>9139.968560</td>
-      <td>53195.0</td>
-      <td>2166.5</td>
-      <td>2208</td>
-      <td>20311.20</td>
-      <td>2860.422343</td>
-      <td>302.985000</td>
-      <td>0.504459</td>
-      <td>19726</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>20</td>
-      <td>022-831</td>
-      <td>R</td>
-      <td>0</td>
-      <td>21287.314530</td>
-      <td>6942.476128</td>
-      <td>37864.4</td>
-      <td>1170.6</td>
-      <td>183</td>
-      <td>22475.60</td>
-      <td>2349.709188</td>
-      <td>984.842500</td>
-      <td>0.326132</td>
-      <td>2516</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>Cargamos los datos Pre-procesados para el desarrollo de los modelos.</p>
 <section id="modelo-knn">
@@ -815,80 +418,141 @@ document.write(`
 <p>En las siguientes lineas de codigos, aplicaremos los modelos KD-Trees, Ball Trees Y FAISS.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Equipo&quot;</span><span class="p">,</span> <span class="s2">&quot;Suspension&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Definir variables predictoras y objetivo</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Equipo&quot;</span><span class="p">,</span> <span class="s2">&quot;Suspension&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">])</span>  <span class="c1"># Ajusta según tus datos</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Falla&quot;</span><span class="p">]</span>
 
-
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1"># Crear pipeline con escalado y clasificador KNN</span>
 <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">KNeighborsClassifier</span><span class="p">())</span>
+
+<span class="c1"># Definir hiperparámetros para GridSearch</span>
 <span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;kneighborsclassifier__n_neighbors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>  <span class="c1"># Número de vecinos</span>
-    <span class="s2">&quot;kneighborsclassifier__weights&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">],</span>  <span class="c1"># Pesos de los vecinos</span>
-    <span class="s2">&quot;kneighborsclassifier__metric&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;euclidean&quot;</span><span class="p">,</span> <span class="s2">&quot;manhattan&quot;</span><span class="p">,</span> <span class="s2">&quot;minkowski&quot;</span><span class="p">],</span>  <span class="c1"># Distancias</span>
-    <span class="s2">&quot;kneighborsclassifier__algorithm&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ball_tree&quot;</span><span class="p">,</span> <span class="s2">&quot;kd_tree&quot;</span><span class="p">]</span>  <span class="c1"># Algoritmos de búsqueda</span>
+    <span class="s2">&quot;kneighborsclassifier__n_neighbors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="s2">&quot;kneighborsclassifier__weights&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;kneighborsclassifier__metric&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;euclidean&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;kneighborsclassifier__algorithm&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ball_tree&quot;</span><span class="p">,</span> <span class="s2">&quot;kd_tree&quot;</span><span class="p">]</span>
 <span class="p">}</span>
+
+<span class="c1"># Definir Nested Cross-Validation (Validación externa e interna)</span>
+<span class="n">cv_outer</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">cv_inner</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Variables para guardar resultados</span>
+<span class="n">all_y_true</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">all_y_pred</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">nested_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Iterar sobre los folds de la validación externa</span>
+<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+    <span class="c1"># Aplicar SMOTE a los datos de entrenamiento</span>
+    <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># Aplicar GridSearchCV dentro de cada fold con los datos balanceados</span>
+    <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv_inner</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span><span class="p">)</span>  <span class="c1"># Usamos los datos balanceados para entrenar</span>
+
+    <span class="c1"># Obtener el mejor modelo y hacer predicciones en los datos de prueba</span>
+    <span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+    <span class="c1"># Guardar resultados</span>
+    <span class="n">all_y_true</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+    <span class="n">all_y_pred</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">nested_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 6️⃣ Realizar búsqueda de hiperparámetros con GridSearchCV</span>
-<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar distribución antes de SMOTE</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución antes de SMOTE:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
 
-<span class="c1"># 7️⃣ Evaluar el mejor modelo</span>
-<span class="n">best_model</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="c1"># Aplicar SMOTE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
 
-<span class="c1"># 🔹 Matriz de Confusión</span>
-<span class="n">conf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
-<span class="c1"># 🔹 Visualizar la Matriz de Confusión</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No Falla&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No Falla&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicción&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Real&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Matriz de Confusión - KNN&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># 🔹 Métricas adicionales</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best cross-validation score: </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mejor combinación de hiperparámetros: </span><span class="si">{</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reporte de clasificación:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="c1"># Verificar distribución después de SMOTE</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Distribución después de SMOTE:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train_res</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1c172f1220db48c6c883612a07ea979e210354eb2b28bb64ea0bb92cf4b1cb68.png" src="_images/1c172f1220db48c6c883612a07ea979e210354eb2b28bb64ea0bb92cf4b1cb68.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best cross-validation score: 0.68
-Mejor combinación de hiperparámetros: {&#39;kneighborsclassifier__algorithm&#39;: &#39;ball_tree&#39;, &#39;kneighborsclassifier__metric&#39;: &#39;euclidean&#39;, &#39;kneighborsclassifier__n_neighbors&#39;: 11, &#39;kneighborsclassifier__weights&#39;: &#39;distance&#39;}
-Reporte de clasificación:
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución antes de SMOTE:
+1    10
+0     7
+Name: Falla, dtype: int64
+
+Distribución después de SMOTE:
+0    10
+1    10
+Name: Falla, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrar resultados de Nested Cross-Validation</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nested CV Scores: &quot;</span><span class="p">,</span> <span class="n">nested_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Accuracy: </span><span class="si">{:.4f}</span><span class="s2"> ± </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nested_scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nested_scores</span><span class="p">)))</span>
+
+<span class="c1"># Matriz de Confusión</span>
+<span class="n">conf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_pred</span><span class="p">)</span>
+
+<span class="c1"># Visualizar la Matriz de Confusión</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">conf_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No Falla&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No Falla&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicción&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Real&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Matriz de Confusión - Nested CV KNN con SMOTE&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Métricas adicionales</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reporte de clasificación:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.7222222222222222, 0.6507936507936507, 0.8015873015873015, 0.8492063492063492]
+Mean Accuracy: 0.7603 ± 0.0683
+</pre></div>
+</div>
+<img alt="_images/e6289019471fcac6b2f499f66bb60fce6fed2d52e50fac5412afce6539f88897.png" src="_images/e6289019471fcac6b2f499f66bb60fce6fed2d52e50fac5412afce6539f88897.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       1.00      0.50      0.67         2
-           1       0.75      1.00      0.86         3
+           0       0.54      0.78      0.64         9
+           1       0.75      0.50      0.60        12
 
-    accuracy                           0.80         5
-   macro avg       0.88      0.75      0.76         5
-weighted avg       0.85      0.80      0.78         5
+    accuracy                           0.62        21
+   macro avg       0.64      0.64      0.62        21
+weighted avg       0.66      0.62      0.62        21
 </pre></div>
 </div>
 </div>
