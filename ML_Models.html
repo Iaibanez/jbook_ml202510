@@ -457,8 +457,15 @@ document.write(`
 <span class="c1"># Definir Nested Cross-Validation</span>
 <span class="n">cv_outer</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">cv_inner</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># Variables para guardar resultados</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se separan las variables predictoras y la variable objetivo (“Falla”). Se crea un pipeline que estandariza los datos y aplica el clasificador KNN.
+Se define una búsqueda de hiperparámetros para ajustar KNN (número de vecinos, tipo de distancia, etc.). Finalmente, se configura una validación cruzada anidada: una interna para optimizar los hiperparámetros y otra externa para evaluar el modelo de forma robusta.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Variables para guardar resultados</span>
 <span class="n">all_y_true</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_pred</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_scores</span> <span class="o">=</span> <span class="p">[]</span>
@@ -491,32 +498,14 @@ document.write(`
     <span class="n">all_y_pred</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
     <span class="n">all_y_scores</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_scores</span><span class="p">)</span>
     <span class="n">nested_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
-
-<span class="c1"># Encontrar los hiperparámetros más frecuentes</span>
-<span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Eliminamos los prefijos </span>
-<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejores hiperparámetros globales:&quot;</span><span class="p">,</span> <span class="n">best_params</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
-Mejores hiperparámetros globales: {&#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3, &#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;weights&#39;: &#39;distance&#39;}
 </pre></div>
 </div>
 </div>
 </div>
-<p>En el codigo anterior podemos observar como se realizo el modelo KNN mediante el uso de paramgrid, Gridsearch y un pipeline. La validacion aplicada fue Nested Cross-Validation. Esta version del K-Fold CV fue seleccionada ya que multiples articulos sugieren que para bases de datos con tamanos de muestras reducidos, <strong>Nested Cross Validation</strong> se convierte en una solucion para el desarollo de modelos. El codigo para el Nested CV se realizo de forma manual. El KFold seleccionado a realizar en el <strong>inner</strong> y <strong>outer CV</strong> fue el <strong>StratifiedKFold</strong>. Esto se decidio de esta manera ya que la variable de respuesta Y, al ser binaria se presenta en secuencias que pueden interferir en la identififcacion de patrones de los modelos.</p>
+<p>Se realiza una validación cruzada anidada. En cada fold externo, se divide el dataset en entrenamiento y prueba.
+Al conjunto de entrenamiento se le aplica SMOTE para balancear las clases. Luego, se usa GridSearchCV con validación interna para encontrar los mejores hiperparámetros. El modelo optimizado se evalúa en el conjunto de prueba y se guardan predicciones, probabilidades, puntuaciones y los hiperparámetros seleccionados.</p>
 <p><strong>Desbalanceo de datos - SMOTE</strong></p>
-<p>Al tener los datos desbalaneados, En el siguiente codigo aplicamos <strong>SMOTE</strong> a los datos de entrenamiento.</p>
+<p>Al tener los datos desbalaneados, En el siguiente codigo observamos el cambio de <strong>SMOTE</strong> a los datos de entrenamiento.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar distribución antes de SMOTE</span>
@@ -543,6 +532,26 @@ Name: Falla, dtype: int64
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Encontrar los hiperparámetros más frecuentes</span>
+<span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
+
+<span class="c1"># Eliminamos los prefijos </span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejores hiperparámetros globales:&quot;</span><span class="p">,</span> <span class="n">best_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Aqui se presentan los resultados del modelo con los mejores hiperparametros encontrados durante el entrenamiento.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluación final</span>
@@ -584,11 +593,57 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 </div>
-<p>Con el codigo anterior, observamos el desempeno del modelo a lo largo de cada <strong>outer Fold</strong>. El numero de pliegues seleccioando para el K-fold externo fue de 5 y los pliegues para el CV interno fue de 3. Esta matriz de confusion y las metricas calculadas vienen de los resultados del <strong>test</strong> cada pliegue externo.</p>
-<p>Este mismo procedimieto se realizara a cada uno de los modelos que se desarrollaran en esta investigacion.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">k9</span><span class="o">/</span><span class="n">_sfb2dlj32z_v_srr2ny3qnm0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_3403</span><span class="o">/</span><span class="mf">2241200566.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Graficar la curva ROC</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;auc_score&#39; is not defined
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 576x432 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Con el codigo anterior, observamos el desempeno del modelo a lo largo de cada <strong>outer Fold</strong>. El numero de pliegues seleccioando para el K-fold externo fue de 5 y los pliegues para el CV interno fue de 3. Esta matriz de confusion y las metricas calculadas vienen de los resultados del <strong>test</strong> cada pliegue externo a la vez que la curva ROC y valor de AUC.</p>
+<p>En el código anterior completo, se muestra la implementación del modelo K-Nearest Neighbors (KNN), utilizando una combinación de <em>ParamGrid</em>, <em>GridSearchCV</em> y un <em>Pipeline</em> para estructurar el flujo de trabajo. La validación empleada fue <strong>Nested Cross-Validation</strong>, una variante del método K-Fold Cross-Validation recomendada en diversos estudios para conjuntos de datos con muestras pequeñas, ya que permite una evaluación más robusta y menos propensa al sobreajuste.</p>
+<p>La implementación de Nested CV fue realizada de forma manual. Tanto para el inner como para el outer loop, se utilizó el método <strong>StratifiedKFold</strong>, ya que la variable de respuesta <em>Y</em> es binaria y presenta una distribución que podría sesgar el aprendizaje del modelo si no se estratifica adecuadamente. Esta elección asegura que cada partición conserve la proporción de clases, lo cual es crucial para una correcta identificación de patrones por parte del modelo.</p>
+<p>Este mismo procedimieto se realizara a cada uno de los modelos que se desarrollaran en esta investigación.</p>
 </section>
 <section id="clasificador-bayesiano">
 <h2>Clasificador Bayesiano<a class="headerlink" href="#clasificador-bayesiano" title="Link to this heading">#</a></h2>
+<p>En las siguientes lineas de codigos, aplicaremos el modelo de Naive Bayes</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span><span class="p">,</span> <span class="n">BernoulliNB</span>
@@ -648,10 +703,6 @@ weighted avg       0.60      0.57      0.57        21
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
 
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="c1"># Eliminamos los prefijos </span>
 <span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
@@ -660,8 +711,7 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5278
-Mejores hiperparámetros globales: {&#39;gaussiannb__var_smoothing&#39;: 1e-09}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;gaussiannb__var_smoothing&#39;: 1e-09}
 </pre></div>
 </div>
 </div>
@@ -707,9 +757,39 @@ weighted avg       0.78      0.76      0.75        21
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/602e930cc7cd1171d49279ca98da2ce53b4e28e92151691b0efb9e69f8c74ad8.png" src="_images/602e930cc7cd1171d49279ca98da2ce53b4e28e92151691b0efb9e69f8c74ad8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5278
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="modelo-l1-l2-penalty-logistic-regression">
 <h2>Modelo  L1/L2 Penalty Logistic Regression<a class="headerlink" href="#modelo-l1-l2-penalty-logistic-regression" title="Link to this heading">#</a></h2>
+<p>En las siguientes lineas de codigos, aplicaremos L1/L2 Penalty Logistic Regression. Probaremos ambos metodos de regularización.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
@@ -770,12 +850,8 @@ weighted avg       0.78      0.76      0.75        21
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
 
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="c1"># Eliminamos los prefijos </span>
-<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;logisticregression__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejores hiperparámetros globales:&quot;</span><span class="p">,</span> <span class="n">best_params</span><span class="p">)</span>
 </pre></div>
@@ -783,7 +859,7 @@ weighted avg       0.78      0.76      0.75        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7315
-Mejores hiperparámetros globales: {&#39;logisticregression__penalty&#39;: &#39;l2&#39;, &#39;logisticregression__C&#39;: 10, &#39;logisticregression__solver&#39;: &#39;liblinear&#39;}
+Mejores hiperparámetros globales: {&#39;logisticregression__C&#39;: 10, &#39;logisticregression__solver&#39;: &#39;liblinear&#39;, &#39;logisticregression__penalty&#39;: &#39;l2&#39;}
 </pre></div>
 </div>
 </div>
@@ -829,9 +905,39 @@ weighted avg       0.71      0.71      0.71        21
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fd32365fea142425730f46671e2e61fcb77b3061f135bfb3397625b86547a316.png" src="_images/fd32365fea142425730f46671e2e61fcb77b3061f135bfb3397625b86547a316.png" />
+</div>
+</div>
 </section>
 <section id="modelo-random-forest">
 <h2>Modelo Random Forest<a class="headerlink" href="#modelo-random-forest" title="Link to this heading">#</a></h2>
+<p>En las siguientes lineas de codigos, aplicaremos el modelo de Random Forest.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
@@ -893,20 +999,16 @@ weighted avg       0.71      0.71      0.71        21
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
 
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="c1"># Eliminamos los prefijos </span>
-<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;randomforestclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejores hiperparámetros globales:&quot;</span><span class="p">,</span> <span class="n">best_params</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6204
-Mejores hiperparámetros globales: {&#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__min_samples_split&#39;: 2, &#39;randomforestclassifier__min_samples_leaf&#39;: 3, &#39;randomforestclassifier__max_depth&#39;: 10}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6296
+Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 2, &#39;n_estimators&#39;: 100, &#39;min_samples_split&#39;: 3, &#39;max_depth&#39;: 10}
 </pre></div>
 </div>
 </div>
@@ -934,27 +1036,54 @@ Mejores hiperparámetros globales: {&#39;randomforestclassifier__n_estimators&#3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.611111111111111, 0.6507936507936507, 0.746031746031746, 0.8412698412698413]
-Mean Accuracy: 0.7254 ± 0.0839
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.5555555555555555, 0.6031746031746031, 0.753968253968254, 0.8412698412698413]
+Mean Accuracy: 0.7063 ± 0.1086
 </pre></div>
 </div>
-<img alt="_images/c2316410da2cd99cd5f56543d4ab81d9f7ae065d7936142e227d2251129cb955.png" src="_images/c2316410da2cd99cd5f56543d4ab81d9f7ae065d7936142e227d2251129cb955.png" />
+<img alt="_images/22d410439105ee24b2f624d51259d71f78de7781f171fb6686d81d0187c32fb6.png" src="_images/22d410439105ee24b2f624d51259d71f78de7781f171fb6686d81d0187c32fb6.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       0.60      0.67      0.63         9
-           1       0.73      0.67      0.70        12
+           0       0.50      0.67      0.57         9
+           1       0.67      0.50      0.57        12
 
-    accuracy                           0.67        21
-   macro avg       0.66      0.67      0.66        21
-weighted avg       0.67      0.67      0.67        21
+    accuracy                           0.57        21
+   macro avg       0.58      0.58      0.57        21
+weighted avg       0.60      0.57      0.57        21
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/21ca6ac462dc5a9b439347d5c79aca81885309611a6301c5d655cbb6930fb9b3.png" src="_images/21ca6ac462dc5a9b439347d5c79aca81885309611a6301c5d655cbb6930fb9b3.png" />
 </div>
 </div>
 </section>
 <section id="modelo-xgboost">
 <h2>Modelo XGBoost<a class="headerlink" href="#modelo-xgboost" title="Link to this heading">#</a></h2>
+<p>En las siguientes lineas de codigos, aplicaremos el modelo de XGBoost aplicando metodo de arbol <em>“Hist”</em>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBClassifier</span>  <span class="c1"># Para clasificación</span>
@@ -1016,12 +1145,8 @@ weighted avg       0.67      0.67      0.67        21
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
 
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="c1"># Eliminamos los prefijos </span>
-<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;xgbclassifierr__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejores hiperparámetros globales:&quot;</span><span class="p">,</span> <span class="n">best_params</span><span class="p">)</span>
 </pre></div>
@@ -1029,7 +1154,7 @@ weighted avg       0.67      0.67      0.67        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
-Mejores hiperparámetros globales: {&#39;xgbclassifier__learning_rate&#39;: 0.01, &#39;xgbclassifier__max_depth&#39;: 3, &#39;xgbclassifier__n_estimators&#39;: 400, &#39;xgbclassifier__colsample_bytree&#39;: 0.5}
+Mejores hiperparámetros globales: {&#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__learning_rate&#39;: 0.01, &#39;xgbclassifier__n_estimators&#39;: 400, &#39;xgbclassifier__max_depth&#39;: 3}
 </pre></div>
 </div>
 </div>
@@ -1075,9 +1200,36 @@ weighted avg       0.69      0.67      0.67        21
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3a10c5f385f69265350cd9566939c8005ee9ebc9e43dce9b5159e24131db92ca.png" src="_images/3a10c5f385f69265350cd9566939c8005ee9ebc9e43dce9b5159e24131db92ca.png" />
+</div>
+</div>
 </section>
 <section id="modelo-svm-support-vector-machines">
 <h2>Modelo SVM (Support Vector Machines)<a class="headerlink" href="#modelo-svm-support-vector-machines" title="Link to this heading">#</a></h2>
+<p>En las siguientes lineas de codigos, aplicaremos el modelo SVM con distntos Kernels para determinar cual es el mejor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
@@ -1140,10 +1292,6 @@ weighted avg       0.69      0.67      0.67        21
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
 
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="c1"># Eliminamos los prefijos </span>
 <span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;svc__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
@@ -1152,8 +1300,8 @@ weighted avg       0.69      0.67      0.67        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
-Mejores hiperparámetros globales: {&#39;gamma&#39;: 0.1, &#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6944
+Mejores hiperparámetros globales: {&#39;C&#39;: 1, &#39;kernel&#39;: &#39;rbf&#39;, &#39;gamma&#39;: 0.1}
 </pre></div>
 </div>
 </div>
@@ -1199,9 +1347,36 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9ad209c299114bf8c8ecb5378bd2b9065bc27b1beeaa34a6bf4349c86a7c2b4d.png" src="_images/9ad209c299114bf8c8ecb5378bd2b9065bc27b1beeaa34a6bf4349c86a7c2b4d.png" />
+</div>
+</div>
 </section>
 <section id="modelo-ann-redes-neuronales-artificiales">
 <h2>Modelo ANN (Redes Neuronales Artificiales)<a class="headerlink" href="#modelo-ann-redes-neuronales-artificiales" title="Link to this heading">#</a></h2>
+<p>En las siguientes lineas de codigos, aplicaremos el modelo de Redes neuronales aplicando el <strong>Multi Layer Perceptron (MLP)</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neural_network</span><span class="w"> </span><span class="kn">import</span> <span class="n">MLPClassifier</span>
@@ -1264,10 +1439,6 @@ weighted avg       0.67      0.67      0.65        21
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
 
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
 <span class="c1"># Eliminamos los prefijos</span>
 <span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;mlpclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
@@ -1276,8 +1447,7 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6574
-Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;hidden_layer_sizes&#39;: (15,), &#39;solver&#39;: &#39;adam&#39;, &#39;activation&#39;: &#39;relu&#39;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;activation&#39;: &#39;relu&#39;, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;hidden_layer_sizes&#39;: (15,)}
 </pre></div>
 </div>
 </div>
@@ -1319,13 +1489,69 @@ Mean Accuracy: 0.8143 ± 0.0746
     accuracy                           0.76        21
    macro avg       0.76      0.76      0.76        21
 weighted avg       0.77      0.76      0.76        21
+
+AUC Score: 0.6574
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+
+<span class="c1"># Graficar la curva ROC</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC Curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/96fe32b3fbb86f0cdddb5f016597be9a7281261fca7e297f9b262638ac2ab888.png" src="_images/96fe32b3fbb86f0cdddb5f016597be9a7281261fca7e297f9b262638ac2ab888.png" />
 </div>
 </div>
 </section>
 <section id="resultados">
 <h2>Resultados<a class="headerlink" href="#resultados" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Lista de modelos</span>
+<span class="n">modelos</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;KNN&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Naive Bayes&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LogReg (L1)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LogReg (L2)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;XGBoost&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SVM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ANN MLP&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Inicializamos el DataFrame</span>
+<span class="n">metricas</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">,</span> <span class="s2">&quot;F1-score&quot;</span><span class="p">,</span> <span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;AUC&quot;</span><span class="p">]</span>
+<span class="n">tabla_resultados</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">modelos</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">metricas</span><span class="p">)</span>
+
+<span class="c1"># Ejemplo: llenado de una fila (cuando tengas resultados)</span>
+<span class="n">tabla_resultados</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;KNN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.57</span><span class="p">,</span> <span class="mf">0.57</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">tabla_resultados</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
