@@ -399,7 +399,7 @@ document.write(`
 <h1>Desarrollo de modelos<a class="headerlink" href="#desarrollo-de-modelos" title="Link to this heading">#</a></h1>
 <p>En esta seccion se desarrollaran los modelos de prediccion para la investigacion. Al tener un problema de clasificacion, se trabajaran los siguientes modelos adicionales al modelo original. Estos modelos de clasificacion son los siguientes:</p>
 <ul class="simple">
-<li><p>KNN → KD-Trees, Ball Trees, FAISS.</p></li>
+<li><p>KNN → KD-Trees, Ball Trees.</p></li>
 <li><p>Naive Bayes → partial_fit() para entrenamiento por lotes.</p></li>
 <li><p>XGBoost → tree_method=’hist’ y early_stopping_rounds.</p></li>
 <li><p>SVM → SGD SVM (SGDClassifier) , LinearSVC en vez de SVC(kernel=’linear’), RBF con Random Fourier Features</p></li>
@@ -598,6 +598,10 @@ weighted avg       0.60      0.57      0.57        21
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
+<span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
 <span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
 
@@ -611,29 +615,14 @@ weighted avg       0.60      0.57      0.57        21
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">k9</span><span class="o">/</span><span class="n">_sfb2dlj32z_v_srr2ny3qnm0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_3403</span><span class="o">/</span><span class="mf">2241200566.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Graficar la curva ROC</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ROC Curve (AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Classifier&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;auc_score&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 576x432 with 0 Axes&gt;
-</pre></div>
-</div>
+<img alt="_images/b7dd26a17dc0c373d97f2d6cc2e73aafb26ab75e9ee48ea49d065f7662143efc.png" src="_images/b7dd26a17dc0c373d97f2d6cc2e73aafb26ab75e9ee48ea49d065f7662143efc.png" />
 </div>
 </div>
 <p>Con el codigo anterior, observamos el desempeno del modelo a lo largo de cada <strong>outer Fold</strong>. El numero de pliegues seleccioando para el K-fold externo fue de 5 y los pliegues para el CV interno fue de 3. Esta matriz de confusion y las metricas calculadas vienen de los resultados del <strong>test</strong> cada pliegue externo a la vez que la curva ROC y valor de AUC.</p>
@@ -759,7 +748,11 @@ weighted avg       0.78      0.76      0.75        21
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
 
 <span class="c1"># Graficar la curva ROC</span>
@@ -772,18 +765,14 @@ weighted avg       0.78      0.76      0.75        21
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/602e930cc7cd1171d49279ca98da2ce53b4e28e92151691b0efb9e69f8c74ad8.png" src="_images/602e930cc7cd1171d49279ca98da2ce53b4e28e92151691b0efb9e69f8c74ad8.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5278
 </pre></div>
 </div>
+<img alt="_images/aa65a93c09570b6b1b6472e2f52816ef5cdd1b7961805c30f2f77168ae65e0c9.png" src="_images/aa65a93c09570b6b1b6472e2f52816ef5cdd1b7961805c30f2f77168ae65e0c9.png" />
 </div>
 </div>
 </section>
@@ -858,8 +847,7 @@ weighted avg       0.78      0.76      0.75        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7315
-Mejores hiperparámetros globales: {&#39;logisticregression__C&#39;: 10, &#39;logisticregression__solver&#39;: &#39;liblinear&#39;, &#39;logisticregression__penalty&#39;: &#39;l2&#39;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;liblinear&#39;, &#39;C&#39;: 10, &#39;penalty&#39;: &#39;l2&#39;}
 </pre></div>
 </div>
 </div>
@@ -907,8 +895,9 @@ weighted avg       0.71      0.71      0.71        21
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
@@ -923,14 +912,13 @@ weighted avg       0.71      0.71      0.71        21
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7315
+</pre></div>
+</div>
 <img alt="_images/fd32365fea142425730f46671e2e61fcb77b3061f135bfb3397625b86547a316.png" src="_images/fd32365fea142425730f46671e2e61fcb77b3061f135bfb3397625b86547a316.png" />
 </div>
 </div>
@@ -1007,8 +995,7 @@ weighted avg       0.71      0.71      0.71        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6296
-Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 2, &#39;n_estimators&#39;: 100, &#39;min_samples_split&#39;: 3, &#39;max_depth&#39;: 10}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 4, &#39;min_samples_leaf&#39;: 1, &#39;max_depth&#39;: 10, &#39;n_estimators&#39;: 100}
 </pre></div>
 </div>
 </div>
@@ -1036,27 +1023,31 @@ Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 2, &#39;n_estima
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.5555555555555555, 0.6031746031746031, 0.753968253968254, 0.8412698412698413]
-Mean Accuracy: 0.7063 ± 0.1086
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.611111111111111, 0.6507936507936507, 0.746031746031746, 0.8412698412698413]
+Mean Accuracy: 0.7254 ± 0.0839
 </pre></div>
 </div>
-<img alt="_images/22d410439105ee24b2f624d51259d71f78de7781f171fb6686d81d0187c32fb6.png" src="_images/22d410439105ee24b2f624d51259d71f78de7781f171fb6686d81d0187c32fb6.png" />
+<img alt="_images/c2316410da2cd99cd5f56543d4ab81d9f7ae065d7936142e227d2251129cb955.png" src="_images/c2316410da2cd99cd5f56543d4ab81d9f7ae065d7936142e227d2251129cb955.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       0.50      0.67      0.57         9
-           1       0.67      0.50      0.57        12
+           0       0.60      0.67      0.63         9
+           1       0.73      0.67      0.70        12
 
-    accuracy                           0.57        21
-   macro avg       0.58      0.58      0.57        21
-weighted avg       0.60      0.57      0.57        21
+    accuracy                           0.67        21
+   macro avg       0.66      0.67      0.66        21
+weighted avg       0.67      0.67      0.67        21
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
 
 <span class="c1"># Graficar la curva ROC</span>
@@ -1069,15 +1060,14 @@ weighted avg       0.60      0.57      0.57        21
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/21ca6ac462dc5a9b439347d5c79aca81885309611a6301c5d655cbb6930fb9b3.png" src="_images/21ca6ac462dc5a9b439347d5c79aca81885309611a6301c5d655cbb6930fb9b3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6204
+</pre></div>
+</div>
+<img alt="_images/d7d224fc2f07e7a81d79c3ade0588967e6b349b09d7c978b2d5144f2cc61dd6c.png" src="_images/d7d224fc2f07e7a81d79c3ade0588967e6b349b09d7c978b2d5144f2cc61dd6c.png" />
 </div>
 </div>
 </section>
@@ -1153,8 +1143,7 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
-Mejores hiperparámetros globales: {&#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__learning_rate&#39;: 0.01, &#39;xgbclassifier__n_estimators&#39;: 400, &#39;xgbclassifier__max_depth&#39;: 3}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;xgbclassifier__n_estimators&#39;: 400, &#39;xgbclassifier__max_depth&#39;: 3, &#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__learning_rate&#39;: 0.01}
 </pre></div>
 </div>
 </div>
@@ -1202,7 +1191,11 @@ weighted avg       0.69      0.67      0.67        21
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
 
 <span class="c1"># Graficar la curva ROC</span>
@@ -1215,14 +1208,13 @@ weighted avg       0.69      0.67      0.67        21
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
+</pre></div>
+</div>
 <img alt="_images/3a10c5f385f69265350cd9566939c8005ee9ebc9e43dce9b5159e24131db92ca.png" src="_images/3a10c5f385f69265350cd9566939c8005ee9ebc9e43dce9b5159e24131db92ca.png" />
 </div>
 </div>
@@ -1300,8 +1292,7 @@ weighted avg       0.69      0.67      0.67        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6944
-Mejores hiperparámetros globales: {&#39;C&#39;: 1, &#39;kernel&#39;: &#39;rbf&#39;, &#39;gamma&#39;: 0.1}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;gamma&#39;: 0.1, &#39;C&#39;: 1, &#39;kernel&#39;: &#39;rbf&#39;}
 </pre></div>
 </div>
 </div>
@@ -1349,7 +1340,11 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
 
 <span class="c1"># Graficar la curva ROC</span>
@@ -1362,15 +1357,14 @@ weighted avg       0.67      0.67      0.65        21
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9ad209c299114bf8c8ecb5378bd2b9065bc27b1beeaa34a6bf4349c86a7c2b4d.png" src="_images/9ad209c299114bf8c8ecb5378bd2b9065bc27b1beeaa34a6bf4349c86a7c2b4d.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6759
+</pre></div>
+</div>
+<img alt="_images/0e2c74d28730fe08d750173986b43765b78692e908cacc0d2488a01ce63ad870.png" src="_images/0e2c74d28730fe08d750173986b43765b78692e908cacc0d2488a01ce63ad870.png" />
 </div>
 </div>
 </section>
@@ -1447,7 +1441,7 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;activation&#39;: &#39;relu&#39;, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;hidden_layer_sizes&#39;: (15,)}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;hidden_layer_sizes&#39;: (15,), &#39;activation&#39;: &#39;relu&#39;}
 </pre></div>
 </div>
 </div>
@@ -1489,15 +1483,17 @@ Mean Accuracy: 0.8143 ± 0.0746
     accuracy                           0.76        21
    macro avg       0.76      0.76      0.76        21
 weighted avg       0.77      0.76      0.76        21
-
-AUC Score: 0.6574
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular puntos de la curva ROC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calcular puntos de la curva ROC</span>
 <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
 
 <span class="c1"># Graficar la curva ROC</span>
@@ -1510,14 +1506,13 @@ AUC Score: 0.6574
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Calcular AUC</span>
-<span class="n">auc_score</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AUC Score: </span><span class="si">{</span><span class="n">auc_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6574
+</pre></div>
+</div>
 <img alt="_images/96fe32b3fbb86f0cdddb5f016597be9a7281261fca7e297f9b262638ac2ab888.png" src="_images/96fe32b3fbb86f0cdddb5f016597be9a7281261fca7e297f9b262638ac2ab888.png" />
 </div>
 </div>
@@ -1548,6 +1543,19 @@ AUC Score: 0.6574
 <span class="n">tabla_resultados</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;KNN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.57</span><span class="p">,</span> <span class="mf">0.57</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">tabla_resultados</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              Precision Recall F1-score Accuracy  AUC
+KNN                0.67    0.5     0.57     0.57  0.7
+Naive Bayes         NaN    NaN      NaN      NaN  NaN
+LogReg (L1)         NaN    NaN      NaN      NaN  NaN
+LogReg (L2)         NaN    NaN      NaN      NaN  NaN
+Random Forest       NaN    NaN      NaN      NaN  NaN
+XGBoost             NaN    NaN      NaN      NaN  NaN
+SVM                 NaN    NaN      NaN      NaN  NaN
+ANN MLP             NaN    NaN      NaN      NaN  NaN
 </pre></div>
 </div>
 </div>
