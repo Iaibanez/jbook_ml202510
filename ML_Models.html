@@ -397,7 +397,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="desarrollo-de-modelos">
 <h1>Desarrollo de modelos<a class="headerlink" href="#desarrollo-de-modelos" title="Link to this heading">#</a></h1>
-<p>En esta seccion se desarrollaran los modelos de prediccion para la investigacion. Al tener un problema de clasificacion, se trabajaran los siguientes modelos adicionales al modelo original. Estos modelos de clasificacion son los siguientes:</p>
+<p>En esta seccion se desarrollaran los modelos de prediccion para la investigacion. Al tener un problema de clasificacion, se trabajaran los siguientes modelos adicionales al modelo original. Estos modelos de clasificacion con algoritmos de optimizacion son los siguientes:</p>
 <ul class="simple">
 <li><p>KNN → KD-Trees, Ball Trees.</p></li>
 <li><p>Naive Bayes → partial_fit() para entrenamiento por lotes.</p></li>
@@ -431,12 +431,15 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">KFold</span><span class="p">,</span> <span class="n">cross_val_score</span><span class="p">,</span><span class="n">train_test_split</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p><strong>Definicion de modelo e hiperparametros</strong></p>
+<p>En el siguiente codigo definimos el dataset en la variable de respuesta <em>Y</em> y las variables predictoras <em>X</em> seguido de la definicon del modelo y escalamiento de las variables predictoras en un Pipeline y la rejilla de bsuqueda Param_grid para los hiperparaemtros del modelo. A su vez definimos el Cross Validation que se usara para los Inner y outer loops del nested cross validation. En este caso sera el Stratified CV.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Definir variables predictoras y objetivo</span>
@@ -461,8 +464,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Se separan las variables predictoras y la variable objetivo (“Falla”). Se crea un pipeline que estandariza los datos y aplica el clasificador KNN.
-Se define una búsqueda de hiperparámetros para ajustar KNN (número de vecinos, tipo de distancia, etc.). Finalmente, se configura una validación cruzada anidada: una interna para optimizar los hiperparámetros y otra externa para evaluar el modelo de forma robusta.</p>
+<p>Se realiza una validación cruzada anidada. En cada fold externo, se divide el dataset en entrenamiento y prueba. Al conjunto de entrenamiento se le aplica SMOTE para balancear las clases. Luego, se usa GridSearchCV con validación interna para encontrar los mejores hiperparámetros. El modelo optimizado se evalúa en el conjunto de prueba y se guardan predicciones, probabilidades, puntuaciones y los hiperparámetros seleccionados.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Variables para guardar resultados</span>
@@ -471,9 +473,14 @@ Se define una búsqueda de hiperparámetros para ajustar KNN (número de vecinos
 <span class="n">all_y_scores</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">nested_scores</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">best_params_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Guardamos los mejores hiperparámetros en cada iteración</span>
+<span class="n">processing_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Diccionario para tiempos por tipo de algoritmo</span>
+<span class="n">algorithm_times</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
 <span class="c1"># Iterar sobre los folds de la validación externa</span>
-<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
     <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
 
@@ -482,8 +489,8 @@ Se define una búsqueda de hiperparámetros para ajustar KNN (número de vecinos
     <span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
     <span class="c1"># Aplicar GridSearchCV dentro de cada fold</span>
-    <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv_inner</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span><span class="p">)</span>  
+    <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv_inner</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span><span class="p">)</span> 
 
     <span class="c1"># Guardar los mejores hiperparámetros de esta iteración</span>
     <span class="n">best_params_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
@@ -498,12 +505,32 @@ Se define una búsqueda de hiperparámetros para ajustar KNN (número de vecinos
     <span class="n">all_y_pred</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
     <span class="n">all_y_scores</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_scores</span><span class="p">)</span>
     <span class="n">nested_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+    
+         <span class="c1"># Guardar tiempo por fold</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="n">processing_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed_time</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⏳ Tiempo total del fold </span><span class="si">{</span><span class="n">fold_idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Medir tiempo promedio por tipo de algoritmo en GridSearch interna</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">cv_results_</span>
+    <span class="k">for</span> <span class="n">mean_time</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;mean_fit_time&quot;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]):</span>
+        <span class="n">algorithm</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;kneighborsclassifier__algorithm&quot;</span><span class="p">]</span>
+        <span class="n">algorithm_times</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_time</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.47 segundos
+⏳ Tiempo total del fold 2: 0.04 segundos
+⏳ Tiempo total del fold 3: 0.03 segundos
+⏳ Tiempo total del fold 4: 0.03 segundos
+⏳ Tiempo total del fold 5: 0.06 segundos
 </pre></div>
 </div>
 </div>
 </div>
-<p>Se realiza una validación cruzada anidada. En cada fold externo, se divide el dataset en entrenamiento y prueba.
-Al conjunto de entrenamiento se le aplica SMOTE para balancear las clases. Luego, se usa GridSearchCV con validación interna para encontrar los mejores hiperparámetros. El modelo optimizado se evalúa en el conjunto de prueba y se guardan predicciones, probabilidades, puntuaciones y los hiperparámetros seleccionados.</p>
+<p>Se obtienen los tiempos de procesamiento de cada <em>Outer loop</em></p>
 <p><strong>Desbalanceo de datos - SMOTE</strong></p>
 <p>Al tener los datos desbalaneados, En el siguiente codigo observamos el cambio de <strong>SMOTE</strong> a los datos de entrenamiento.</p>
 <div class="cell docutils container">
@@ -532,11 +559,18 @@ Name: Falla, dtype: int64
 </div>
 </div>
 </div>
+<p>En este codigo, se presentan los resultados del modelo con los mejores hiperparametros encontrados durante el entrenamiento.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Encontrar los hiperparámetros más frecuentes</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
+
+<span class="c1"># Tiempo promedio por tipo de algoritmo</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Tiempo promedio por tipo de algoritmo:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">times</span> <span class="ow">in</span> <span class="n">algorithm_times</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">avg_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔧 &#39;</span><span class="si">{</span><span class="n">algorithm</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">avg_time</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> segundos (promedio en </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span><span class="si">}</span><span class="s2"> ejecuciones)&quot;</span><span class="p">)</span>
 
 <span class="c1"># Eliminamos los prefijos </span>
 <span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
@@ -546,19 +580,21 @@ Name: Falla, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
+🔧 &#39;ball_tree&#39;: 0.0013 segundos (promedio en 40 ejecuciones)
+🔧 &#39;kd_tree&#39;: 0.0012 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;weights&#39;: &#39;distance&#39;, &#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3}
 </pre></div>
 </div>
 </div>
 </div>
-<p>Aqui se presentan los resultados del modelo con los mejores hiperparametros encontrados durante el entrenamiento.</p>
+<p>Observamos que el mejor procesamiento de tiempo lo obtuvo el algoritmo <em>“KD Tree”</em>. sin embargo, el mejor despempeno lo obtuvo el <em>“Ball Tree”</em> en las metricas de evaluacion.</p>
+<p><strong>Matriz de Confusión y metricas de desempeno</strong></p>
+<p>En el siguiente codigo, observamos el desempeno del modelo a lo largo de cada <strong>outer Fold</strong>. El numero de pliegues seleccioando para el K-fold externo fue de 5 y los pliegues para el CV interno fue de 3. Esta matriz de confusion y las metricas calculadas vienen de los resultados del <strong>test</strong> cada pliegue externo a la vez que la curva ROC y valor de AUC.</p>
+<p>En el siguiente codigo se observa la matriz de Confusión</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluación final</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nested CV Scores: &quot;</span><span class="p">,</span> <span class="n">nested_scores</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Accuracy: </span><span class="si">{:.4f}</span><span class="s2"> ± </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nested_scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nested_scores</span><span class="p">)))</span>
-
-<span class="c1"># Matriz de Confusión</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de Confusión</span>
 <span class="n">conf_matrix</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_pred</span><span class="p">)</span>
 
 <span class="c1"># Visualizar la Matriz de Confusión</span>
@@ -568,6 +604,19 @@ Name: Falla, dtype: int64
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Real&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Matriz de Confusión - Nested CV con KNN&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4ade3f78a8b2d4577da7c6de97d9c27d95af5fb6745f189f88378d1d03375938.png" src="_images/4ade3f78a8b2d4577da7c6de97d9c27d95af5fb6745f189f88378d1d03375938.png" />
+</div>
+</div>
+<p>En el siguiente se observaran los valores de las metricas de desempeno. Para la investigacion, la metrica con la que se evaluara cada uno de los modelos sera el Recall.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluación final</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nested CV Scores: &quot;</span><span class="p">,</span> <span class="n">nested_scores</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Accuracy: </span><span class="si">{:.4f}</span><span class="s2"> ± </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nested_scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nested_scores</span><span class="p">)))</span>
 
 <span class="c1"># Reporte de clasificación</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reporte de clasificación:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_y_pred</span><span class="p">))</span>
@@ -575,12 +624,9 @@ Name: Falla, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.7222222222222222, 0.6507936507936507, 0.8015873015873015, 0.8492063492063492]
-Mean Accuracy: 0.7603 ± 0.0683
-</pre></div>
-</div>
-<img alt="_images/4ade3f78a8b2d4577da7c6de97d9c27d95af5fb6745f189f88378d1d03375938.png" src="_images/4ade3f78a8b2d4577da7c6de97d9c27d95af5fb6745f189f88378d1d03375938.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reporte de clasificación:
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
+Mean Accuracy: 0.7333 ± 0.0940
+Reporte de clasificación:
                precision    recall  f1-score   support
 
            0       0.50      0.67      0.57         9
@@ -593,6 +639,8 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 </div>
+<p><strong>Curva ROC y metrica AUC</strong></p>
+<p>observamos la curva y el valor obtenido a lo largo del nested CV del AUC</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span>
@@ -619,13 +667,12 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7315
 </pre></div>
 </div>
-<img alt="_images/b7dd26a17dc0c373d97f2d6cc2e73aafb26ab75e9ee48ea49d065f7662143efc.png" src="_images/b7dd26a17dc0c373d97f2d6cc2e73aafb26ab75e9ee48ea49d065f7662143efc.png" />
+<img alt="_images/e1318a7da31deb5f9b96f45d08cf9b43fa4a3e32e692cec274df3ef0728b940b.png" src="_images/e1318a7da31deb5f9b96f45d08cf9b43fa4a3e32e692cec274df3ef0728b940b.png" />
 </div>
 </div>
-<p>Con el codigo anterior, observamos el desempeno del modelo a lo largo de cada <strong>outer Fold</strong>. El numero de pliegues seleccioando para el K-fold externo fue de 5 y los pliegues para el CV interno fue de 3. Esta matriz de confusion y las metricas calculadas vienen de los resultados del <strong>test</strong> cada pliegue externo a la vez que la curva ROC y valor de AUC.</p>
 <p>En el código anterior completo, se muestra la implementación del modelo K-Nearest Neighbors (KNN), utilizando una combinación de <em>ParamGrid</em>, <em>GridSearchCV</em> y un <em>Pipeline</em> para estructurar el flujo de trabajo. La validación empleada fue <strong>Nested Cross-Validation</strong>, una variante del método K-Fold Cross-Validation recomendada en diversos estudios para conjuntos de datos con muestras pequeñas, ya que permite una evaluación más robusta y menos propensa al sobreajuste.</p>
 <p>La implementación de Nested CV fue realizada de forma manual. Tanto para el inner como para el outer loop, se utilizó el método <strong>StratifiedKFold</strong>, ya que la variable de respuesta <em>Y</em> es binaria y presenta una distribución que podría sesgar el aprendizaje del modelo si no se estratifica adecuadamente. Esta elección asegura que cada partición conserve la proporción de clases, lo cual es crucial para una correcta identificación de patrones por parte del modelo.</p>
 <p>Este mismo procedimieto se realizara a cada uno de los modelos que se desarrollaran en esta investigación.</p>
@@ -660,9 +707,14 @@ weighted avg       0.60      0.57      0.57        21
 <span class="n">all_y_scores</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">nested_scores</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">best_params_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Guardamos los mejores hiperparámetros en cada iteración</span>
+<span class="n">processing_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Diccionario para tiempos por tipo de algoritmo</span>
+<span class="n">algorithm_times</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
 <span class="c1"># Iterar sobre los folds de la validación externa</span>
-<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
     <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
 
@@ -687,10 +739,44 @@ weighted avg       0.60      0.57      0.57        21
     <span class="n">all_y_pred</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
     <span class="n">all_y_scores</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y_scores</span><span class="p">)</span>
     <span class="n">nested_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+    
+             <span class="c1"># Guardar tiempo por fold</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="n">processing_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed_time</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⏳ Tiempo total del fold </span><span class="si">{</span><span class="n">fold_idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span>
 
-<span class="c1"># Encontrar los hiperparámetros más frecuentes</span>
+    <span class="c1"># Medir tiempo promedio por tipo de algoritmo en GridSearch interna</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">cv_results_</span>
+    <span class="k">for</span> <span class="n">mean_time</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;mean_fit_time&quot;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]):</span>
+        <span class="n">algorithm</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;gaussiannb__var_smoothing&quot;</span><span class="p">]</span>
+        <span class="n">algorithm_times</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_time</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.04 segundos
+⏳ Tiempo total del fold 2: 0.04 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.03 segundos
+⏳ Tiempo total del fold 4: 0.03 segundos
+⏳ Tiempo total del fold 5: 0.02 segundos
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Encontrar los hiperparámetros más frecuentes</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_params_list</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">best_overall_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">best_overall_params</span><span class="p">)</span>  <span class="c1"># Convertimos de nuevo a diccionario</span>
+
+<span class="c1"># Tiempo promedio por tipo de algoritmo</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Tiempo promedio por tipo de algoritmo:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">times</span> <span class="ow">in</span> <span class="n">algorithm_times</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">avg_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔧 &#39;</span><span class="si">{</span><span class="n">algorithm</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">avg_time</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> segundos (promedio en </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span><span class="si">}</span><span class="s2"> ejecuciones)&quot;</span><span class="p">)</span>
 
 <span class="c1"># Eliminamos los prefijos </span>
 <span class="n">best_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;kneighborsclassifier__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_overall_params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
@@ -700,7 +786,13 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;gaussiannb__var_smoothing&#39;: 1e-09}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
+🔧 &#39;1e-09&#39;: 0.0020 segundos (promedio en 5 ejecuciones)
+🔧 &#39;1e-08&#39;: 0.0022 segundos (promedio en 5 ejecuciones)
+🔧 &#39;1e-07&#39;: 0.0017 segundos (promedio en 5 ejecuciones)
+🔧 &#39;1e-06&#39;: 0.0015 segundos (promedio en 5 ejecuciones)
+🔧 &#39;1e-05&#39;: 0.0014 segundos (promedio en 5 ejecuciones)
+Mejores hiperparámetros globales: {&#39;gaussiannb__var_smoothing&#39;: 1e-09}
 </pre></div>
 </div>
 </div>
@@ -995,7 +1087,7 @@ weighted avg       0.71      0.71      0.71        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 4, &#39;min_samples_leaf&#39;: 1, &#39;max_depth&#39;: 10, &#39;n_estimators&#39;: 100}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 3, &#39;max_depth&#39;: 10, &#39;n_estimators&#39;: 100, &#39;min_samples_split&#39;: 3}
 </pre></div>
 </div>
 </div>
@@ -1023,8 +1115,8 @@ weighted avg       0.71      0.71      0.71        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777778, 0.611111111111111, 0.6507936507936507, 0.746031746031746, 0.8412698412698413]
-Mean Accuracy: 0.7254 ± 0.0839
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.8333333333333334, 0.611111111111111, 0.6111111111111112, 0.746031746031746, 0.8412698412698413]
+Mean Accuracy: 0.7286 ± 0.1016
 </pre></div>
 </div>
 <img alt="_images/c2316410da2cd99cd5f56543d4ab81d9f7ae065d7936142e227d2251129cb955.png" src="_images/c2316410da2cd99cd5f56543d4ab81d9f7ae065d7936142e227d2251129cb955.png" />
@@ -1064,10 +1156,10 @@ weighted avg       0.67      0.67      0.67        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6204
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6296
 </pre></div>
 </div>
-<img alt="_images/d7d224fc2f07e7a81d79c3ade0588967e6b349b09d7c978b2d5144f2cc61dd6c.png" src="_images/d7d224fc2f07e7a81d79c3ade0588967e6b349b09d7c978b2d5144f2cc61dd6c.png" />
+<img alt="_images/8a5da97099d27244ff6899c0582e854e5760c3949e351be2630eb65a9e0793d0.png" src="_images/8a5da97099d27244ff6899c0582e854e5760c3949e351be2630eb65a9e0793d0.png" />
 </div>
 </div>
 </section>
@@ -1143,7 +1235,7 @@ weighted avg       0.67      0.67      0.67        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;xgbclassifier__n_estimators&#39;: 400, &#39;xgbclassifier__max_depth&#39;: 3, &#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__learning_rate&#39;: 0.01}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;xgbclassifier__n_estimators&#39;: 400, &#39;xgbclassifier__max_depth&#39;: 3, &#39;xgbclassifier__learning_rate&#39;: 0.01, &#39;xgbclassifier__colsample_bytree&#39;: 0.5}
 </pre></div>
 </div>
 </div>
@@ -1292,7 +1384,7 @@ weighted avg       0.69      0.67      0.67        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;gamma&#39;: 0.1, &#39;C&#39;: 1, &#39;kernel&#39;: &#39;rbf&#39;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1, &#39;gamma&#39;: 0.1}
 </pre></div>
 </div>
 </div>
@@ -1361,10 +1453,10 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6759
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6296
 </pre></div>
 </div>
-<img alt="_images/0e2c74d28730fe08d750173986b43765b78692e908cacc0d2488a01ce63ad870.png" src="_images/0e2c74d28730fe08d750173986b43765b78692e908cacc0d2488a01ce63ad870.png" />
+<img alt="_images/ab1266277658330d09ff9f2178e24eaea405e6bb060a4082cbd01a8f31e0029a.png" src="_images/ab1266277658330d09ff9f2178e24eaea405e6bb060a4082cbd01a8f31e0029a.png" />
 </div>
 </div>
 </section>
@@ -1441,7 +1533,7 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;hidden_layer_sizes&#39;: (15,), &#39;activation&#39;: &#39;relu&#39;}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;hidden_layer_sizes&#39;: (15,), &#39;activation&#39;: &#39;relu&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;learning_rate&#39;: &#39;constant&#39;}
 </pre></div>
 </div>
 </div>
