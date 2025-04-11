@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Desarrollo de modelos &#8212; Proyecto ML - Analisis de fallas</title>
+    <title>Desarrollo de Modelos de Clasificación &#8212; Proyecto ML - Analisis de fallas</title>
   
   
   
@@ -180,7 +180,7 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Preparación y Exploración de Datos</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Desarrollo de modelos</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Desarrollo de Modelos de Clasificación</a></li>
 </ul>
 
     </div>
@@ -366,7 +366,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Desarrollo de modelos</h1>
+    <h1>Desarrollo de Modelos de Clasificación</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -431,16 +431,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="desarrollo-de-modelos">
-<h1>Desarrollo de modelos<a class="headerlink" href="#desarrollo-de-modelos" title="Link to this heading">#</a></h1>
-<p>En esta seccion se desarrollaran los modelos de prediccion para la investigacion. Al tener un problema de clasificacion, se trabajaran los siguientes modelos adicionales al modelo original. Estos modelos de clasificacion con algoritmos de optimizacion son los siguientes:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="desarrollo-de-modelos-de-clasificacion">
+<h1>Desarrollo de Modelos de Clasificación<a class="headerlink" href="#desarrollo-de-modelos-de-clasificacion" title="Link to this heading">#</a></h1>
+<p>En esta sección se desarrollarán los modelos de predicción propuestos para la investigación. Dado que se trata de un problema de clasificación, se implementarán varios modelos adicionales al modelo original, con el objetivo de comparar su desempeño.</p>
+<p>Los modelos de clasificación seleccionados, que incorporan algoritmos de optimización para mejorar su rendimiento, son los siguientes:</p>
 <ul class="simple">
 <li><p>KNN → KD-Trees, Ball Trees.</p></li>
 <li><p>Naive Bayes → partial_fit() para entrenamiento por lotes.</p></li>
 <li><p>XGBoost → tree_method=’hist’ y early_stopping_rounds.</p></li>
 <li><p>SVM → SGD SVM (SGDClassifier) , LinearSVC en vez de SVC(kernel=’linear’), RBF con Random Fourier Features</p></li>
 </ul>
-<p>En las siguientes lineas de codigo, se encontrara el desarrollo de los modelos.</p>
+<p>En las siguientes líneas de código se presenta el desarrollo e implementación de los modelos de clasificación seleccionados para esta investigación.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -559,11 +560,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.46 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.43 segundos
 ⏳ Tiempo total del fold 2: 0.04 segundos
 ⏳ Tiempo total del fold 3: 0.03 segundos
 ⏳ Tiempo total del fold 4: 0.03 segundos
-⏳ Tiempo total del fold 5: 0.06 segundos
+⏳ Tiempo total del fold 5: 0.08 segundos
 </pre></div>
 </div>
 </div>
@@ -622,8 +623,8 @@ Name: Falla, dtype: int64
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
 🔧 &#39;ball_tree&#39;: 0.0013 segundos (promedio en 40 ejecuciones)
-🔧 &#39;kd_tree&#39;: 0.0014 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;weights&#39;: &#39;distance&#39;, &#39;n_neighbors&#39;: 3}
+🔧 &#39;kd_tree&#39;: 0.0013 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;n_neighbors&#39;: 3, &#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;weights&#39;: &#39;distance&#39;}
 </pre></div>
 </div>
 </div>
@@ -795,13 +796,17 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.05 segundos
-⏳ Tiempo total del fold 2: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.04 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.05 segundos
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.04 segundos
-⏳ Tiempo total del fold 4: 0.02 segundos
-⏳ Tiempo total del fold 5: 0.02 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.03 segundos
+⏳ Tiempo total del fold 5: 0.03 segundos
 </pre></div>
 </div>
 </div>
@@ -828,11 +833,11 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;1e-09&#39;: 0.0039 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-08&#39;: 0.0022 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-07&#39;: 0.0024 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-06&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-05&#39;: 0.0017 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-09&#39;: 0.0021 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-08&#39;: 0.0020 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-07&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-06&#39;: 0.0013 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-05&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
 Mejores hiperparámetros globales: {&#39;var_smoothing&#39;: 1e-09}
 </pre></div>
 </div>
@@ -1001,7 +1006,9 @@ weighted avg       0.78      0.76      0.75        21
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 1: terminado en 0.02 segundos
 ⏳ Fold 2: terminado en 0.02 segundos
-⏳ Fold 3: terminado en 0.02 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 3: terminado en 0.02 segundos
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 4: terminado en 0.02 segundos
@@ -1115,14 +1122,16 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.05 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.04 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.04 segundos
-⏳ Tiempo total del fold 4: 0.03 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.05 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.03 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.03 segundos
 </pre></div>
 </div>
 </div>
@@ -1149,9 +1158,9 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;liblinear&#39;: 0.0014 segundos (promedio en 40 ejecuciones)
-Smoothing &#39;saga&#39;: 0.0016 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;liblinear&#39;, &#39;penalty&#39;: &#39;l1&#39;, &#39;C&#39;: 1}
+Smoothing &#39;liblinear&#39;: 0.0016 segundos (promedio en 40 ejecuciones)
+Smoothing &#39;saga&#39;: 0.0018 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;C&#39;: 1, &#39;solver&#39;: &#39;liblinear&#39;, &#39;penalty&#39;: &#39;l1&#39;}
 </pre></div>
 </div>
 </div>
@@ -1313,19 +1322,19 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.60 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.57 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.59 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.69 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.75 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.66 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.69 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.81 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.68 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.79 segundos
 </pre></div>
 </div>
 </div>
@@ -1351,10 +1360,10 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;100&#39;: 0.0417 segundos (promedio en 180 ejecuciones)
-🔧 &#39;200&#39;: 0.0828 segundos (promedio en 180 ejecuciones)
-🔧 &#39;300&#39;: 0.1216 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 2, &#39;min_samples_leaf&#39;: 1, &#39;n_estimators&#39;: 100, &#39;max_depth&#39;: 10}
+🔧 &#39;100&#39;: 0.0421 segundos (promedio en 180 ejecuciones)
+🔧 &#39;200&#39;: 0.0834 segundos (promedio en 180 ejecuciones)
+🔧 &#39;300&#39;: 0.1231 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 1, &#39;n_estimators&#39;: 100, &#39;max_depth&#39;: 10, &#39;min_samples_split&#39;: 4}
 </pre></div>
 </div>
 </div>
@@ -1382,8 +1391,8 @@ Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 2, &#39;min_sam
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.8888888888888888, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
-Mean Accuracy: 0.7556 ± 0.1130
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.611111111111111, 0.8055555555555555, 0.8055555555555555]
+Mean Accuracy: 0.7111 ± 0.1063
 </pre></div>
 </div>
 <img alt="_images/4af01da26df596b4881cdfa3e5b2bc39fe91e54d1bfba1e6a5992e3c85eb92cd.png" src="_images/4af01da26df596b4881cdfa3e5b2bc39fe91e54d1bfba1e6a5992e3c85eb92cd.png" />
@@ -1400,8 +1409,8 @@ Mean Accuracy: 0.7556 ± 0.1130
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.8888888888888888, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
-Mean Accuracy: 0.7556 ± 0.1130
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.611111111111111, 0.8055555555555555, 0.8055555555555555]
+Mean Accuracy: 0.7111 ± 0.1063
 Reporte de clasificación:
                precision    recall  f1-score   support
 
@@ -1441,10 +1450,10 @@ weighted avg       0.63      0.62      0.62        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5741
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6019
 </pre></div>
 </div>
-<img alt="_images/90cb9f09d939afabdea102818ddd659fd7beb34c988b31706fb5688bd7973af5.png" src="_images/90cb9f09d939afabdea102818ddd659fd7beb34c988b31706fb5688bd7973af5.png" />
+<img alt="_images/06ec2db58ccbe7ca283bf08f3026fd5c91bb6a662eaf331fce73f56354fdadbd.png" src="_images/06ec2db58ccbe7ca283bf08f3026fd5c91bb6a662eaf331fce73f56354fdadbd.png" />
 </div>
 </div>
 </section>
@@ -1524,19 +1533,19 @@ weighted avg       0.63      0.62      0.62        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.98 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.02 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.08 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.14 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.18 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.07 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.09 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.02 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.07 segundos
 </pre></div>
 </div>
 </div>
@@ -1562,10 +1571,10 @@ weighted avg       0.63      0.62      0.62        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;hist&#39;: 0.0120 segundos (promedio en 960 ejecuciones)
-🔧 &#39;exact&#39;: 0.0122 segundos (promedio en 960 ejecuciones)
-🔧 &#39;None&#39;: 0.0120 segundos (promedio en 960 ejecuciones)
-Mejores hiperparámetros globales: {&#39;randomforestclassifier__min_samples_split&#39;: 2, &#39;randomforestclassifier__min_samples_leaf&#39;: 1, &#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__max_depth&#39;: 10}
+🔧 &#39;hist&#39;: 0.0121 segundos (promedio en 960 ejecuciones)
+🔧 &#39;exact&#39;: 0.0123 segundos (promedio en 960 ejecuciones)
+🔧 &#39;None&#39;: 0.0122 segundos (promedio en 960 ejecuciones)
+Mejores hiperparámetros globales: {&#39;randomforestclassifier__min_samples_leaf&#39;: 1, &#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__max_depth&#39;: 10, &#39;randomforestclassifier__min_samples_split&#39;: 4}
 </pre></div>
 </div>
 </div>
@@ -1727,19 +1736,19 @@ weighted avg       0.62      0.57      0.56        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.30 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.32 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.24 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.23 segundos
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.23 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.24 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.23 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.23 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.25 segundos
 </pre></div>
 </div>
 </div>
@@ -1768,8 +1777,8 @@ weighted avg       0.62      0.57      0.56        21
 🔧 &#39;linear&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
 🔧 &#39;rbf&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
 🔧 &#39;poly&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
-🔧 &#39;sigmoid&#39;: 0.0013 segundos (promedio en 245 ejecuciones)
-Mejores hiperparámetros globales: {&#39;gamma&#39;: 0.1, &#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1}
+🔧 &#39;sigmoid&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
+Mejores hiperparámetros globales: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1, &#39;gamma&#39;: 0.1}
 </pre></div>
 </div>
 </div>
@@ -1848,10 +1857,10 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6944
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6111
 </pre></div>
 </div>
-<img alt="_images/9ee93bada77fc84455e46326fd75b9cef98f3e4377b1f2f070337783a82a145b.png" src="_images/9ee93bada77fc84455e46326fd75b9cef98f3e4377b1f2f070337783a82a145b.png" />
+<img alt="_images/20c145f388c8e03bfaede09bd388a2702dfe62c9898f911ab4e8c842403838d7.png" src="_images/20c145f388c8e03bfaede09bd388a2702dfe62c9898f911ab4e8c842403838d7.png" />
 </div>
 </div>
 </section>
@@ -1929,19 +1938,19 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.68 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.74 segundos
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.24 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.15 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.18 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 2.98 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.08 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 2.79 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 2.83 segundos
 </pre></div>
 </div>
 </div>
@@ -1967,11 +1976,11 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;(5,)&#39;: 0.0672 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(5,)&#39;: 0.0685 segundos (promedio en 180 ejecuciones)
 🔧 &#39;(10,)&#39;: 0.0501 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(15,)&#39;: 0.0427 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(15,)&#39;: 0.0428 segundos (promedio en 180 ejecuciones)
 🔧 &#39;(20,)&#39;: 0.0412 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;activation&#39;: &#39;relu&#39;, &#39;solver&#39;: &#39;lbfgs&#39;, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;hidden_layer_sizes&#39;: (10,)}
+Mejores hiperparámetros globales: {&#39;learning_rate&#39;: &#39;constant&#39;, &#39;hidden_layer_sizes&#39;: (10,), &#39;solver&#39;: &#39;lbfgs&#39;, &#39;alpha&#39;: 0.0001, &#39;activation&#39;: &#39;relu&#39;}
 </pre></div>
 </div>
 </div>
