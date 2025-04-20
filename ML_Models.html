@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ML_Models';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Modelo de Clasificación original" href="Modelo_Original.html" />
+    <link rel="next" title="Modelo de Clasificación Original" href="Modelo_Original.html" />
     <link rel="prev" title="Preparación y Exploración de Datos" href="notebooks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -182,7 +182,7 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Preparación y Exploración de Datos</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Desarrollo de Modelos de Clasificación</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Modelo_Original.html">Modelo de Clasificación original</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modelo_Original.html">Modelo de Clasificación Original</a></li>
 </ul>
 
     </div>
@@ -473,6 +473,8 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
 </pre></div>
 </div>
 </div>
@@ -562,10 +564,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.40 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.44 segundos
 ⏳ Tiempo total del fold 2: 0.04 segundos
 ⏳ Tiempo total del fold 3: 0.03 segundos
-⏳ Tiempo total del fold 4: 0.03 segundos
+⏳ Tiempo total del fold 4: 0.04 segundos
 ⏳ Tiempo total del fold 5: 0.06 segundos
 </pre></div>
 </div>
@@ -624,9 +626,9 @@ Name: Falla, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;ball_tree&#39;: 0.0013 segundos (promedio en 40 ejecuciones)
-🔧 &#39;kd_tree&#39;: 0.0014 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;n_neighbors&#39;: 3, &#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;}
+🔧 &#39;ball_tree&#39;: 0.0014 segundos (promedio en 40 ejecuciones)
+🔧 &#39;kd_tree&#39;: 0.0013 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3, &#39;algorithm&#39;: &#39;ball_tree&#39;}
 </pre></div>
 </div>
 </div>
@@ -724,6 +726,62 @@ weighted avg       0.60      0.57      0.57        21
 <p>En el código anterior completo, se muestra la implementación del modelo K-Nearest Neighbors (KNN), utilizando una combinación de <em>ParamGrid</em>, <em>GridSearchCV</em> y un <em>Pipeline</em> para estructurar el flujo de trabajo. La validación empleada fue <strong>Nested Cross-Validation</strong>, una variante del método K-Fold Cross-Validation recomendada en diversos estudios para conjuntos de datos con muestras pequeñas, ya que permite una evaluación más robusta y menos propensa al sobreajuste.</p>
 <p>La implementación de Nested CV fue realizada de forma manual. Tanto para el inner como para el outer loop, se utilizó el método <strong>StratifiedKFold</strong>, ya que la variable de respuesta <em>Y</em> es binaria y presenta una distribución que podría sesgar el aprendizaje del modelo si no se estratifica adecuadamente. Esta elección asegura que cada partición conserve la proporción de clases, lo cual es crucial para una correcta identificación de patrones por parte del modelo.</p>
 <p>Este mismo procedimieto se realizara a cada uno de los modelos que se desarrollaran en esta investigación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">best_params</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="c1"># Establecer los mejores hiperparámetros en el pipeline</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
+    
+    <span class="c1"># Particionar los datos</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># Aplicar SMOTE al conjunto de entrenamiento</span>
+    <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    
+    <span class="c1"># Entrenar el modelo</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
+    
+    <span class="c1"># Predicciones</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">y_proba</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="s2">&quot;predict_proba&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    
+    <span class="c1"># Calcular métricas</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+        <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;recall&quot;</span><span class="p">:</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+        <span class="s2">&quot;f1_score&quot;</span><span class="p">:</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+        <span class="s2">&quot;roc_auc&quot;</span><span class="p">:</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_proba</span><span class="p">)</span> <span class="k">if</span> <span class="n">y_proba</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Matriz de confusión</span>
+    <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">cm</span><span class="p">,</span> <span class="n">pipeline</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;accuracy&#39;: 0.4, &#39;precision&#39;: 0.0, &#39;recall&#39;: 0.0, &#39;f1_score&#39;: 0.0, &#39;roc_auc&#39;: 0.8333333333333333}
+[[2 0]
+ [3 0]]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="clasificador-bayesiano">
@@ -799,14 +857,14 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.04 segundos
-⏳ Tiempo total del fold 2: 0.04 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.05 segundos
-⏳ Tiempo total del fold 4: 0.02 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.05 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.02 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.03 segundos
+⏳ Tiempo total del fold 4: 0.03 segundos
+⏳ Tiempo total del fold 5: 0.02 segundos
 </pre></div>
 </div>
 </div>
@@ -833,11 +891,11 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;1e-09&#39;: 0.0023 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-08&#39;: 0.0020 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-07&#39;: 0.0020 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-06&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-05&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-09&#39;: 0.0018 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-08&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-07&#39;: 0.0015 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-06&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-05&#39;: 0.0014 segundos (promedio en 5 ejecuciones)
 Mejores hiperparámetros globales: {&#39;var_smoothing&#39;: 1e-09}
 </pre></div>
 </div>
@@ -1005,11 +1063,13 @@ weighted avg       0.78      0.76      0.75        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 1: terminado en 0.02 segundos
-⏳ Fold 2: terminado en 0.02 segundos
-⏳ Fold 3: terminado en 0.02 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 4: terminado en 0.02 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 2: terminado en 0.02 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 3: terminado en 0.02 segundos
+⏳ Fold 4: terminado en 0.02 segundos
 ⏳ Fold 5: terminado en 0.02 segundos
 </pre></div>
 </div>
@@ -1042,6 +1102,23 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 </div>
 <p>Observamos que a pesar de que <em>partial_fit</em> sea un algortimo de optimizacion, obtenemos mejores tiempos de computo aplicando <em>GridsearchCV</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;accuracy&#39;: 0.6, &#39;precision&#39;: 1.0, &#39;recall&#39;: 0.3333333333333333, &#39;f1_score&#39;: 0.5, &#39;roc_auc&#39;: 0.3333333333333333}
+[[2 0]
+ [2 1]]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="modelo-l1-l2-penalty-logistic-regression">
@@ -1120,10 +1197,10 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.04 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.04 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.05 segundos
 ⏳ Tiempo total del fold 4: 0.03 segundos
 </pre></div>
 </div>
@@ -1154,9 +1231,9 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;liblinear&#39;: 0.0014 segundos (promedio en 40 ejecuciones)
+Smoothing &#39;liblinear&#39;: 0.0016 segundos (promedio en 40 ejecuciones)
 Smoothing &#39;saga&#39;: 0.0017 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;liblinear&#39;, &#39;penalty&#39;: &#39;l1&#39;, &#39;C&#39;: 1}
+Mejores hiperparámetros globales: {&#39;C&#39;: 1, &#39;penalty&#39;: &#39;l1&#39;, &#39;solver&#39;: &#39;liblinear&#39;}
 </pre></div>
 </div>
 </div>
@@ -1242,6 +1319,23 @@ weighted avg       0.76      0.76      0.76        21
 <img alt="_images/cc7255a82e052e443d830b8bbd201736aa07c24560d1abcfd9389b4ed7c871e8.png" src="_images/cc7255a82e052e443d830b8bbd201736aa07c24560d1abcfd9389b4ed7c871e8.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;accuracy&#39;: 0.6, &#39;precision&#39;: 1.0, &#39;recall&#39;: 0.3333333333333333, &#39;f1_score&#39;: 0.5, &#39;roc_auc&#39;: 0.6666666666666666}
+[[2 0]
+ [2 1]]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="modelo-random-forest">
@@ -1318,19 +1412,19 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.58 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.56 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.62 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.63 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.72 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.70 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.71 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.82 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.77 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.89 segundos
 </pre></div>
 </div>
 </div>
@@ -1356,10 +1450,10 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;100&#39;: 0.0422 segundos (promedio en 180 ejecuciones)
-🔧 &#39;200&#39;: 0.0830 segundos (promedio en 180 ejecuciones)
-🔧 &#39;300&#39;: 0.1228 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 3, &#39;n_estimators&#39;: 100, &#39;max_depth&#39;: 10, &#39;min_samples_leaf&#39;: 1}
+🔧 &#39;100&#39;: 0.0425 segundos (promedio en 180 ejecuciones)
+🔧 &#39;200&#39;: 0.0841 segundos (promedio en 180 ejecuciones)
+🔧 &#39;300&#39;: 0.1241 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;n_estimators&#39;: 100, &#39;min_samples_split&#39;: 4, &#39;min_samples_leaf&#39;: 3, &#39;max_depth&#39;: None}
 </pre></div>
 </div>
 </div>
@@ -1387,8 +1481,8 @@ Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 3, &#39;n_estim
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.8333333333333334, 0.7222222222222222, 0.8055555555555555]
-Mean Accuracy: 0.7389 ± 0.0988
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.8888888888888888, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
+Mean Accuracy: 0.7556 ± 0.1130
 </pre></div>
 </div>
 <img alt="_images/4af01da26df596b4881cdfa3e5b2bc39fe91e54d1bfba1e6a5992e3c85eb92cd.png" src="_images/4af01da26df596b4881cdfa3e5b2bc39fe91e54d1bfba1e6a5992e3c85eb92cd.png" />
@@ -1405,8 +1499,8 @@ Mean Accuracy: 0.7389 ± 0.0988
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.8333333333333334, 0.7222222222222222, 0.8055555555555555]
-Mean Accuracy: 0.7389 ± 0.0988
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.8888888888888888, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
+Mean Accuracy: 0.7556 ± 0.1130
 Reporte de clasificación:
                precision    recall  f1-score   support
 
@@ -1446,10 +1540,27 @@ weighted avg       0.63      0.62      0.62        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6111
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5648
 </pre></div>
 </div>
-<img alt="_images/31b17084605c55d77db251a7fb86b94ace522bf6f8ecaa89854925e0bd816bc5.png" src="_images/31b17084605c55d77db251a7fb86b94ace522bf6f8ecaa89854925e0bd816bc5.png" />
+<img alt="_images/edeaf4959721b197b41d8b1eb56fead93ff911617936301d023566534e08cb7f.png" src="_images/edeaf4959721b197b41d8b1eb56fead93ff911617936301d023566534e08cb7f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;accuracy&#39;: 0.4, &#39;precision&#39;: 0.0, &#39;recall&#39;: 0.0, &#39;f1_score&#39;: 0.0, &#39;roc_auc&#39;: 1.0}
+[[2 0]
+ [3 0]]
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -1529,19 +1640,19 @@ weighted avg       0.63      0.62      0.62        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.03 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.07 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.11 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.14 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.18 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.23 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.12 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.25 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.09 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.12 segundos
 </pre></div>
 </div>
 </div>
@@ -1567,10 +1678,10 @@ weighted avg       0.63      0.62      0.62        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;hist&#39;: 0.0123 segundos (promedio en 960 ejecuciones)
-🔧 &#39;exact&#39;: 0.0123 segundos (promedio en 960 ejecuciones)
-🔧 &#39;None&#39;: 0.0123 segundos (promedio en 960 ejecuciones)
-Mejores hiperparámetros globales: {&#39;randomforestclassifier__min_samples_split&#39;: 3, &#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__max_depth&#39;: 10, &#39;randomforestclassifier__min_samples_leaf&#39;: 1}
+🔧 &#39;hist&#39;: 0.0126 segundos (promedio en 960 ejecuciones)
+🔧 &#39;exact&#39;: 0.0125 segundos (promedio en 960 ejecuciones)
+🔧 &#39;None&#39;: 0.0125 segundos (promedio en 960 ejecuciones)
+Mejores hiperparámetros globales: {&#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__min_samples_split&#39;: 4, &#39;randomforestclassifier__min_samples_leaf&#39;: 3, &#39;randomforestclassifier__max_depth&#39;: None}
 </pre></div>
 </div>
 </div>
@@ -1655,6 +1766,73 @@ weighted avg       0.62      0.57      0.56        21
 <img alt="_images/8e5046ee3c91b009d7ce3e02581a44e7785a268342333516dc89c8636d8bb321.png" src="_images/8e5046ee3c91b009d7ce3e02581a44e7785a268342333516dc89c8636d8bb321.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">k9</span><span class="o">/</span><span class="n">_sfb2dlj32z_v_srr2ny3qnm0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_4074</span><span class="o">/</span><span class="mf">3320127227.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+
+<span class="nn">/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_4074/1805084688.py</span> in <span class="ni">train_and_evaluate_model</span><span class="nt">(X, y, pipeline, best_params, test_size, random_state)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">best_params</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="c1"># Establecer los mejores hiperparámetros en el pipeline</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>     <span class="n">pipeline</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="c1"># Particionar los datos</span>
+
+<span class="nn">/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py</span> in <span class="ni">set_params</span><span class="nt">(self, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>             <span class="n">Pipeline</span> <span class="k">class</span><span class="w"> </span><span class="nc">instance</span><span class="o">.</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>         <span class="s2">&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">188</span><span class="s2">         self._set_params(&quot;steps&quot;, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span><span class="s2">         return self</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span><span class="s2"> </span>
+
+<span class="nn">/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/utils/metaestimators.py</span> in <span class="ni">_set_params</span><span class="nt">(self, attr, **params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span><span class="s2">                 self._replace_estimator(attr, name, params.pop(name))</span>
+<span class="g g-Whitespace">     </span><span class="mi">53</span><span class="s2">         # 3. Step parameters and other initialisation arguments</span>
+<span class="ne">---&gt; </span><span class="mi">54</span><span class="s2">         super().set_params(**params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span><span class="s2">         return self</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span><span class="s2"> </span>
+
+<span class="nn">/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py</span> in <span class="ni">set_params</span><span class="nt">(self, **params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">243</span><span class="s2">             key, delim, sub_key = key.partition(&quot;__&quot;)</span>
+<span class="g g-Whitespace">    </span><span class="mi">244</span><span class="s2">             if key not in valid_params:</span>
+<span class="ne">--&gt; </span><span class="mi">245</span><span class="s2">                 raise ValueError(</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span><span class="s2">                     &quot;Invalid parameter </span><span class="si">%s</span><span class="s2"> for estimator </span><span class="si">%s</span><span class="s2">. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">247</span><span class="s2">                     &quot;Check the list of available parameters &quot;</span>
+
+<span class="ne">ValueError</span>: Invalid parameter randomforestclassifier for estimator Pipeline(steps=[(&#39;standardscaler&#39;, StandardScaler()),
+<span class="s2">                (&#39;xgbclassifier&#39;,</span>
+<span class="s2">                 XGBClassifier(base_score=None, booster=None, callbacks=None,</span>
+<span class="s2">                               colsample_bylevel=None, colsample_bynode=None,</span>
+<span class="s2">                               colsample_bytree=None, device=None,</span>
+<span class="s2">                               early_stopping_rounds=None,</span>
+<span class="s2">                               enable_categorical=False, eval_metric=None,</span>
+<span class="s2">                               feature_types=None, gamma=None, grow_policy=None,</span>
+<span class="s2">                               importance_type=None,</span>
+<span class="s2">                               interaction_constraints=None, learning_rate=None,</span>
+<span class="s2">                               max_bin=None, max_cat_threshold=None,</span>
+<span class="s2">                               max_cat_to_onehot=None, max_delta_step=None,</span>
+<span class="s2">                               max_depth=None, max_leaves=None,</span>
+<span class="s2">                               min_child_weight=None, missing=nan,</span>
+<span class="s2">                               monotone_constraints=None, multi_strategy=None,</span>
+<span class="s2">                               n_estimators=None, n_jobs=None,</span>
+<span class="s2">                               num_parallel_tree=None, random_state=None, ...))]). Check the list of available parameters with `estimator.get_params().keys()`.</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="modelo-svm-support-vector-machines">
@@ -1732,19 +1910,11 @@ weighted avg       0.62      0.57      0.56        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.30 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.23 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.25 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.23 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.22 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.25 segundos
+⏳ Tiempo total del fold 2: 0.24 segundos
+⏳ Tiempo total del fold 3: 0.23 segundos
+⏳ Tiempo total del fold 4: 0.24 segundos
+⏳ Tiempo total del fold 5: 0.23 segundos
 </pre></div>
 </div>
 </div>
@@ -1770,11 +1940,11 @@ weighted avg       0.62      0.57      0.56        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;linear&#39;: 0.0015 segundos (promedio en 245 ejecuciones)
-🔧 &#39;rbf&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
-🔧 &#39;poly&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
+🔧 &#39;linear&#39;: 0.0016 segundos (promedio en 245 ejecuciones)
+🔧 &#39;rbf&#39;: 0.0015 segundos (promedio en 245 ejecuciones)
+🔧 &#39;poly&#39;: 0.0015 segundos (promedio en 245 ejecuciones)
 🔧 &#39;sigmoid&#39;: 0.0014 segundos (promedio en 245 ejecuciones)
-Mejores hiperparámetros globales: {&#39;gamma&#39;: 0.1, &#39;C&#39;: 1, &#39;kernel&#39;: &#39;rbf&#39;}
+Mejores hiperparámetros globales: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1, &#39;gamma&#39;: 0.1}
 </pre></div>
 </div>
 </div>
@@ -1856,7 +2026,24 @@ weighted avg       0.67      0.67      0.65        21
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6852
 </pre></div>
 </div>
-<img alt="_images/535de24de95146d5f812c127beae9fb2475d397806968725ba7d2a54170a0fe6.png" src="_images/535de24de95146d5f812c127beae9fb2475d397806968725ba7d2a54170a0fe6.png" />
+<img alt="_images/4b74209d48b13d3829b1c685a943751fbd5149e7ff034f97e6296dbb66f004b1.png" src="_images/4b74209d48b13d3829b1c685a943751fbd5149e7ff034f97e6296dbb66f004b1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;accuracy&#39;: 0.4, &#39;precision&#39;: 0.0, &#39;recall&#39;: 0.0, &#39;f1_score&#39;: 0.0, &#39;roc_auc&#39;: 1.0}
+[[2 0]
+ [3 0]]
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -1934,19 +2121,11 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.74 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.28 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.19 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.23 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 2.89 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.62 segundos
+⏳ Tiempo total del fold 2: 3.24 segundos
+⏳ Tiempo total del fold 3: 3.37 segundos
+⏳ Tiempo total del fold 4: 3.10 segundos
+⏳ Tiempo total del fold 5: 3.08 segundos
 </pre></div>
 </div>
 </div>
@@ -1972,11 +2151,11 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;(5,)&#39;: 0.0693 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(10,)&#39;: 0.0522 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(15,)&#39;: 0.0445 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(20,)&#39;: 0.0421 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lbfgs&#39;, &#39;activation&#39;: &#39;relu&#39;, &#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;hidden_layer_sizes&#39;: (10,)}
+🔧 &#39;(5,)&#39;: 0.0702 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(10,)&#39;: 0.0528 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(15,)&#39;: 0.0450 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(20,)&#39;: 0.0427 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lbfgs&#39;, &#39;activation&#39;: &#39;relu&#39;, &#39;hidden_layer_sizes&#39;: (10,), &#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;}
 </pre></div>
 </div>
 </div>
@@ -2058,6 +2237,73 @@ weighted avg       0.71      0.71      0.71        21
 </pre></div>
 </div>
 <img alt="_images/02c8e77ed43ddd7d9c9c0ac4dd4dacf946cfcdb2d3965ca54ff1c7a8d0125ab9.png" src="_images/02c8e77ed43ddd7d9c9c0ac4dd4dacf946cfcdb2d3965ca54ff1c7a8d0125ab9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">k9</span><span class="o">/</span><span class="n">_sfb2dlj32z_v_srr2ny3qnm0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_2226</span><span class="o">/</span><span class="mf">3320127227.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+
+<span class="nn">/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_2226/1805084688.py</span> in <span class="ni">train_and_evaluate_model</span><span class="nt">(X, y, pipeline, best_params, test_size, random_state)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">best_params</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="c1"># Establecer los mejores hiperparámetros en el pipeline</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>     <span class="n">pipeline</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="c1"># Particionar los datos</span>
+
+<span class="nn">/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py</span> in <span class="ni">set_params</span><span class="nt">(self, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>             <span class="n">Pipeline</span> <span class="k">class</span><span class="w"> </span><span class="nc">instance</span><span class="o">.</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>         <span class="s2">&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">188</span><span class="s2">         self._set_params(&quot;steps&quot;, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span><span class="s2">         return self</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span><span class="s2"> </span>
+
+<span class="nn">/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/utils/metaestimators.py</span> in <span class="ni">_set_params</span><span class="nt">(self, attr, **params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span><span class="s2">                 self._replace_estimator(attr, name, params.pop(name))</span>
+<span class="g g-Whitespace">     </span><span class="mi">53</span><span class="s2">         # 3. Step parameters and other initialisation arguments</span>
+<span class="ne">---&gt; </span><span class="mi">54</span><span class="s2">         super().set_params(**params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span><span class="s2">         return self</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span><span class="s2"> </span>
+
+<span class="nn">/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py</span> in <span class="ni">set_params</span><span class="nt">(self, **params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">243</span><span class="s2">             key, delim, sub_key = key.partition(&quot;__&quot;)</span>
+<span class="g g-Whitespace">    </span><span class="mi">244</span><span class="s2">             if key not in valid_params:</span>
+<span class="ne">--&gt; </span><span class="mi">245</span><span class="s2">                 raise ValueError(</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span><span class="s2">                     &quot;Invalid parameter </span><span class="si">%s</span><span class="s2"> for estimator </span><span class="si">%s</span><span class="s2">. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">247</span><span class="s2">                     &quot;Check the list of available parameters &quot;</span>
+
+<span class="ne">ValueError</span>: Invalid parameter randomforestclassifier for estimator Pipeline(steps=[(&#39;standardscaler&#39;, StandardScaler()),
+<span class="s2">                (&#39;xgbclassifier&#39;,</span>
+<span class="s2">                 XGBClassifier(base_score=None, booster=None, callbacks=None,</span>
+<span class="s2">                               colsample_bylevel=None, colsample_bynode=None,</span>
+<span class="s2">                               colsample_bytree=None, device=None,</span>
+<span class="s2">                               early_stopping_rounds=None,</span>
+<span class="s2">                               enable_categorical=False, eval_metric=None,</span>
+<span class="s2">                               feature_types=None, gamma=None, grow_policy=None,</span>
+<span class="s2">                               importance_type=None,</span>
+<span class="s2">                               interaction_constraints=None, learning_rate=None,</span>
+<span class="s2">                               max_bin=None, max_cat_threshold=None,</span>
+<span class="s2">                               max_cat_to_onehot=None, max_delta_step=None,</span>
+<span class="s2">                               max_depth=None, max_leaves=None,</span>
+<span class="s2">                               min_child_weight=None, missing=nan,</span>
+<span class="s2">                               monotone_constraints=None, multi_strategy=None,</span>
+<span class="s2">                               n_estimators=None, n_jobs=None,</span>
+<span class="s2">                               num_parallel_tree=None, random_state=None, ...))]). Check the list of available parameters with `estimator.get_params().keys()`.</span>
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -2157,7 +2403,7 @@ ANN MLP            0.75   0.75     0.75     0.71  0.73
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Modelo de Clasificación original</p>
+        <p class="prev-next-title">Modelo de Clasificación Original</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
