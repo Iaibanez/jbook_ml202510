@@ -27,14 +27,14 @@ print(confusion_mat)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mValueError[0m                                Traceback (most recent call last)
-[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5443/2052032225.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5663/2052032225.py[0m in [0;36m<module>[0;34m[0m
 [1;32m      1[0m [0mpipe10[0m [0;34m=[0m [0mmake_pipeline[0m[0;34m([0m[0mStandardScaler[0m[0;34m([0m[0;34m)[0m[0;34m,[0m[0mXGBClassifier[0m[0;34m([0m[0;34m)[0m [0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [1;32m      2[0m [0;34m[0m[0m
 [0;32m----> 3[0;31m [0mmetrics[0m[0;34m,[0m [0mconfusion_mat[0m[0;34m,[0m [0mmodel[0m [0;34m=[0m [0mtrain_and_evaluate_model[0m[0;34m([0m[0mX[0m[0;34m,[0m[0my[0m[0;34m,[0m[0mpipe10[0m[0;34m,[0m [0mbest_overall_params[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [0m[1;32m      4[0m [0;34m[0m[0m
 [1;32m      5[0m [0mprint[0m[0;34m([0m[0mmetrics[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 
-[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5443/4037838050.py[0m in [0;36mtrain_and_evaluate_model[0;34m(X, y, pipeline, best_params, model_name, results_list, test_size, random_state, plot_confusion)[0m
+[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5663/4037838050.py[0m in [0;36mtrain_and_evaluate_model[0;34m(X, y, pipeline, best_params, model_name, results_list, test_size, random_state, plot_confusion)[0m
 [1;32m      7[0m ):
 [1;32m      8[0m     [0;31m# Establecer los mejores hiperparámetros en el pipeline[0m[0;34m[0m[0;34m[0m[0m
 [0;32m----> 9[0;31m     [0mpipeline[0m[0;34m.[0m[0mset_params[0m[0;34m([0m[0;34m**[0m[0mbest_params[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m

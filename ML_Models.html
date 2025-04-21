@@ -383,6 +383,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#desbalanceo-de-datos-smote">Desbalanceo de datos - SMOTE</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-confusion-y-metricas-de-desempeno">Matriz de Confusión y Métricas de Desempeño</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#curva-roc-y-metrica-auc">Curva ROC y Métrica AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-del-modelo">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificador-bayesiano">Clasificador Bayesiano</a><ul class="nav section-nav flex-column">
@@ -390,35 +391,41 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Matriz de Confusión y Métricas de Desempeño</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#curva-roc-y-auc">Curva ROC y AUC</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementando-partial-fit">Implementando Partial_fit()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-l1-l2-penalty-logistic-regression">Modelo  L1/L2 Penalty Logistic Regression</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Entrenamiento del modelo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Entrenamiento del modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-random-forest">Modelo Random Forest</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Entrenamiento del modelo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Entrenamiento del modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-xgboost">Modelo XGBoost</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-del-modelo-tree-method-hist">Entrenamiento del modelo - Tree method Hist()</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-svm-support-vector-machines">Modelo SVM (Support Vector Machines)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Entrenamiento del modelo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Entrenamiento del modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-ann-redes-neuronales-artificiales">Modelo ANN (Redes Neuronales Artificiales)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Evaluación del Modelo</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados">Resultados</a></li>
 </ul>
 </li>
@@ -564,13 +571,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.87 segundos
-⏳ Tiempo total del fold 2: 0.05 segundos
-⏳ Tiempo total del fold 3: 0.04 segundos
-⏳ Tiempo total del fold 4: 0.04 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.07 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.63 segundos
+⏳ Tiempo total del fold 2: 0.04 segundos
+⏳ Tiempo total del fold 3: 0.03 segundos
+⏳ Tiempo total del fold 4: 0.03 segundos
+⏳ Tiempo total del fold 5: 0.06 segundos
 </pre></div>
 </div>
 </div>
@@ -628,9 +633,9 @@ Name: Falla, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;ball_tree&#39;: 0.0015 segundos (promedio en 40 ejecuciones)
+🔧 &#39;ball_tree&#39;: 0.0014 segundos (promedio en 40 ejecuciones)
 🔧 &#39;kd_tree&#39;: 0.0015 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;weights&#39;: &#39;distance&#39;, &#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;n_neighbors&#39;: 3, &#39;metric&#39;: &#39;euclidean&#39;}
+Mejores hiperparámetros globales: {&#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3, &#39;weights&#39;: &#39;distance&#39;, &#39;algorithm&#39;: &#39;ball_tree&#39;}
 </pre></div>
 </div>
 </div>
@@ -727,7 +732,10 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <p>En el código anterior completo, se muestra la implementación del modelo K-Nearest Neighbors (KNN), utilizando una combinación de <em>ParamGrid</em>, <em>GridSearchCV</em> y un <em>Pipeline</em> para estructurar el flujo de trabajo. La validación empleada fue <strong>Nested Cross-Validation</strong>, una variante del método K-Fold Cross-Validation recomendada en diversos estudios para conjuntos de datos con muestras pequeñas, ya que permite una evaluación más robusta y menos propensa al sobreajuste.</p>
 <p>La implementación de Nested CV fue realizada de forma manual. Tanto para el inner como para el outer loop, se utilizó el método <strong>StratifiedKFold</strong>, ya que la variable de respuesta <em>Y</em> es binaria y presenta una distribución que podría sesgar el aprendizaje del modelo si no se estratifica adecuadamente. Esta elección asegura que cada partición conserve la proporción de clases, lo cual es crucial para una correcta identificación de patrones por parte del modelo.</p>
-<p>En la siguiente linea de codigo, realizaremos una funcion que nos permita entrenar y probar el modelo con los mejores hiperparametros encontrados durante el Nested Cross Validation con el fin de evaluar finalemmte el modelo. De aqui podremos observar los valores de las metricas de Accuracy, precision, recall, f1 score y AUC para poder compararlos posteriormnete cn los demas modelos.</p>
+</section>
+<section id="evaluacion-del-modelo">
+<h3>Evaluación del Modelo<a class="headerlink" href="#evaluacion-del-modelo" title="Link to this heading">#</a></h3>
+<p>En la siguiente línea de código se definirá una función que permitirá entrenar y evaluar el modelo utilizando los mejores hiperparámetros obtenidos durante el proceso de Nested Cross-Validation. El objetivo es realizar una evaluación final del modelo con métricas clave como Accuracy, Precision, Recall, F1-Score y AUC, las cuales servirán como base para una posterior comparación con el desempeño de los demás modelos implementados.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_model</span><span class="p">(</span>
@@ -881,9 +889,13 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.03 segundos
-⏳ Tiempo total del fold 2: 0.03 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.02 segundos
 ⏳ Tiempo total del fold 3: 0.03 segundos
-⏳ Tiempo total del fold 4: 0.03 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.04 segundos
 ⏳ Tiempo total del fold 5: 0.03 segundos
 </pre></div>
 </div>
@@ -911,11 +923,11 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;1e-09&#39;: 0.0015 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-09&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
 Smoothing &#39;1e-08&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-07&#39;: 0.0015 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-06&#39;: 0.0014 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-05&#39;: 0.0009 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-07&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-06&#39;: 0.0016 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-05&#39;: 0.0017 segundos (promedio en 5 ejecuciones)
 Mejores hiperparámetros globales: {&#39;var_smoothing&#39;: 1e-09}
 </pre></div>
 </div>
@@ -1085,7 +1097,9 @@ weighted avg       0.78      0.76      0.75        21
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 1: terminado en 0.02 segundos
 ⏳ Fold 2: terminado en 0.02 segundos
 ⏳ Fold 3: terminado en 0.02 segundos
-⏳ Fold 4: terminado en 0.02 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 4: terminado en 0.02 segundos
 ⏳ Fold 5: terminado en 0.02 segundos
 </pre></div>
 </div>
@@ -1118,6 +1132,9 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 </div>
 <p>Observamos que a pesar de que <em>partial_fit</em> sea un algortimo de optimizacion, obtenemos mejores tiempos de computo aplicando <em>GridsearchCV</em></p>
+</section>
+<section id="id2">
+<h3>Evaluación del Modelo<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
@@ -1141,8 +1158,8 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 <section id="modelo-l1-l2-penalty-logistic-regression">
 <h2>Modelo  L1/L2 Penalty Logistic Regression<a class="headerlink" href="#modelo-l1-l2-penalty-logistic-regression" title="Link to this heading">#</a></h2>
 <p>En las siguientes líneas de código se implementará el modelo de Logistic Regression utilizando penalización L1 y L2. Se probarán ambos métodos de regularización con el objetivo de comparar su desempeño y determinar cuál se adapta mejor a los datos.</p>
-<section id="id2">
-<h3>Entrenamiento del modelo<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h3>Entrenamiento del modelo<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
@@ -1214,16 +1231,12 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.06 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.06 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.04 segundos
+⏳ Tiempo total del fold 3: 0.04 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.06 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.06 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.05 segundos
+⏳ Tiempo total del fold 5: 0.06 segundos
 </pre></div>
 </div>
 </div>
@@ -1250,16 +1263,16 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;liblinear&#39;: 0.0016 segundos (promedio en 40 ejecuciones)
-Smoothing &#39;saga&#39;: 0.0019 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;C&#39;: 1, &#39;penalty&#39;: &#39;l1&#39;, &#39;solver&#39;: &#39;liblinear&#39;}
+Smoothing &#39;liblinear&#39;: 0.0018 segundos (promedio en 40 ejecuciones)
+Smoothing &#39;saga&#39;: 0.0020 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;C&#39;: 1, &#39;solver&#39;: &#39;liblinear&#39;, &#39;penalty&#39;: &#39;l1&#39;}
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="id3">
-<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<section id="id4">
+<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de Confusión</span>
@@ -1307,8 +1320,8 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 </div>
 </section>
-<section id="id4">
-<h3>Curva ROC y AUC<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h3>Curva ROC y AUC<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
@@ -1338,6 +1351,9 @@ weighted avg       0.76      0.76      0.76        21
 <img alt="_images/cc7255a82e052e443d830b8bbd201736aa07c24560d1abcfd9389b4ed7c871e8.png" src="_images/cc7255a82e052e443d830b8bbd201736aa07c24560d1abcfd9389b4ed7c871e8.png" />
 </div>
 </div>
+</section>
+<section id="id6">
+<h3>Evaluación del Modelo<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
@@ -1361,8 +1377,8 @@ weighted avg       0.76      0.76      0.76        21
 <section id="modelo-random-forest">
 <h2>Modelo Random Forest<a class="headerlink" href="#modelo-random-forest" title="Link to this heading">#</a></h2>
 <p>En las siguientes líneas de código se implementará el modelo de <em>Random Forest</em>.</p>
-<section id="id5">
-<h3>Entrenamiento del modelo<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3>Entrenamiento del modelo<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
@@ -1432,19 +1448,19 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 4.60 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 4.01 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 4.39 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.90 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 4.74 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 4.22 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 4.68 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 4.17 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 4.77 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 4.26 segundos
 </pre></div>
 </div>
 </div>
@@ -1470,17 +1486,17 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;100&#39;: 0.0533 segundos (promedio en 180 ejecuciones)
-🔧 &#39;200&#39;: 0.1051 segundos (promedio en 180 ejecuciones)
-🔧 &#39;300&#39;: 0.1560 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 1, &#39;n_estimators&#39;: 100, &#39;min_samples_split&#39;: 4, &#39;max_depth&#39;: 10}
+🔧 &#39;100&#39;: 0.0472 segundos (promedio en 180 ejecuciones)
+🔧 &#39;200&#39;: 0.0932 segundos (promedio en 180 ejecuciones)
+🔧 &#39;300&#39;: 0.1386 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 2, &#39;n_estimators&#39;: 100, &#39;min_samples_leaf&#39;: 2, &#39;max_depth&#39;: 10}
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="id6">
-<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id8">
+<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrar resultados de Nested Cross-Validation</span>
@@ -1505,7 +1521,7 @@ Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 1, &#39;n_estima
 Mean Accuracy: 0.7333 ± 0.0940
 </pre></div>
 </div>
-<img alt="_images/22d410439105ee24b2f624d51259d71f78de7781f171fb6686d81d0187c32fb6.png" src="_images/22d410439105ee24b2f624d51259d71f78de7781f171fb6686d81d0187c32fb6.png" />
+<img alt="_images/4af01da26df596b4881cdfa3e5b2bc39fe91e54d1bfba1e6a5992e3c85eb92cd.png" src="_images/4af01da26df596b4881cdfa3e5b2bc39fe91e54d1bfba1e6a5992e3c85eb92cd.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1524,19 +1540,19 @@ Mean Accuracy: 0.7333 ± 0.0940
 Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       0.50      0.67      0.57         9
-           1       0.67      0.50      0.57        12
+           0       0.55      0.67      0.60         9
+           1       0.70      0.58      0.64        12
 
-    accuracy                           0.57        21
-   macro avg       0.58      0.58      0.57        21
-weighted avg       0.60      0.57      0.57        21
+    accuracy                           0.62        21
+   macro avg       0.62      0.62      0.62        21
+weighted avg       0.63      0.62      0.62        21
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="id7">
-<h3>Curva ROC y AUC<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="id9">
+<h3>Curva ROC y AUC<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
@@ -1560,12 +1576,15 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6111
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5926
 </pre></div>
 </div>
-<img alt="_images/8f5e65b2ce7352c4da7df25816cc7b777c0901ecee8ea72e0f7d51a14af0c158.png" src="_images/8f5e65b2ce7352c4da7df25816cc7b777c0901ecee8ea72e0f7d51a14af0c158.png" />
+<img alt="_images/89d84d67c07261bb12e0d2c728f27f934bc5984307345efb533f181fb75d5bf2.png" src="_images/89d84d67c07261bb12e0d2c728f27f934bc5984307345efb533f181fb75d5bf2.png" />
 </div>
 </div>
+</section>
+<section id="id10">
+<h3>Evaluación del Modelo<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
@@ -1661,19 +1680,19 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.74 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.44 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.87 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.48 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.92 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.94 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.80 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.56 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 4.67 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.59 segundos
 </pre></div>
 </div>
 </div>
@@ -1699,17 +1718,17 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;hist&#39;: 0.0158 segundos (promedio en 960 ejecuciones)
-🔧 &#39;exact&#39;: 0.0159 segundos (promedio en 960 ejecuciones)
-🔧 &#39;None&#39;: 0.0157 segundos (promedio en 960 ejecuciones)
-Mejores hiperparámetros globales: {&#39;randomforestclassifier__min_samples_leaf&#39;: 1, &#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__min_samples_split&#39;: 4, &#39;randomforestclassifier__max_depth&#39;: 10}
+🔧 &#39;hist&#39;: 0.0141 segundos (promedio en 960 ejecuciones)
+🔧 &#39;exact&#39;: 0.0144 segundos (promedio en 960 ejecuciones)
+🔧 &#39;None&#39;: 0.0141 segundos (promedio en 960 ejecuciones)
+Mejores hiperparámetros globales: {&#39;randomforestclassifier__min_samples_split&#39;: 2, &#39;randomforestclassifier__n_estimators&#39;: 100, &#39;randomforestclassifier__min_samples_leaf&#39;: 2, &#39;randomforestclassifier__max_depth&#39;: 10}
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="id8">
-<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<section id="id11">
+<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de Confusión</span>
@@ -1756,8 +1775,8 @@ weighted avg       0.62      0.57      0.56        21
 </div>
 </div>
 </section>
-<section id="id9">
-<h3>Curva ROC y AUC<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<section id="id12">
+<h3>Curva ROC y AUC<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
@@ -1787,6 +1806,9 @@ weighted avg       0.62      0.57      0.56        21
 <img alt="_images/8e5046ee3c91b009d7ce3e02581a44e7785a268342333516dc89c8636d8bb321.png" src="_images/8e5046ee3c91b009d7ce3e02581a44e7785a268342333516dc89c8636d8bb321.png" />
 </div>
 </div>
+</section>
+<section id="id13">
+<h3>Evaluación del Modelo<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe10</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span><span class="n">XGBClassifier</span><span class="p">()</span> <span class="p">)</span>
@@ -1801,14 +1823,14 @@ weighted avg       0.62      0.57      0.56        21
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">k9</span><span class="o">/</span><span class="n">_sfb2dlj32z_v_srr2ny3qnm0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_5443</span><span class="o">/</span><span class="mf">2052032225.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">k9</span><span class="o">/</span><span class="n">_sfb2dlj32z_v_srr2ny3qnm0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_5663</span><span class="o">/</span><span class="mf">2052032225.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">pipe10</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span><span class="n">XGBClassifier</span><span class="p">()</span> <span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe10</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> 
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
 
-<span class="nn">/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5443/4037838050.py</span> in <span class="ni">train_and_evaluate_model</span><span class="nt">(X, y, pipeline, best_params, model_name, results_list, test_size, random_state, plot_confusion)</span>
+<span class="nn">/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5663/4037838050.py</span> in <span class="ni">train_and_evaluate_model</span><span class="nt">(X, y, pipeline, best_params, model_name, results_list, test_size, random_state, plot_confusion)</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="p">):</span>
 <span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="c1"># Establecer los mejores hiperparámetros en el pipeline</span>
 <span class="ne">----&gt; </span><span class="mi">9</span>     <span class="n">pipeline</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
@@ -1862,8 +1884,8 @@ weighted avg       0.62      0.57      0.56        21
 <section id="modelo-svm-support-vector-machines">
 <h2>Modelo SVM (Support Vector Machines)<a class="headerlink" href="#modelo-svm-support-vector-machines" title="Link to this heading">#</a></h2>
 <p>En las siguientes líneas de código se implementará el modelo de <strong>Máquinas de Vectores de Soporte (SVM)</strong> utilizando distintos tipos de <em>kernels</em></p>
-<section id="id10">
-<h3>Entrenamiento del modelo<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<section id="id14">
+<h3>Entrenamiento del modelo<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
@@ -1974,8 +1996,8 @@ Mejores hiperparámetros globales: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;
 </div>
 </div>
 </section>
-<section id="id11">
-<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<section id="id15">
+<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de Confusión</span>
@@ -2022,8 +2044,8 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 </section>
-<section id="id12">
-<h3>Curva ROC y AUC<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<section id="id16">
+<h3>Curva ROC y AUC<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
@@ -2053,6 +2075,9 @@ weighted avg       0.67      0.67      0.65        21
 <img alt="_images/564542e061eaf9735d9bafb9e99d713ef2be261552c64ae0e216268946093b06.png" src="_images/564542e061eaf9735d9bafb9e99d713ef2be261552c64ae0e216268946093b06.png" />
 </div>
 </div>
+</section>
+<section id="id17">
+<h3>Evaluación del Modelo<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
@@ -2201,8 +2226,8 @@ Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lbfgs&#39;, &#39;acti
 </div>
 </div>
 </div>
-<section id="id13">
-<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<section id="id18">
+<h3>Matriz de Confusión y Métricas de Desempeño<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matriz de Confusión</span>
@@ -2249,8 +2274,8 @@ weighted avg       0.71      0.71      0.71        21
 </div>
 </div>
 </section>
-<section id="id14">
-<h3>Curva ROC y AUC<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<section id="id19">
+<h3>Curva ROC y AUC<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular AUC</span>
@@ -2280,6 +2305,9 @@ weighted avg       0.71      0.71      0.71        21
 <img alt="_images/02c8e77ed43ddd7d9c9c0ac4dd4dacf946cfcdb2d3965ca54ff1c7a8d0125ab9.png" src="_images/02c8e77ed43ddd7d9c9c0ac4dd4dacf946cfcdb2d3965ca54ff1c7a8d0125ab9.png" />
 </div>
 </div>
+</section>
+<section id="id20">
+<h3>Evaluación del Modelo<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipe9</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">MLPClassifier</span><span class="p">())</span>
@@ -2422,6 +2450,7 @@ ANN MLP            0.75   0.75     0.75     0.71  0.73
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#desbalanceo-de-datos-smote">Desbalanceo de datos - SMOTE</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matriz-de-confusion-y-metricas-de-desempeno">Matriz de Confusión y Métricas de Desempeño</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#curva-roc-y-metrica-auc">Curva ROC y Métrica AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-del-modelo">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clasificador-bayesiano">Clasificador Bayesiano</a><ul class="nav section-nav flex-column">
@@ -2429,35 +2458,41 @@ ANN MLP            0.75   0.75     0.75     0.71  0.73
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Matriz de Confusión y Métricas de Desempeño</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#curva-roc-y-auc">Curva ROC y AUC</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementando-partial-fit">Implementando Partial_fit()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-l1-l2-penalty-logistic-regression">Modelo  L1/L2 Penalty Logistic Regression</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Entrenamiento del modelo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Entrenamiento del modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-random-forest">Modelo Random Forest</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Entrenamiento del modelo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Entrenamiento del modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-xgboost">Modelo XGBoost</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-del-modelo-tree-method-hist">Entrenamiento del modelo - Tree method Hist()</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-svm-support-vector-machines">Modelo SVM (Support Vector Machines)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Entrenamiento del modelo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Entrenamiento del modelo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Evaluación del Modelo</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelo-ann-redes-neuronales-artificiales">Modelo ANN (Redes Neuronales Artificiales)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Matriz de Confusión y Métricas de Desempeño</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Matriz de Confusión y Métricas de Desempeño</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Curva ROC y AUC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Evaluación del Modelo</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resultados">Resultados</a></li>
 </ul>
 </li>
