@@ -17,7 +17,9 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-metrics, confusion_mat, model = train_and_evaluate_model(X,y,pipe, best_overall_params)
+pipe10 = make_pipeline(StandardScaler(),XGBClassifier() )
+
+metrics, confusion_mat, model = train_and_evaluate_model(X,y,pipe10, best_overall_params)
 
 print(metrics)
 print(confusion_mat)
@@ -25,18 +27,19 @@ print(confusion_mat)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mValueError[0m                                Traceback (most recent call last)
-[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_4667/3320127227.py[0m in [0;36m<module>[0;34m[0m
-[0;32m----> 1[0;31m [0mmetrics[0m[0;34m,[0m [0mconfusion_mat[0m[0;34m,[0m [0mmodel[0m [0;34m=[0m [0mtrain_and_evaluate_model[0m[0;34m([0m[0mX[0m[0;34m,[0m[0my[0m[0;34m,[0m[0mpipe[0m[0;34m,[0m [0mbest_overall_params[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m      2[0m [0;34m[0m[0m
-[1;32m      3[0m [0mprint[0m[0;34m([0m[0mmetrics[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      4[0m [0mprint[0m[0;34m([0m[0mconfusion_mat[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-
-[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_4667/1805084688.py[0m in [0;36mtrain_and_evaluate_model[0;34m(X, y, pipeline, best_params, test_size, random_state)[0m
-[1;32m      1[0m [0;32mdef[0m [0mtrain_and_evaluate_model[0m[0;34m([0m[0mX[0m[0;34m,[0m [0my[0m[0;34m,[0m [0mpipeline[0m[0;34m,[0m [0mbest_params[0m[0;34m,[0m [0mtest_size[0m[0;34m=[0m[0;36m0.2[0m[0;34m,[0m [0mrandom_state[0m[0;34m=[0m[0;36m42[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      2[0m     [0;31m# Establecer los mejores hiperparámetros en el pipeline[0m[0;34m[0m[0;34m[0m[0m
-[0;32m----> 3[0;31m     [0mpipeline[0m[0;34m.[0m[0mset_params[0m[0;34m([0m[0;34m**[0m[0mbest_params[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5443/2052032225.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0mpipe10[0m [0;34m=[0m [0mmake_pipeline[0m[0;34m([0m[0mStandardScaler[0m[0;34m([0m[0;34m)[0m[0;34m,[0m[0mXGBClassifier[0m[0;34m([0m[0;34m)[0m [0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m [0;34m[0m[0m
+[0;32m----> 3[0;31m [0mmetrics[0m[0;34m,[0m [0mconfusion_mat[0m[0;34m,[0m [0mmodel[0m [0;34m=[0m [0mtrain_and_evaluate_model[0m[0;34m([0m[0mX[0m[0;34m,[0m[0my[0m[0;34m,[0m[0mpipe10[0m[0;34m,[0m [0mbest_overall_params[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [0m[1;32m      4[0m [0;34m[0m[0m
-[1;32m      5[0m     [0;31m# Particionar los datos[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m [0mprint[0m[0;34m([0m[0mmetrics[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/var/folders/k9/_sfb2dlj32z_v_srr2ny3qnm0000gn/T/ipykernel_5443/4037838050.py[0m in [0;36mtrain_and_evaluate_model[0;34m(X, y, pipeline, best_params, model_name, results_list, test_size, random_state, plot_confusion)[0m
+[1;32m      7[0m ):
+[1;32m      8[0m     [0;31m# Establecer los mejores hiperparámetros en el pipeline[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 9[0;31m     [0mpipeline[0m[0;34m.[0m[0mset_params[0m[0;34m([0m[0;34m**[0m[0mbest_params[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     10[0m [0;34m[0m[0m
+[1;32m     11[0m     [0;31m# Particionar los datos[0m[0;34m[0m[0;34m[0m[0m
 
 [0;32m/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py[0m in [0;36mset_params[0;34m(self, **kwargs)[0m
 [1;32m    186[0m             [0mPipeline[0m [0;32mclass[0m [0minstance[0m[0;34m.[0m[0;34m[0m[0;34m[0m[0m
