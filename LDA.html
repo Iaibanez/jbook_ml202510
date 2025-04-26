@@ -356,7 +356,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -372,6 +374,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-del-modelo">Entrenamiento del modelo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas-de-desempeno">Métricas de desempeño</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-del-modelo-testing">Evaluacion del modelo - Testing</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -417,6 +429,8 @@ document.write(`
 </div>
 </div>
 </div>
+<section id="entrenamiento-del-modelo">
+<h2>Entrenamiento del modelo<a class="headerlink" href="#entrenamiento-del-modelo" title="Link to this heading">#</a></h2>
 <p>Se utilizó Análisis Discriminante Lineal (LDA) como modelo de clasificación, el cual es especialmente útil cuando se desea maximizar la separabilidad entre clases y asumir normalidad multivariada en los datos. Este modelo busca proyectar las variables predictoras en un espacio lineal que facilite la separación entre las clases de la variable objetivo, lo cual resulta particularmente adecuado en contextos con clases bien definidas.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -629,18 +643,7 @@ NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
   warnings.warn(
 /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.69 segundos
-⏳ Tiempo total del fold 2: 0.07 segundos
-⏳ Tiempo total del fold 3: 0.09 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.07 segundos
-⏳ Tiempo total del fold 5: 0.04 segundos
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
+/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
 3 fits failed out of a total of 18.
 The score on these train-test partitions for these parameters will be set to nan.
 If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
@@ -690,6 +693,13 @@ NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
   warnings.warn(some_fits_failed_message, FitFailedWarning)
 /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1108: UserWarning: One or more of the test scores are non-finite: [0.91666667 0.91666667 0.91666667        nan 0.69444444 0.69444444]
   warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.75 segundos
+⏳ Tiempo total del fold 2: 0.07 segundos
+⏳ Tiempo total del fold 3: 0.04 segundos
+⏳ Tiempo total del fold 4: 0.04 segundos
+⏳ Tiempo total del fold 5: 0.04 segundos
 </pre></div>
 </div>
 </div>
@@ -747,11 +757,14 @@ Name: count, dtype: int64
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
 🔧 &#39;lineardiscriminantanalysis&#39;: 0.0034 segundos (promedio en 6 ejecuciones)
-Mejores hiperparámetros globales: {&#39;shrinkage&#39;: &#39;auto&#39;, &#39;solver&#39;: &#39;lsqr&#39;}
+Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lsqr&#39;, &#39;shrinkage&#39;: &#39;auto&#39;}
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="metricas-de-desempeno">
+<h2>Métricas de desempeño<a class="headerlink" href="#metricas-de-desempeno" title="Link to this heading">#</a></h2>
 <p>El algoritmo Linear Discriminant Analysis (LDA) tiene un tiempo promedio de ejecución de 0.0090 segundos en 6 ejecuciones, lo que indica su alta eficiencia. Los mejores hiperparámetros identificados son:</p>
 <p>‘shrinkage’: ‘auto’: Ajuste automático de la regularización, optimizando el modelo sin necesidad de intervención manual.
 ‘solver’: ‘lsqr’: Método de mínimos cuadrados, eficiente para resolver el sistema de ecuaciones, especialmente con datos grandes.
@@ -837,6 +850,9 @@ weighted avg       0.81      0.81      0.81        21
 </div>
 </div>
 <p>La curva ROC del modelo LDA muestra una separación moderada entre las clases, con un área bajo la curva (AUC) de aproximadamente 0.70. Este valor indica que el modelo tiene una capacidad aceptable para distinguir entre clases positivas y negativas, es decir, entre casos de “Falla” y “No Falla”.</p>
+</section>
+<section id="evaluacion-del-modelo-testing">
+<h2>Evaluacion del modelo - Testing<a class="headerlink" href="#evaluacion-del-modelo-testing" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_model</span><span class="p">(</span>
@@ -943,6 +959,7 @@ weighted avg       0.81      0.81      0.81        21
 </div>
 <p>Para verificar la naturaleza de los patrones presentes en los datos, se realizó una reducción de dimensionalidad mediante Análisis de Componentes Principales (PCA). En la proyección obtenida, las clases presentan un solapamiento significativo, sin una separación lineal evidente. Esta observación sugiere que las relaciones entre las variables predictoras y la variable objetivo pueden ser no lineales. Por tal motivo, se consideró apropiado el uso del clasificador Quadratic Discriminant Analysis (QDA), el cual se adapta a estas condiciones al permitir fronteras de decisión cuadráticas.</p>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -998,6 +1015,23 @@ weighted avg       0.81      0.81      0.81        21
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entrenamiento-del-modelo">Entrenamiento del modelo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metricas-de-desempeno">Métricas de desempeño</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-del-modelo-testing">Evaluacion del modelo - Testing</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
