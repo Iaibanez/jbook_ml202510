@@ -576,8 +576,8 @@ document.write(`
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.64 segundos
-⏳ Tiempo total del fold 2: 0.13 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.67 segundos
+⏳ Tiempo total del fold 2: 0.17 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
@@ -586,9 +586,9 @@ document.write(`
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.16 segundos
-⏳ Tiempo total del fold 4: 0.04 segundos
-⏳ Tiempo total del fold 5: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.06 segundos
+⏳ Tiempo total del fold 4: 0.06 segundos
+⏳ Tiempo total del fold 5: 0.06 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
@@ -654,9 +654,9 @@ Name: count, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;ball_tree&#39;: 0.0026 segundos (promedio en 40 ejecuciones)
-🔧 &#39;kd_tree&#39;: 0.0023 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;weights&#39;: &#39;distance&#39;, &#39;n_neighbors&#39;: 3, &#39;metric&#39;: &#39;euclidean&#39;}
+🔧 &#39;ball_tree&#39;: 0.0044 segundos (promedio en 40 ejecuciones)
+🔧 &#39;kd_tree&#39;: 0.0021 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;n_neighbors&#39;: 3, &#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;algorithm&#39;: &#39;ball_tree&#39;}
 </pre></div>
 </div>
 </div>
@@ -912,7 +912,9 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.03 segundos
-⏳ Tiempo total del fold 2: 0.03 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.03 segundos
 ⏳ Tiempo total del fold 3: 0.03 segundos
 </pre></div>
 </div>
@@ -956,9 +958,9 @@ weighted avg       0.60      0.57      0.57        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;1e-09&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-09&#39;: 0.0017 segundos (promedio en 5 ejecuciones)
 Smoothing &#39;1e-08&#39;: 0.0020 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-07&#39;: 0.0023 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-07&#39;: 0.0018 segundos (promedio en 5 ejecuciones)
 Smoothing &#39;1e-06&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
 Smoothing &#39;1e-05&#39;: 0.0017 segundos (promedio en 5 ejecuciones)
 Mejores hiperparámetros globales: {&#39;var_smoothing&#39;: 1e-09}
@@ -1128,9 +1130,7 @@ weighted avg       0.78      0.76      0.75        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 1: terminado en 0.03 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 2: terminado en 0.03 segundos
+⏳ Fold 2: terminado en 0.03 segundos
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 3: terminado en 0.03 segundos
@@ -1299,14 +1299,14 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.06 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.04 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
@@ -1341,8 +1341,8 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
 Smoothing &#39;liblinear&#39;: 0.0020 segundos (promedio en 40 ejecuciones)
-Smoothing &#39;saga&#39;: 0.0027 segundos (promedio en 40 ejecuciones)
-Mejores hiperparámetros globales: {&#39;penalty&#39;: &#39;l1&#39;, &#39;C&#39;: 1, &#39;solver&#39;: &#39;liblinear&#39;}
+Smoothing &#39;saga&#39;: 0.0024 segundos (promedio en 40 ejecuciones)
+Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;liblinear&#39;, &#39;C&#39;: 1, &#39;penalty&#39;: &#39;l1&#39;}
 </pre></div>
 </div>
 </div>
@@ -1533,35 +1533,35 @@ weighted avg       0.76      0.76      0.76        21
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 5.24 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 5.09 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 5.32 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 5.10 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 4.97 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 5.41 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 5.03 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 6.38 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 5.16 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 6.15 segundos
 </pre></div>
 </div>
 </div>
@@ -1587,10 +1587,10 @@ weighted avg       0.76      0.76      0.76        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;100&#39;: 0.0588 segundos (promedio en 180 ejecuciones)
-🔧 &#39;200&#39;: 0.1140 segundos (promedio en 180 ejecuciones)
-🔧 &#39;300&#39;: 0.1696 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;n_estimators&#39;: 100, &#39;min_samples_split&#39;: 2, &#39;max_depth&#39;: 10, &#39;min_samples_leaf&#39;: 2}
+🔧 &#39;100&#39;: 0.0643 segundos (promedio en 180 ejecuciones)
+🔧 &#39;200&#39;: 0.1261 segundos (promedio en 180 ejecuciones)
+🔧 &#39;300&#39;: 0.1864 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;min_samples_leaf&#39;: 1, &#39;max_depth&#39;: 10, &#39;min_samples_split&#39;: 5, &#39;n_estimators&#39;: 100}
 </pre></div>
 </div>
 </div>
@@ -1618,11 +1618,11 @@ Mejores hiperparámetros globales: {&#39;n_estimators&#39;: 100, &#39;min_sample
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
-Mean Accuracy: 0.7333 ± 0.0940
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.4444444444444444, 0.7222222222222222, 0.7222222222222222, 0.8055555555555555]
+Mean Accuracy: 0.6944 ± 0.1291
 </pre></div>
 </div>
-<img alt="_images/27fcb8feeff86141cf83e073546f45b58a8573d944ddbdc038a58a7490073e3d.png" src="_images/27fcb8feeff86141cf83e073546f45b58a8573d944ddbdc038a58a7490073e3d.png" />
+<img alt="_images/36e661fa3c248846d163d2d6e94bbda2d62a92ca892186b56bf01205acfd66f4.png" src="_images/36e661fa3c248846d163d2d6e94bbda2d62a92ca892186b56bf01205acfd66f4.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1636,17 +1636,17 @@ Mean Accuracy: 0.7333 ± 0.0940
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.5555555555555555, 0.7222222222222222, 0.8055555555555555, 0.8055555555555555]
-Mean Accuracy: 0.7333 ± 0.0940
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.4444444444444444, 0.7222222222222222, 0.7222222222222222, 0.8055555555555555]
+Mean Accuracy: 0.6944 ± 0.1291
 Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       0.60      0.67      0.63         9
-           1       0.73      0.67      0.70        12
+           0       0.42      0.56      0.48         9
+           1       0.56      0.42      0.48        12
 
-    accuracy                           0.67        21
-   macro avg       0.66      0.67      0.66        21
-weighted avg       0.67      0.67      0.67        21
+    accuracy                           0.48        21
+   macro avg       0.49      0.49      0.48        21
+weighted avg       0.50      0.48      0.48        21
 </pre></div>
 </div>
 </div>
@@ -1677,10 +1677,10 @@ weighted avg       0.67      0.67      0.67        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6111
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5648
 </pre></div>
 </div>
-<img alt="_images/d69dd0ba0402dc547cf0cc6695ab3ccf42c8bdb4981cd4c06c55e03543e7a8cb.png" src="_images/d69dd0ba0402dc547cf0cc6695ab3ccf42c8bdb4981cd4c06c55e03543e7a8cb.png" />
+<img alt="_images/004c8acd74de8c8e2497a4c922b5987fe3600b5d7c0574fae5325f5add7ec852.png" src="_images/004c8acd74de8c8e2497a4c922b5987fe3600b5d7c0574fae5325f5add7ec852.png" />
 </div>
 </div>
 </section>
@@ -1790,35 +1790,35 @@ weighted avg       0.67      0.67      0.67        21
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.48 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 4.62 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.54 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 4.09 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.63 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.91 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.62 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.79 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.50 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.74 segundos
 </pre></div>
 </div>
 </div>
@@ -1844,10 +1844,10 @@ weighted avg       0.67      0.67      0.67        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;hist&#39;: 0.0131 segundos (promedio en 960 ejecuciones)
-🔧 &#39;exact&#39;: 0.0130 segundos (promedio en 960 ejecuciones)
-🔧 &#39;None&#39;: 0.0130 segundos (promedio en 960 ejecuciones)
-Mejores hiperparámetros globales: {&#39;xgbclassifier__n_estimators&#39;: 100, &#39;xgbclassifier__tree_method&#39;: &#39;exact&#39;, &#39;xgbclassifier__learning_rate&#39;: 0.5, &#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__max_depth&#39;: 3}
+🔧 &#39;hist&#39;: 0.0147 segundos (promedio en 960 ejecuciones)
+🔧 &#39;exact&#39;: 0.0147 segundos (promedio en 960 ejecuciones)
+🔧 &#39;None&#39;: 0.0148 segundos (promedio en 960 ejecuciones)
+Mejores hiperparámetros globales: {&#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__tree_method&#39;: &#39;exact&#39;, &#39;xgbclassifier__max_depth&#39;: 3, &#39;xgbclassifier__learning_rate&#39;: 0.5, &#39;xgbclassifier__n_estimators&#39;: 100}
 </pre></div>
 </div>
 </div>
@@ -1942,11 +1942,11 @@ weighted avg       0.62      0.57      0.56        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;xgbclassifier__n_estimators&#39;: 100,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;xgbclassifier__colsample_bytree&#39;: 0.5,
  &#39;xgbclassifier__tree_method&#39;: &#39;exact&#39;,
+ &#39;xgbclassifier__max_depth&#39;: 3,
  &#39;xgbclassifier__learning_rate&#39;: 0.5,
- &#39;xgbclassifier__colsample_bytree&#39;: 0.5,
- &#39;xgbclassifier__max_depth&#39;: 3}
+ &#39;xgbclassifier__n_estimators&#39;: 100}
 </pre></div>
 </div>
 </div>
@@ -2056,14 +2056,14 @@ weighted avg       0.62      0.57      0.56        21
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.37 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.39 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.31 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.35 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
@@ -2084,7 +2084,7 @@ weighted avg       0.62      0.57      0.56        21
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.32 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.33 segundos
 </pre></div>
 </div>
 </div>
@@ -2110,11 +2110,11 @@ weighted avg       0.62      0.57      0.56        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;linear&#39;: 0.0022 segundos (promedio en 245 ejecuciones)
-🔧 &#39;rbf&#39;: 0.0023 segundos (promedio en 245 ejecuciones)
+🔧 &#39;linear&#39;: 0.0024 segundos (promedio en 245 ejecuciones)
+🔧 &#39;rbf&#39;: 0.0024 segundos (promedio en 245 ejecuciones)
 🔧 &#39;poly&#39;: 0.0022 segundos (promedio en 245 ejecuciones)
-🔧 &#39;sigmoid&#39;: 0.0021 segundos (promedio en 245 ejecuciones)
-Mejores hiperparámetros globales: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 1, &#39;gamma&#39;: 0.1}
+🔧 &#39;sigmoid&#39;: 0.0023 segundos (promedio en 245 ejecuciones)
+Mejores hiperparámetros globales: {&#39;gamma&#39;: 0.1, &#39;C&#39;: 1, &#39;kernel&#39;: &#39;rbf&#39;}
 </pre></div>
 </div>
 </div>
@@ -2193,10 +2193,10 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7222
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6852
 </pre></div>
 </div>
-<img alt="_images/afb6e24ab89e1f10034d9f5b7f2f2e984f4b8fc67753265eab66c92a104b2b3c.png" src="_images/afb6e24ab89e1f10034d9f5b7f2f2e984f4b8fc67753265eab66c92a104b2b3c.png" />
+<img alt="_images/ac28b886b0c631cb7d1adf212f2266ece8607ea1a5ad783856645c4ce73cd75b.png" src="_images/ac28b886b0c631cb7d1adf212f2266ece8607ea1a5ad783856645c4ce73cd75b.png" />
 </div>
 </div>
 </section>
@@ -2303,35 +2303,35 @@ weighted avg       0.67      0.67      0.65        21
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.89 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.08 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.47 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.66 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.44 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.55 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.24 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.40 segundos
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.16 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.21 segundos
 </pre></div>
 </div>
 </div>
@@ -2357,11 +2357,11 @@ weighted avg       0.67      0.67      0.65        21
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;(5,)&#39;: 0.0723 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(10,)&#39;: 0.0534 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(15,)&#39;: 0.0458 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(20,)&#39;: 0.0431 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;learning_rate&#39;: &#39;constant&#39;, &#39;activation&#39;: &#39;relu&#39;, &#39;alpha&#39;: 0.0001, &#39;solver&#39;: &#39;lbfgs&#39;, &#39;hidden_layer_sizes&#39;: (10,)}
+🔧 &#39;(5,)&#39;: 0.0754 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(10,)&#39;: 0.0565 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(15,)&#39;: 0.0479 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(20,)&#39;: 0.0456 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;solver&#39;: &#39;lbfgs&#39;, &#39;hidden_layer_sizes&#39;: (10,), &#39;activation&#39;: &#39;relu&#39;}
 </pre></div>
 </div>
 </div>
@@ -2373,11 +2373,11 @@ Mejores hiperparámetros globales: {&#39;learning_rate&#39;: &#39;constant&#39;,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mlpclassifier__learning_rate&#39;: &#39;constant&#39;,
- &#39;mlpclassifier__activation&#39;: &#39;relu&#39;,
- &#39;mlpclassifier__alpha&#39;: 0.0001,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mlpclassifier__alpha&#39;: 0.0001,
+ &#39;mlpclassifier__learning_rate&#39;: &#39;constant&#39;,
  &#39;mlpclassifier__solver&#39;: &#39;lbfgs&#39;,
- &#39;mlpclassifier__hidden_layer_sizes&#39;: (10,)}
+ &#39;mlpclassifier__hidden_layer_sizes&#39;: (10,),
+ &#39;mlpclassifier__activation&#39;: &#39;relu&#39;}
 </pre></div>
 </div>
 </div>

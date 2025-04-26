@@ -461,7 +461,9 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Variables para guardar resultados</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="c1"># </span>
+<span class="c1"># Variables para guardar resultados</span>
 <span class="n">all_y_true</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_pred</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_scores</span> <span class="o">=</span> <span class="p">[]</span>
@@ -522,187 +524,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
-4 fits failed out of a total of 18.
-The score on these train-test partitions for these parameters will be set to nan.
-If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
-
-Below are more details about the failures:
---------------------------------------------------------------------------------
-1 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 716, in fit
-    self._solve_eigen(
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 549, in _solve_eigen
-    evals, evecs = linalg.eigh(Sb, Sw)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/scipy/linalg/_decomp.py&quot;, line 580, in eigh
-    raise LinAlgError(&#39;The leading minor of order {} of B is not &#39;
-numpy.linalg.LinAlgError: The leading minor of order 11 of B is not positive definite. The factorization of B could not be completed and no eigenvalues or eigenvectors were computed.
-
---------------------------------------------------------------------------------
-3 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 700, in fit
-    raise NotImplementedError(&quot;shrinkage not supported with &#39;svd&#39; solver.&quot;)
-NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
-
-  warnings.warn(some_fits_failed_message, FitFailedWarning)
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1108: UserWarning: One or more of the test scores are non-finite: [0.66666667 0.66666667        nan        nan 0.77777778 0.77777778]
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
-4 fits failed out of a total of 18.
-The score on these train-test partitions for these parameters will be set to nan.
-If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
-
-Below are more details about the failures:
---------------------------------------------------------------------------------
-1 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 716, in fit
-    self._solve_eigen(
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 549, in _solve_eigen
-    evals, evecs = linalg.eigh(Sb, Sw)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/scipy/linalg/_decomp.py&quot;, line 580, in eigh
-    raise LinAlgError(&#39;The leading minor of order {} of B is not &#39;
-numpy.linalg.LinAlgError: The leading minor of order 11 of B is not positive definite. The factorization of B could not be completed and no eigenvalues or eigenvectors were computed.
-
---------------------------------------------------------------------------------
-3 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 700, in fit
-    raise NotImplementedError(&quot;shrinkage not supported with &#39;svd&#39; solver.&quot;)
-NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
-
-  warnings.warn(some_fits_failed_message, FitFailedWarning)
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1108: UserWarning: One or more of the test scores are non-finite: [0.77777778 0.77777778        nan        nan 0.66666667 0.66666667]
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
-3 fits failed out of a total of 18.
-The score on these train-test partitions for these parameters will be set to nan.
-If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
-
-Below are more details about the failures:
---------------------------------------------------------------------------------
-3 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 700, in fit
-    raise NotImplementedError(&quot;shrinkage not supported with &#39;svd&#39; solver.&quot;)
-NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
-
-  warnings.warn(some_fits_failed_message, FitFailedWarning)
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1108: UserWarning: One or more of the test scores are non-finite: [0.66666667 0.66666667 0.66666667        nan 0.88888889 0.88888889]
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
-3 fits failed out of a total of 18.
-The score on these train-test partitions for these parameters will be set to nan.
-If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
-
-Below are more details about the failures:
---------------------------------------------------------------------------------
-3 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 700, in fit
-    raise NotImplementedError(&quot;shrinkage not supported with &#39;svd&#39; solver.&quot;)
-NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
-
-  warnings.warn(some_fits_failed_message, FitFailedWarning)
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1108: UserWarning: One or more of the test scores are non-finite: [0.66666667 0.66666667 0.66666667        nan 0.69444444 0.69444444]
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py:528: FitFailedWarning: 
-3 fits failed out of a total of 18.
-The score on these train-test partitions for these parameters will be set to nan.
-If these failures are not expected, you can try to debug them by setting error_score=&#39;raise&#39;.
-
-Below are more details about the failures:
---------------------------------------------------------------------------------
-3 fits failed with the following error:
-Traceback (most recent call last):
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_validation.py&quot;, line 866, in _fit_and_score
-    estimator.fit(X_train, y_train, **fit_params)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/pipeline.py&quot;, line 662, in fit
-    self._final_estimator.fit(Xt, y, **last_step_params[&quot;fit&quot;])
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py&quot;, line 1389, in wrapper
-    return fit_method(estimator, *args, **kwargs)
-  File &quot;/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py&quot;, line 700, in fit
-    raise NotImplementedError(&quot;shrinkage not supported with &#39;svd&#39; solver.&quot;)
-NotImplementedError: shrinkage not supported with &#39;svd&#39; solver.
-
-  warnings.warn(some_fits_failed_message, FitFailedWarning)
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1108: UserWarning: One or more of the test scores are non-finite: [0.91666667 0.91666667 0.91666667        nan 0.69444444 0.69444444]
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.75 segundos
-⏳ Tiempo total del fold 2: 0.07 segundos
-⏳ Tiempo total del fold 3: 0.04 segundos
-⏳ Tiempo total del fold 4: 0.04 segundos
-⏳ Tiempo total del fold 5: 0.04 segundos
-</pre></div>
-</div>
-</div>
 </div>
 <p>Estos resultados reflejan el tiempo total que tomó cada pliegue (fold) en un proceso de validación cruzada, que generalmente se utiliza en modelos de machine learning para evaluar su rendimiento de manera más robusta. En este caso, los tiempos mostrados son bastante cortos, lo que indica que el modelo está siendo evaluado eficientemente en cada iteración.</p>
 <p>Antes de aplicar SMOTE, se evidenciaba un leve desequilibrio en la variable objetivo Falla, con 10 registros pertenecientes a la clase 1 (falla) y solo 7 a la clase 0 (no falla). Aunque la diferencia no es drástica, este desbalance puede afectar el desempeño de algunos algoritmos de clasificación, haciendo que tiendan a favorecer la clase mayoritaria.</p>
@@ -756,8 +577,8 @@ Name: count, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;lineardiscriminantanalysis&#39;: 0.0034 segundos (promedio en 6 ejecuciones)
-Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lsqr&#39;, &#39;shrinkage&#39;: &#39;auto&#39;}
+🔧 &#39;lineardiscriminantanalysis&#39;: 0.0040 segundos (promedio en 6 ejecuciones)
+Mejores hiperparámetros globales: {&#39;shrinkage&#39;: &#39;auto&#39;, &#39;solver&#39;: &#39;lsqr&#39;}
 </pre></div>
 </div>
 </div>
