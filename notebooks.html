@@ -531,126 +531,33 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TimeoutError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">21</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.csv&quot;</span><span class="p">)]</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1"># Identificar delimitadores para cada archivo</span>
+<span class="ne">---&gt; </span><span class="mi">21</span> <span class="n">delimiters</span> <span class="o">=</span> <span class="p">{</span><span class="n">file</span><span class="p">:</span> <span class="n">identify_delimiter</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="c1"># Separar archivos según su delimitador</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">files_semicolon</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">delim</span> <span class="ow">in</span> <span class="n">delimiters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">delim</span> <span class="o">==</span> <span class="s1">&#39;;&#39;</span><span class="p">]</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="nn">Cell In[2], line 21,</span> in <span class="ni">&lt;dictcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.csv&quot;</span><span class="p">)]</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1"># Identificar delimitadores para cada archivo</span>
+<span class="ne">---&gt; </span><span class="mi">21</span> <span class="n">delimiters</span> <span class="o">=</span> <span class="p">{</span><span class="n">file</span><span class="p">:</span> <span class="n">identify_delimiter</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="c1"># Separar archivos según su delimitador</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">files_semicolon</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">delim</span> <span class="ow">in</span> <span class="n">delimiters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">delim</span> <span class="o">==</span> <span class="s1">&#39;;&#39;</span><span class="p">]</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>EquipmentName</th>
-      <th>AdjustedReadTime</th>
-      <th>StrutPressLeftRear</th>
-      <th>StrutPressureRightRear</th>
-      <th>PayLoad</th>
-      <th>Road Ground</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>022-740</td>
-      <td>2024-02-28 20:57:57</td>
-      <td>2760.6</td>
-      <td>3983.6</td>
-      <td>255.6</td>
-      <td>8.8</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:00:31</td>
-      <td>3360.4</td>
-      <td>4465.9</td>
-      <td>106.5</td>
-      <td>22.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:07:03</td>
-      <td>3507.9</td>
-      <td>3316.8</td>
-      <td>0.0</td>
-      <td>31.2</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:07:55</td>
-      <td>3016.5</td>
-      <td>4278.6</td>
-      <td>0.0</td>
-      <td>26.8</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:16:04</td>
-      <td>3596.8</td>
-      <td>3777.6</td>
-      <td>298.3</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:17:34</td>
-      <td>3828.5</td>
-      <td>3271.9</td>
-      <td>383.5</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:20:04</td>
-      <td>4931.3</td>
-      <td>1832.5</td>
-      <td>319.6</td>
-      <td>1.6</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:21:34</td>
-      <td>3168.5</td>
-      <td>4067.5</td>
-      <td>225.6</td>
-      <td>3.2</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:23:04</td>
-      <td>10255.2</td>
-      <td>8315.5</td>
-      <td>125.5</td>
-      <td>1.6</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>022-740</td>
-      <td>2024-02-28 21:25:35</td>
-      <td>15832.7</td>
-      <td>20498.5</td>
-      <td>295.9</td>
-      <td>13.3</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="nn">Cell In[2], line 6,</span> in <span class="ni">identify_delimiter</span><span class="nt">(file_path)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Identifica si el archivo CSV usa coma o punto y coma como delimitador.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">6</span>     <span class="n">first_line</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">in</span> <span class="n">first_line</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>         <span class="k">return</span> <span class="s1">&#39;,&#39;</span>
+
+<span class="ne">TimeoutError</span>: [Errno 60] Operation timed out
+</pre></div>
+</div>
+</div>
 </div>
 <p>Los datos fueron proporcionados en un archivo <strong>.zip</strong>, que contenía 18 archivos <strong>.csv</strong>, cada uno representando una parte de los datos de las suspensiones por camión. En el código anterior, todos los archivos <strong>.csv</strong> fueron unificados en un único <strong>DataFrame</strong> denominado <strong>dfcamiones</strong>.</p>
 <p>Una vez consolidada la información, se procede al análisis de datos con el objetivo de identificar patrones y extraer información relevante para la investigación.</p>
