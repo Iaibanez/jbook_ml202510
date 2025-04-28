@@ -597,13 +597,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.63 segundos
-⏳ Tiempo total del fold 2: 0.14 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.10 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.07 segundos
-⏳ Tiempo total del fold 4: 0.06 segundos
-⏳ Tiempo total del fold 5: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.25 segundos
+⏳ Tiempo total del fold 3: 0.07 segundos
+⏳ Tiempo total del fold 4: 0.08 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.09 segundos
 </pre></div>
 </div>
 </div>
@@ -663,9 +665,9 @@ Name: count, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;ball_tree&#39;: 0.0025 segundos (promedio en 35 ejecuciones)
-🔧 &#39;kd_tree&#39;: 0.0026 segundos (promedio en 35 ejecuciones)
-Mejores hiperparámetros globales: {&#39;n_neighbors&#39;: 3, &#39;algorithm&#39;: &#39;ball_tree&#39;, &#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;}
+🔧 &#39;ball_tree&#39;: 0.0043 segundos (promedio en 35 ejecuciones)
+🔧 &#39;kd_tree&#39;: 0.0028 segundos (promedio en 35 ejecuciones)
+Mejores hiperparámetros globales: {&#39;weights&#39;: &#39;distance&#39;, &#39;metric&#39;: &#39;euclidean&#39;, &#39;n_neighbors&#39;: 3, &#39;algorithm&#39;: &#39;ball_tree&#39;}
 </pre></div>
 </div>
 </div>
@@ -777,18 +779,32 @@ weighted avg       0.74      0.69      0.69        16
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_final_model</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">,</span> <span class="n">X_test_ext</span><span class="p">,</span> <span class="n">y_test_ext</span><span class="p">):</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_final_model</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">,</span> <span class="n">X_test_ext</span><span class="p">,</span> <span class="n">y_test_ext</span><span class="p">,</span> <span class="n">use_smote</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     
     <span class="n">resultados</span> <span class="o">=</span> <span class="p">{}</span>
-    
-    <span class="c1"># Configurar cross-validation interna</span>
     <span class="n">cv_inner</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">41</span><span class="p">)</span>
-
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-    <span class="c1"># GridSearchCV para encontrar los mejores hiperparámetros</span>
+    <span class="c1"># Aplicar SMOTE si corresponde antes de GridSearch</span>
+    <span class="k">if</span> <span class="n">use_smote</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_train_inner</span><span class="p">)</span>
+        <span class="n">minority_class_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">minority_class_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="n">k_neighbors</span><span class="p">)</span>
+        <span class="n">X_train_bal</span><span class="p">,</span> <span class="n">y_train_bal</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train_bal</span><span class="p">,</span> <span class="n">y_train_bal</span> <span class="o">=</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span>
+
+    <span class="c1"># GridSearchCV con datos balanceados o no</span>
     <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv_inner</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">)</span>
+    <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_bal</span><span class="p">,</span> <span class="n">y_train_bal</span><span class="p">)</span>
 
     <span class="n">best_params</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span>
 
@@ -798,7 +814,17 @@ weighted avg       0.74      0.69      0.69        16
         <span class="nb">type</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">1</span><span class="p">]])(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_params</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
     <span class="p">)</span>
 
-    <span class="n">final_pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">)</span>
+    <span class="c1"># Aplicar SMOTE también antes del entrenamiento final si corresponde</span>
+    <span class="k">if</span> <span class="n">use_smote</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_train_inner</span><span class="p">)</span>
+        <span class="n">minority_class_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">minority_class_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="n">k_neighbors</span><span class="p">)</span>
+        <span class="n">X_train_final</span><span class="p">,</span> <span class="n">y_train_final</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train_final</span><span class="p">,</span> <span class="n">y_train_final</span> <span class="o">=</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span>
+
+    <span class="n">final_pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_final</span><span class="p">,</span> <span class="n">y_train_final</span><span class="p">)</span>
 
     <span class="c1"># Predicciones en test externo</span>
     <span class="n">y_pred</span> <span class="o">=</span> <span class="n">final_pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_ext</span><span class="p">)</span>
@@ -806,7 +832,6 @@ weighted avg       0.74      0.69      0.69        16
 
     <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-    <span class="c1"># Resultados</span>
     <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;modelo_final&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_pipe</span>
     <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;classification_report&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test_ext</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test_ext</span><span class="p">,</span> <span class="n">y_proba</span><span class="p">)</span>
@@ -983,7 +1008,7 @@ weighted avg       0.74      0.69      0.69        16
   </tbody>
 </table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
- - 0.05 segundos
+ - 0.09 segundos
 </pre></div>
 </div>
 </div>
@@ -1074,7 +1099,7 @@ weighted avg       0.74      0.69      0.69        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.0</td>
-      <td>0.053179</td>
+      <td>0.086673</td>
     </tr>
   </tbody>
 </table>
@@ -1160,15 +1185,13 @@ weighted avg       0.74      0.69      0.69        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.03 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.03 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.03 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.05 segundos
+⏳ Tiempo total del fold 2: 0.03 segundos
+⏳ Tiempo total del fold 3: 0.05 segundos
 ⏳ Tiempo total del fold 4: 0.03 segundos
-⏳ Tiempo total del fold 5: 0.03 segundos
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.03 segundos
 </pre></div>
 </div>
 </div>
@@ -1195,11 +1218,11 @@ weighted avg       0.74      0.69      0.69        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;1e-09&#39;: 0.0020 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-08&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-07&#39;: 0.0024 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-06&#39;: 0.0021 segundos (promedio en 5 ejecuciones)
-Smoothing &#39;1e-05&#39;: 0.0019 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-09&#39;: 0.0031 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-08&#39;: 0.0025 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-07&#39;: 0.0028 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-06&#39;: 0.0044 segundos (promedio en 5 ejecuciones)
+Smoothing &#39;1e-05&#39;: 0.0031 segundos (promedio en 5 ejecuciones)
 Mejores hiperparámetros globales: {&#39;var_smoothing&#39;: 1e-09}
 </pre></div>
 </div>
@@ -1370,10 +1393,10 @@ weighted avg       0.68      0.69      0.66        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 1: terminado en 0.02 segundos
+⏳ Fold 2: terminado en 0.02 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 2: terminado en 0.02 segundos
-⏳ Fold 3: terminado en 0.02 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Fold 3: terminado en 0.02 segundos
 </pre></div>
 </div>
 </div>
@@ -1395,11 +1418,11 @@ weighted avg       0.68      0.69      0.66        16
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mejor valor global para &#39;var_smoothing&#39;: 1e-09
 Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
-🔧 var_smoothing=1e-09: promedio de recall interna = 0.0020 en 5 ejecuciones
-🔧 var_smoothing=1e-08: promedio de recall interna = 0.0019 en 5 ejecuciones
-🔧 var_smoothing=1e-07: promedio de recall interna = 0.0024 en 5 ejecuciones
-🔧 var_smoothing=1e-06: promedio de recall interna = 0.0021 en 5 ejecuciones
-🔧 var_smoothing=1e-05: promedio de recall interna = 0.0019 en 5 ejecuciones
+🔧 var_smoothing=1e-09: promedio de recall interna = 0.0031 en 5 ejecuciones
+🔧 var_smoothing=1e-08: promedio de recall interna = 0.0025 en 5 ejecuciones
+🔧 var_smoothing=1e-07: promedio de recall interna = 0.0028 en 5 ejecuciones
+🔧 var_smoothing=1e-06: promedio de recall interna = 0.0044 en 5 ejecuciones
+🔧 var_smoothing=1e-05: promedio de recall interna = 0.0031 en 5 ejecuciones
 </pre></div>
 </div>
 </div>
@@ -1572,7 +1595,7 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.000000</td>
-      <td>0.053179</td>
+      <td>0.086673</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1581,7 +1604,7 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.333333</td>
-      <td>0.030290</td>
+      <td>0.033170</td>
     </tr>
   </tbody>
 </table>
@@ -1669,17 +1692,17 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.06 segundos
-⏳ Tiempo total del fold 2: 0.05 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.08 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.11 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.11 segundos
+⏳ Tiempo total del fold 4: 0.07 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.05 segundos
 </pre></div>
 </div>
 </div>
@@ -1706,9 +1729,9 @@ Tiempo promedio (basado en score) por valor de &#39;var_smoothing&#39;:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-Smoothing &#39;liblinear&#39;: 0.0024 segundos (promedio en 30 ejecuciones)
-Smoothing &#39;saga&#39;: 0.0023 segundos (promedio en 30 ejecuciones)
-Mejores hiperparámetros globales: {&#39;C&#39;: 0.5, &#39;penalty&#39;: &#39;l2&#39;, &#39;solver&#39;: &#39;liblinear&#39;}
+Smoothing &#39;liblinear&#39;: 0.0040 segundos (promedio en 30 ejecuciones)
+Smoothing &#39;saga&#39;: 0.0062 segundos (promedio en 30 ejecuciones)
+Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;liblinear&#39;, &#39;penalty&#39;: &#39;l2&#39;, &#39;C&#39;: 0.5}
 </pre></div>
 </div>
 </div>
@@ -1926,7 +1949,7 @@ weighted avg       0.55      0.56      0.55        16
   </tbody>
 </table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
- - 0.05 segundos
+ - 0.06 segundos
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1963,7 +1986,7 @@ weighted avg       0.55      0.56      0.55        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.000000</td>
-      <td>0.053179</td>
+      <td>0.086673</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1972,7 +1995,7 @@ weighted avg       0.55      0.56      0.55        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.333333</td>
-      <td>0.030290</td>
+      <td>0.033170</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1981,7 +2004,7 @@ weighted avg       0.55      0.56      0.55        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.666667</td>
-      <td>0.048242</td>
+      <td>0.055331</td>
     </tr>
   </tbody>
 </table>
@@ -2070,19 +2093,119 @@ weighted avg       0.55      0.56      0.55        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 4.69 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 8.00 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 4.73 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 8.02 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 4.86 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 8.93 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 4.95 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 4.99 segundos
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">30</span><span class="p">],</span> <span class="n">line</span> <span class="mi">44</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="c1"># Aplicar GridSearchCV dentro de cada fold</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv_inner</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">44</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span><span class="p">)</span>  
+<span class="g g-Whitespace">     </span><span class="mi">46</span> <span class="c1"># Guardar los mejores hiperparámetros de esta iteración</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="n">best_params_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:1389,</span> in <span class="ni">_fit_context.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(estimator, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1382</span>     <span class="n">estimator</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1384</span> <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1385</span>     <span class="n">skip_parameter_validation</span><span class="o">=</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1386</span>         <span class="n">prefer_skip_nested_validation</span> <span class="ow">or</span> <span class="n">global_skip_validation</span>
+<span class="g g-Whitespace">   </span><span class="mi">1387</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1388</span> <span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1389</span>     <span class="k">return</span> <span class="n">fit_method</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1024,</span> in <span class="ni">BaseSearchCV.fit</span><span class="nt">(self, X, y, **params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1018</span>     <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_results</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1019</span>         <span class="n">all_candidate_params</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">all_out</span><span class="p">,</span> <span class="n">all_more_results</span>
+<span class="g g-Whitespace">   </span><span class="mi">1020</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span>     <span class="k">return</span> <span class="n">results</span>
+<span class="ne">-&gt; </span><span class="mi">1024</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_search</span><span class="p">(</span><span class="n">evaluate_candidates</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1026</span> <span class="c1"># multimetric is determined here because in the case of a callable</span>
+<span class="g g-Whitespace">   </span><span class="mi">1027</span> <span class="c1"># self.scoring the return type is only known after calling</span>
+<span class="g g-Whitespace">   </span><span class="mi">1028</span> <span class="n">first_test_score</span> <span class="o">=</span> <span class="n">all_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;test_scores&quot;</span><span class="p">]</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:1571,</span> in <span class="ni">GridSearchCV._run_search</span><span class="nt">(self, evaluate_candidates)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1569</span> <span class="k">def</span><span class="w"> </span><span class="nf">_run_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evaluate_candidates</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1570</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Search all candidates in param_grid&quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1571</span>     <span class="n">evaluate_candidates</span><span class="p">(</span><span class="n">ParameterGrid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">))</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/model_selection/_search.py:970,</span> in <span class="ni">BaseSearchCV.fit.&lt;locals&gt;.evaluate_candidates</span><span class="nt">(candidate_params, cv, more_results)</span>
+<span class="g g-Whitespace">    </span><span class="mi">962</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">963</span>     <span class="nb">print</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">964</span>         <span class="s2">&quot;Fitting </span><span class="si">{0}</span><span class="s2"> folds for each of </span><span class="si">{1}</span><span class="s2"> candidates,&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">965</span>         <span class="s2">&quot; totalling </span><span class="si">{2}</span><span class="s2"> fits&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">966</span>             <span class="n">n_splits</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">,</span> <span class="n">n_candidates</span> <span class="o">*</span> <span class="n">n_splits</span>
+<span class="g g-Whitespace">    </span><span class="mi">967</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">970</span> <span class="n">out</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">971</span>     <span class="n">delayed</span><span class="p">(</span><span class="n">_fit_and_score</span><span class="p">)(</span>
+<span class="g g-Whitespace">    </span><span class="mi">972</span>         <span class="n">clone</span><span class="p">(</span><span class="n">base_estimator</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">973</span>         <span class="n">X</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">974</span>         <span class="n">y</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">975</span>         <span class="n">train</span><span class="o">=</span><span class="n">train</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">976</span>         <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">977</span>         <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">978</span>         <span class="n">split_progress</span><span class="o">=</span><span class="p">(</span><span class="n">split_idx</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">979</span>         <span class="n">candidate_progress</span><span class="o">=</span><span class="p">(</span><span class="n">cand_idx</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">980</span>         <span class="o">**</span><span class="n">fit_and_score_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">981</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">982</span>     <span class="k">for</span> <span class="p">(</span><span class="n">cand_idx</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span> <span class="p">(</span><span class="n">split_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">983</span>         <span class="nb">enumerate</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">984</span>         <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">routed_params</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">985</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">986</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">988</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">989</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">990</span>         <span class="s2">&quot;No fits were performed. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">991</span>         <span class="s2">&quot;Was the CV iterator empty? &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">992</span>         <span class="s2">&quot;Were there no candidates?&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">993</span>     <span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/utils/parallel.py:77,</span> in <span class="ni">Parallel.__call__</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span> <span class="n">iterable_with_config</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span>     <span class="p">(</span><span class="n">_with_config</span><span class="p">(</span><span class="n">delayed_func</span><span class="p">,</span> <span class="n">config</span><span class="p">),</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span>     <span class="k">for</span> <span class="n">delayed_func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">iterable</span>
+<span class="g g-Whitespace">     </span><span class="mi">76</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">77</span> <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">iterable_with_config</span><span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/joblib/parallel.py:2007,</span> in <span class="ni">Parallel.__call__</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2001</span> <span class="c1"># The first item from the output is blank, but it makes the interpreter</span>
+<span class="g g-Whitespace">   </span><span class="mi">2002</span> <span class="c1"># progress until it enters the Try/Except block of the generator and</span>
+<span class="g g-Whitespace">   </span><span class="mi">2003</span> <span class="c1"># reaches the first `yield` statement. This starts the asynchronous</span>
+<span class="g g-Whitespace">   </span><span class="mi">2004</span> <span class="c1"># dispatch of the tasks to the workers.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2005</span> <span class="nb">next</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2007</span> <span class="k">return</span> <span class="n">output</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_generator</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/joblib/parallel.py:1650,</span> in <span class="ni">Parallel._get_outputs</span><span class="nt">(self, iterator, pre_dispatch)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1647</span>     <span class="k">yield</span>
+<span class="g g-Whitespace">   </span><span class="mi">1649</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">retrieval_context</span><span class="p">():</span>
+<span class="ne">-&gt; </span><span class="mi">1650</span>         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1652</span> <span class="k">except</span> <span class="ne">GeneratorExit</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1653</span>     <span class="c1"># The generator has been garbage collected before being fully</span>
+<span class="g g-Whitespace">   </span><span class="mi">1654</span>     <span class="c1"># consumed. This aborts the remaining tasks if possible and warn</span>
+<span class="g g-Whitespace">   </span><span class="mi">1655</span>     <span class="c1"># the user if necessary.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1656</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exception</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File /opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/joblib/parallel.py:1762,</span> in <span class="ni">Parallel._retrieve</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1757</span> <span class="c1"># If the next job is not ready for retrieval yet, we just wait for</span>
+<span class="g g-Whitespace">   </span><span class="mi">1758</span> <span class="c1"># async callbacks to progress.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1759</span> <span class="k">if</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span>
+<span class="g g-Whitespace">   </span><span class="mi">1760</span>     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_status</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1761</span>         <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span> <span class="o">==</span> <span class="n">TASK_PENDING</span><span class="p">)):</span>
+<span class="ne">-&gt; </span><span class="mi">1762</span>     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1763</span>     <span class="k">continue</span>
+<span class="g g-Whitespace">   </span><span class="mi">1765</span> <span class="c1"># We need to be careful: the job list can be filling up as</span>
+<span class="g g-Whitespace">   </span><span class="mi">1766</span> <span class="c1"># we empty it and Python list are not thread-safe by</span>
+<span class="g g-Whitespace">   </span><span class="mi">1767</span> <span class="c1"># default hence the use of the lock</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
@@ -2108,10 +2231,10 @@ weighted avg       0.55      0.56      0.55        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;100&#39;: 0.0552 segundos (promedio en 180 ejecuciones)
-🔧 &#39;200&#39;: 0.1078 segundos (promedio en 180 ejecuciones)
-🔧 &#39;300&#39;: 0.1605 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 2, &#39;n_estimators&#39;: 100, &#39;max_depth&#39;: 10, &#39;min_samples_leaf&#39;: 1}
+🔧 &#39;100&#39;: 0.0626 segundos (promedio en 180 ejecuciones)
+🔧 &#39;200&#39;: 0.1226 segundos (promedio en 180 ejecuciones)
+🔧 &#39;300&#39;: 0.1811 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 3, &#39;n_estimators&#39;: 100, &#39;min_samples_leaf&#39;: 1, &#39;max_depth&#39;: 10}
 </pre></div>
 </div>
 </div>
@@ -2139,11 +2262,11 @@ Mejores hiperparámetros globales: {&#39;min_samples_split&#39;: 2, &#39;n_estim
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.49999999999999994, 0.7777777777777777]
-Mean Accuracy: 0.6556 ± 0.0889
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.6666666666666666, 0.5, 0.6666666666666666, 0.4444444444444444, 0.7777777777777777]
+Mean Accuracy: 0.6111 ± 0.1217
 </pre></div>
 </div>
-<img alt="_images/7bfd751525151622b676fadf7907819fafc9e28be131b8148f56ae3bd51acc67.png" src="_images/7bfd751525151622b676fadf7907819fafc9e28be131b8148f56ae3bd51acc67.png" />
+<img alt="_images/4533729a7254804b02183dadfda80f8a94b0653c8493bce40afc702e447b44d7.png" src="_images/4533729a7254804b02183dadfda80f8a94b0653c8493bce40afc702e447b44d7.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2157,17 +2280,17 @@ Mean Accuracy: 0.6556 ± 0.0889
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.49999999999999994, 0.7777777777777777]
-Mean Accuracy: 0.6556 ± 0.0889
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.6666666666666666, 0.5, 0.6666666666666666, 0.4444444444444444, 0.7777777777777777]
+Mean Accuracy: 0.6111 ± 0.1217
 Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       0.33      0.33      0.33         6
-           1       0.60      0.60      0.60        10
+           0       0.43      0.50      0.46         6
+           1       0.67      0.60      0.63        10
 
-    accuracy                           0.50        16
-   macro avg       0.47      0.47      0.47        16
-weighted avg       0.50      0.50      0.50        16
+    accuracy                           0.56        16
+   macro avg       0.55      0.55      0.55        16
+weighted avg       0.58      0.56      0.57        16
 </pre></div>
 </div>
 </div>
@@ -2198,10 +2321,10 @@ weighted avg       0.50      0.50      0.50        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.3667
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.4500
 </pre></div>
 </div>
-<img alt="_images/36dd6e231fd1ff1f6a4253afe25222ab2e8d4f4052745e0e02ef6d8ff2f4ab6f.png" src="_images/36dd6e231fd1ff1f6a4253afe25222ab2e8d4f4052745e0e02ef6d8ff2f4ab6f.png" />
+<img alt="_images/d71855041d8065cf90f7f21e3fea136af2a9c289f1d34266142df16edfee6fd4.png" src="_images/d71855041d8065cf90f7f21e3fea136af2a9c289f1d34266142df16edfee6fd4.png" />
 </div>
 </div>
 </section>
@@ -2218,13 +2341,13 @@ weighted avg       0.50      0.50      0.50        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🎯 Mejores Hiperparámetros Encontrados:
- - randomforestclassifier__max_depth: 10
- - randomforestclassifier__min_samples_leaf: 2
- - randomforestclassifier__min_samples_split: 2
- - randomforestclassifier__n_estimators: 100
+ - randomforestclassifier__max_depth: 20
+ - randomforestclassifier__min_samples_leaf: 3
+ - randomforestclassifier__min_samples_split: 3
+ - randomforestclassifier__n_estimators: 300
 
 📈 ROC AUC Score en Test Externo:
- - ROC AUC: 1.0000
+ - ROC AUC: 0.8333
 
 📝 Reporte de Clasificación:
 </pre></div>
@@ -2330,7 +2453,7 @@ weighted avg       0.50      0.50      0.50        16
   </tbody>
 </table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
- - 5.07 segundos
+ - 5.77 segundos
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -2367,7 +2490,7 @@ weighted avg       0.50      0.50      0.50        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.000000</td>
-      <td>0.053179</td>
+      <td>0.064823</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2376,7 +2499,7 @@ weighted avg       0.50      0.50      0.50        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.333333</td>
-      <td>0.030290</td>
+      <td>0.042858</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2385,7 +2508,7 @@ weighted avg       0.50      0.50      0.50        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.666667</td>
-      <td>0.048242</td>
+      <td>0.058786</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2393,8 +2516,8 @@ weighted avg       0.50      0.50      0.50        16
       <td>1.0</td>
       <td>0.333333</td>
       <td>0.5</td>
-      <td>1.000000</td>
-      <td>5.065987</td>
+      <td>0.833333</td>
+      <td>5.765745</td>
     </tr>
   </tbody>
 </table>
@@ -2485,19 +2608,11 @@ weighted avg       0.50      0.50      0.50        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.35 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.44 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 3.46 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 3.55 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 3.34 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.82 segundos
+⏳ Tiempo total del fold 2: 4.01 segundos
+⏳ Tiempo total del fold 3: 3.86 segundos
+⏳ Tiempo total del fold 4: 3.92 segundos
+⏳ Tiempo total del fold 5: 3.71 segundos
 </pre></div>
 </div>
 </div>
@@ -2523,10 +2638,10 @@ weighted avg       0.50      0.50      0.50        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;hist&#39;: 0.0125 segundos (promedio en 960 ejecuciones)
-🔧 &#39;exact&#39;: 0.0125 segundos (promedio en 960 ejecuciones)
-🔧 &#39;None&#39;: 0.0125 segundos (promedio en 960 ejecuciones)
-Mejores hiperparámetros globales: {&#39;xgbclassifier__n_estimators&#39;: 100, &#39;xgbclassifier__colsample_bytree&#39;: 0.5, &#39;xgbclassifier__tree_method&#39;: &#39;hist&#39;, &#39;xgbclassifier__learning_rate&#39;: 0.01, &#39;xgbclassifier__max_depth&#39;: 3}
+🔧 &#39;hist&#39;: 0.0141 segundos (promedio en 960 ejecuciones)
+🔧 &#39;exact&#39;: 0.0141 segundos (promedio en 960 ejecuciones)
+🔧 &#39;None&#39;: 0.0140 segundos (promedio en 960 ejecuciones)
+Mejores hiperparámetros globales: {&#39;xgbclassifier__max_depth&#39;: 3, &#39;xgbclassifier__n_estimators&#39;: 100, &#39;xgbclassifier__learning_rate&#39;: 0.01, &#39;xgbclassifier__tree_method&#39;: &#39;hist&#39;, &#39;xgbclassifier__colsample_bytree&#39;: 0.5}
 </pre></div>
 </div>
 </div>
@@ -2762,7 +2877,7 @@ weighted avg       0.42      0.44      0.43        16
   </tbody>
 </table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
- - 0.10 segundos
+ - 0.14 segundos
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -2799,7 +2914,7 @@ weighted avg       0.42      0.44      0.43        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.000000</td>
-      <td>0.053179</td>
+      <td>0.064823</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2808,7 +2923,7 @@ weighted avg       0.42      0.44      0.43        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.333333</td>
-      <td>0.030290</td>
+      <td>0.042858</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2817,7 +2932,7 @@ weighted avg       0.42      0.44      0.43        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.666667</td>
-      <td>0.048242</td>
+      <td>0.058786</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2825,8 +2940,8 @@ weighted avg       0.42      0.44      0.43        16
       <td>1.0</td>
       <td>0.333333</td>
       <td>0.5</td>
-      <td>1.000000</td>
-      <td>5.065987</td>
+      <td>0.833333</td>
+      <td>5.765745</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2835,7 +2950,7 @@ weighted avg       0.42      0.44      0.43        16
       <td>0.666667</td>
       <td>0.8</td>
       <td>0.833333</td>
-      <td>0.096203</td>
+      <td>0.139804</td>
     </tr>
   </tbody>
 </table>
@@ -2925,19 +3040,11 @@ weighted avg       0.42      0.44      0.43        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.32 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 0.30 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.30 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.30 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.30 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 0.40 segundos
+⏳ Tiempo total del fold 2: 0.39 segundos
+⏳ Tiempo total del fold 3: 0.35 segundos
+⏳ Tiempo total del fold 4: 0.32 segundos
+⏳ Tiempo total del fold 5: 0.35 segundos
 </pre></div>
 </div>
 </div>
@@ -2963,11 +3070,11 @@ weighted avg       0.42      0.44      0.43        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;linear&#39;: 0.0023 segundos (promedio en 245 ejecuciones)
-🔧 &#39;rbf&#39;: 0.0021 segundos (promedio en 245 ejecuciones)
-🔧 &#39;poly&#39;: 0.0022 segundos (promedio en 245 ejecuciones)
-🔧 &#39;sigmoid&#39;: 0.0021 segundos (promedio en 245 ejecuciones)
-Mejores hiperparámetros globales: {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;: 10, &#39;gamma&#39;: 0.01}
+🔧 &#39;linear&#39;: 0.0027 segundos (promedio en 245 ejecuciones)
+🔧 &#39;rbf&#39;: 0.0026 segundos (promedio en 245 ejecuciones)
+🔧 &#39;poly&#39;: 0.0024 segundos (promedio en 245 ejecuciones)
+🔧 &#39;sigmoid&#39;: 0.0026 segundos (promedio en 245 ejecuciones)
+Mejores hiperparámetros globales: {&#39;C&#39;: 10, &#39;kernel&#39;: &#39;rbf&#39;, &#39;gamma&#39;: 0.01}
 </pre></div>
 </div>
 </div>
@@ -3046,10 +3153,10 @@ weighted avg       0.62      0.62      0.62        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6167
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.6500
 </pre></div>
 </div>
-<img alt="_images/3ee9b539fca27d546d4aee7d0c3bd939de737152ef4f278840d4e23b29146ca9.png" src="_images/3ee9b539fca27d546d4aee7d0c3bd939de737152ef4f278840d4e23b29146ca9.png" />
+<img alt="_images/74e98436e5496dcdf47fadcee3fc45486b0509c057aacf01a1e117ec9ee94f7e.png" src="_images/74e98436e5496dcdf47fadcee3fc45486b0509c057aacf01a1e117ec9ee94f7e.png" />
 </div>
 </div>
 </section>
@@ -3268,7 +3375,7 @@ weighted avg       0.62      0.62      0.62        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.000000</td>
-      <td>0.053179</td>
+      <td>0.064823</td>
     </tr>
     <tr>
       <th>1</th>
@@ -3277,7 +3384,7 @@ weighted avg       0.62      0.62      0.62        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.333333</td>
-      <td>0.030290</td>
+      <td>0.042858</td>
     </tr>
     <tr>
       <th>2</th>
@@ -3286,7 +3393,7 @@ weighted avg       0.62      0.62      0.62        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.666667</td>
-      <td>0.048242</td>
+      <td>0.058786</td>
     </tr>
     <tr>
       <th>3</th>
@@ -3294,8 +3401,8 @@ weighted avg       0.62      0.62      0.62        16
       <td>1.0</td>
       <td>0.333333</td>
       <td>0.5</td>
-      <td>1.000000</td>
-      <td>5.065987</td>
+      <td>0.833333</td>
+      <td>5.765745</td>
     </tr>
     <tr>
       <th>4</th>
@@ -3304,7 +3411,7 @@ weighted avg       0.62      0.62      0.62        16
       <td>0.666667</td>
       <td>0.8</td>
       <td>0.833333</td>
-      <td>0.096203</td>
+      <td>0.139804</td>
     </tr>
     <tr>
       <th>5</th>
@@ -3402,19 +3509,11 @@ weighted avg       0.62      0.62      0.62        16
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 3.90 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 2: 3.93 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 4.09 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 4.26 segundos
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 4.21 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 4.32 segundos
+⏳ Tiempo total del fold 2: 4.45 segundos
+⏳ Tiempo total del fold 3: 4.52 segundos
+⏳ Tiempo total del fold 4: 4.68 segundos
+⏳ Tiempo total del fold 5: 4.62 segundos
 </pre></div>
 </div>
 </div>
@@ -3440,13 +3539,13 @@ weighted avg       0.62      0.62      0.62        16
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;(5,)&#39;: 0.0672 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(10,)&#39;: 0.0466 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(15,)&#39;: 0.0415 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(20,)&#39;: 0.0400 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(25,)&#39;: 0.0348 segundos (promedio en 180 ejecuciones)
-🔧 &#39;(8, 10, 7)&#39;: 0.0453 segundos (promedio en 180 ejecuciones)
-Mejores hiperparámetros globales: {&#39;learning_rate&#39;: &#39;constant&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;hidden_layer_sizes&#39;: (15,), &#39;activation&#39;: &#39;relu&#39;, &#39;alpha&#39;: 0.0001}
+🔧 &#39;(5,)&#39;: 0.0747 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(10,)&#39;: 0.0516 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(15,)&#39;: 0.0463 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(20,)&#39;: 0.0445 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(25,)&#39;: 0.0390 segundos (promedio en 180 ejecuciones)
+🔧 &#39;(8, 10, 7)&#39;: 0.0505 segundos (promedio en 180 ejecuciones)
+Mejores hiperparámetros globales: {&#39;activation&#39;: &#39;relu&#39;, &#39;solver&#39;: &#39;adam&#39;, &#39;alpha&#39;: 0.0001, &#39;learning_rate&#39;: &#39;constant&#39;, &#39;hidden_layer_sizes&#39;: (15,)}
 </pre></div>
 </div>
 </div>
@@ -3458,11 +3557,11 @@ Mejores hiperparámetros globales: {&#39;learning_rate&#39;: &#39;constant&#39;,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mlpclassifier__learning_rate&#39;: &#39;constant&#39;,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mlpclassifier__activation&#39;: &#39;relu&#39;,
  &#39;mlpclassifier__solver&#39;: &#39;adam&#39;,
- &#39;mlpclassifier__hidden_layer_sizes&#39;: (15,),
- &#39;mlpclassifier__activation&#39;: &#39;relu&#39;,
- &#39;mlpclassifier__alpha&#39;: 0.0001}
+ &#39;mlpclassifier__alpha&#39;: 0.0001,
+ &#39;mlpclassifier__learning_rate&#39;: &#39;constant&#39;,
+ &#39;mlpclassifier__hidden_layer_sizes&#39;: (15,)}
 </pre></div>
 </div>
 </div>
@@ -3576,7 +3675,7 @@ weighted avg       0.75      0.75      0.75        16
  - mlpclassifier__solver: adam
 
 📈 ROC AUC Score en Test Externo:
- - ROC AUC: 0.6667
+ - ROC AUC: 0.5000
 
 📝 Reporte de Clasificación:
 </pre></div>
@@ -3682,7 +3781,7 @@ weighted avg       0.75      0.75      0.75        16
   </tbody>
 </table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
- - 0.14 segundos
+ - 0.17 segundos
 </pre></div>
 </div>
 </div>
@@ -3855,7 +3954,7 @@ weighted avg       0.75      0.75      0.75        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>1.000000</td>
-      <td>0.053179</td>
+      <td>0.064823</td>
     </tr>
     <tr>
       <th>1</th>
@@ -3864,7 +3963,7 @@ weighted avg       0.75      0.75      0.75        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.333333</td>
-      <td>0.030290</td>
+      <td>0.042858</td>
     </tr>
     <tr>
       <th>2</th>
@@ -3873,7 +3972,7 @@ weighted avg       0.75      0.75      0.75        16
       <td>0.333333</td>
       <td>0.5</td>
       <td>0.666667</td>
-      <td>0.048242</td>
+      <td>0.058786</td>
     </tr>
     <tr>
       <th>3</th>
@@ -3881,8 +3980,8 @@ weighted avg       0.75      0.75      0.75        16
       <td>1.0</td>
       <td>0.333333</td>
       <td>0.5</td>
-      <td>1.000000</td>
-      <td>5.065987</td>
+      <td>0.833333</td>
+      <td>5.765745</td>
     </tr>
     <tr>
       <th>4</th>
@@ -3891,7 +3990,7 @@ weighted avg       0.75      0.75      0.75        16
       <td>0.666667</td>
       <td>0.8</td>
       <td>0.833333</td>
-      <td>0.096203</td>
+      <td>0.139804</td>
     </tr>
     <tr>
       <th>5</th>
@@ -3908,8 +4007,8 @@ weighted avg       0.75      0.75      0.75        16
       <td>1.0</td>
       <td>0.333333</td>
       <td>0.5</td>
-      <td>0.666667</td>
-      <td>0.141213</td>
+      <td>0.500000</td>
+      <td>0.165458</td>
     </tr>
   </tbody>
 </table>

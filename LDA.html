@@ -423,6 +423,10 @@ document.write(`
 <span class="c1"># Balanceo de clases</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;metricas_camiones.csv&quot;</span><span class="p">)</span>
 </pre></div>
@@ -443,6 +447,14 @@ document.write(`
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Equipo&quot;</span><span class="p">,</span> <span class="s2">&quot;Suspension&quot;</span><span class="p">,</span> <span class="s2">&quot;Falla&quot;</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Falla&quot;</span><span class="p">]</span>
 
+<span class="c1"># 1) Divide en train_inner y test_externo (por ejemplo 80/20)</span>
+<span class="n">X_train_inner</span><span class="p">,</span> <span class="n">X_test_ext</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">,</span> <span class="n">y_test_ext</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
 <span class="c1"># Crear pipeline con escalado y clasificador LDA</span>
 <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">())</span>
 
@@ -461,9 +473,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
-<span class="c1"># </span>
-<span class="c1"># Variables para guardar resultados</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Variables para guardar resultados</span>
 <span class="n">all_y_true</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_pred</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_scores</span> <span class="o">=</span> <span class="p">[]</span>
@@ -475,13 +485,20 @@ document.write(`
 <span class="n">algorithm_times</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
 <span class="c1"># Iterar sobre los folds de la validación externa</span>
-<span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv_outer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
     <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    
+    <span class="c1"># Antes de SMOTE</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">minority_class_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="c1"># Ajustar k_neighbors para SMOTE</span>
+    <span class="n">k_neighbors</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">minority_class_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 5 por defecto, pero ajustable</span>
 
     <span class="c1"># Aplicar SMOTE a los datos de entrenamiento</span>
-    <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span> <span class="n">k_neighbors</span><span class="p">)</span>
     <span class="n">X_train_res</span><span class="p">,</span> <span class="n">y_train_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
     <span class="c1"># Aplicar GridSearchCV dentro de cada fold</span>
@@ -517,10 +534,33 @@ document.write(`
 
     <span class="c1"># Agregar al diccionario usando el nombre del modelo como clave</span>
     <span class="n">algorithm_times</span><span class="p">[</span><span class="n">clf_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_time</span><span class="p">)</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.21 segundos
+⏳ Tiempo total del fold 2: 0.13 segundos
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
+  warnings.warn(
+/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.15 segundos
+⏳ Tiempo total del fold 4: 0.05 segundos
+⏳ Tiempo total del fold 5: 0.05 segundos
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
+  warnings.warn(
+/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
+  warnings.warn(
 </pre></div>
 </div>
 </div>
@@ -543,14 +583,14 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución antes de SMOTE:
 Falla
-1    10
-0     7
+1    7
+0    6
 Name: count, dtype: int64
 
 Distribución después de SMOTE:
 Falla
-0    10
-1    10
+1    7
+0    7
 Name: count, dtype: int64
 </pre></div>
 </div>
@@ -577,8 +617,8 @@ Name: count, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;lineardiscriminantanalysis&#39;: 0.0030 segundos (promedio en 6 ejecuciones)
-Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lsqr&#39;, &#39;shrinkage&#39;: &#39;auto&#39;}
+🔧 &#39;lineardiscriminantanalysis&#39;: 0.0037 segundos (promedio en 6 ejecuciones)
+Mejores hiperparámetros globales: {&#39;shrinkage&#39;: &#39;auto&#39;, &#39;solver&#39;: &#39;lsqr&#39;}
 </pre></div>
 </div>
 </div>
@@ -606,7 +646,7 @@ Este análisis muestra que el modelo LDA es rápido y está optimizado para func
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/c34457292fa072a96efc13837375e180d56e9e18ce5b350ee17d8fb65698138e.png" src="_images/c34457292fa072a96efc13837375e180d56e9e18ce5b350ee17d8fb65698138e.png" />
+<img alt="_images/7ca79c5ebf1c0755e3291305ac06f59ae7a205c9303f40adcaecfd7b4639efcd.png" src="_images/7ca79c5ebf1c0755e3291305ac06f59ae7a205c9303f40adcaecfd7b4639efcd.png" />
 </div>
 </div>
 <p>La matriz de confusión muestra que el modelo LDA logra clasificar correctamente la mayoría de los casos, identificando adecuadamente tanto situaciones de “No Falla” como de “Falla”. Se observan 7 predicciones correctas de “No Falla” y 10 de “Falla”, mientras que solo se presentan 2 errores en cada clase. Esto indica que el modelo tiene un buen nivel de acierto en ambas categorías, con pocos casos en los que se confunde una falla con una condición normal o viceversa, lo que sugiere un rendimiento bastante equilibrado y confiable según lo visualizado en la gráfica.</p>
@@ -622,17 +662,17 @@ Este análisis muestra que el modelo LDA es rápido y está optimizado para func
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.7777777777777777, 0.7777777777777777, 0.8888888888888888, 0.6944444444444445, 0.9166666666666666]
-Mean Accuracy: 0.8111 ± 0.0813
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nested CV Scores:  [0.6666666666666666, 0.611111111111111, 0.7777777777777777, 0.6666666666666666, 0.611111111111111]
+Mean Accuracy: 0.6667 ± 0.0609
 Reporte de clasificación:
                precision    recall  f1-score   support
 
-           0       0.78      0.78      0.78         9
-           1       0.83      0.83      0.83        12
+           0       0.40      0.33      0.36         6
+           1       0.64      0.70      0.67        10
 
-    accuracy                           0.81        21
-   macro avg       0.81      0.81      0.81        21
-weighted avg       0.81      0.81      0.81        21
+    accuracy                           0.56        16
+   macro avg       0.52      0.52      0.52        16
+weighted avg       0.55      0.56      0.55        16
 </pre></div>
 </div>
 </div>
@@ -664,10 +704,10 @@ weighted avg       0.81      0.81      0.81        21
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.7037
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AUC Score: 0.5833
 </pre></div>
 </div>
-<img alt="_images/0753c99121a0556995ef01003ff582eb69c78e725b6d07d0e807aae4aab9b3a2.png" src="_images/0753c99121a0556995ef01003ff582eb69c78e725b6d07d0e807aae4aab9b3a2.png" />
+<img alt="_images/d733fc437cdf4ab9369027b5e907b7c233460fb9a9fe7e7b4eac53c61838a3a2.png" src="_images/d733fc437cdf4ab9369027b5e907b7c233460fb9a9fe7e7b4eac53c61838a3a2.png" />
 </div>
 </div>
 <p>La curva ROC del modelo LDA muestra una separación moderada entre las clases, con un área bajo la curva (AUC) de aproximadamente 0.70. Este valor indica que el modelo tiene una capacidad aceptable para distinguir entre clases positivas y negativas, es decir, entre casos de “Falla” y “No Falla”.</p>
@@ -676,79 +716,237 @@ weighted avg       0.81      0.81      0.81        21
 <h2>Evaluacion del modelo - Testing<a class="headerlink" href="#evaluacion-del-modelo-testing" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_model</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">best_params</span><span class="p">,</span>
-    <span class="n">results_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-    <span class="n">plot_confusion</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">):</span>
-    <span class="c1"># Establecer los mejores hiperparámetros en el pipeline</span>
-    <span class="n">pipeline</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-    <span class="c1"># Particionar los datos</span>
-    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_final_model</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">,</span> <span class="n">X_test_ext</span><span class="p">,</span> <span class="n">y_test_ext</span><span class="p">,</span> <span class="n">use_smote</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    
+    <span class="n">resultados</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">cv_inner</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">41</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Aplicar SMOTE si corresponde antes de GridSearch</span>
+    <span class="k">if</span> <span class="n">use_smote</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_train_inner</span><span class="p">)</span>
+        <span class="n">minority_class_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">minority_class_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="n">k_neighbors</span><span class="p">)</span>
+        <span class="n">X_train_bal</span><span class="p">,</span> <span class="n">y_train_bal</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train_bal</span><span class="p">,</span> <span class="n">y_train_bal</span> <span class="o">=</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span>
+
+    <span class="c1"># GridSearchCV con datos balanceados o no</span>
+    <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv_inner</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_bal</span><span class="p">,</span> <span class="n">y_train_bal</span><span class="p">)</span>
+
+    <span class="n">best_params</span> <span class="o">=</span> <span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span>
+
+    <span class="c1"># Crear modelo final con mejores hiperparámetros</span>
+    <span class="n">final_pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
+        <span class="n">StandardScaler</span><span class="p">(),</span>
+        <span class="nb">type</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">named_steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">1</span><span class="p">]])(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">best_params</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
     <span class="p">)</span>
 
-    <span class="c1"># Aplicar SMOTE al conjunto de entrenamiento</span>
-    <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
-    <span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="c1"># Aplicar SMOTE también antes del entrenamiento final si corresponde</span>
+    <span class="k">if</span> <span class="n">use_smote</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_train_inner</span><span class="p">)</span>
+        <span class="n">minority_class_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">k_neighbors</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">minority_class_count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="n">k_neighbors</span><span class="p">)</span>
+        <span class="n">X_train_final</span><span class="p">,</span> <span class="n">y_train_final</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train_final</span><span class="p">,</span> <span class="n">y_train_final</span> <span class="o">=</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span>
 
-    <span class="c1"># Entrenar el modelo</span>
-    <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">)</span>
+    <span class="n">final_pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_final</span><span class="p">,</span> <span class="n">y_train_final</span><span class="p">)</span>
 
-    <span class="c1"># Predicciones</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-    <span class="n">y_proba</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="s2">&quot;predict_proba&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="c1"># Predicciones en test externo</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">final_pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_ext</span><span class="p">)</span>
+    <span class="n">y_proba</span> <span class="o">=</span> <span class="n">final_pipe</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_ext</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
 
-    <span class="c1"># Calcular métricas</span>
-    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
-        <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">zero_division</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="s2">&quot;recall&quot;</span><span class="p">:</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
-        <span class="s2">&quot;f1_score&quot;</span><span class="p">:</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
-        <span class="s2">&quot;roc_auc&quot;</span><span class="p">:</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_proba</span><span class="p">)</span> <span class="k">if</span> <span class="n">y_proba</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-    <span class="c1"># Guardar en lista si se proporciona</span>
-    <span class="k">if</span> <span class="n">results_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">results_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+    <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;modelo_final&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_pipe</span>
+    <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;classification_report&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test_ext</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">output_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test_ext</span><span class="p">,</span> <span class="n">y_proba</span><span class="p">)</span>
+    <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;confusion_matrix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test_ext</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;best_params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_params</span>
+    <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;tiempo_total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
 
-    <span class="c1"># Matriz de confusión</span>
-    <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-
-    <span class="c1"># Mostrar gráfico si se desea</span>
-    <span class="k">if</span> <span class="n">plot_confusion</span><span class="p">:</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-        <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matriz de Confusión - Testing&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Predicción&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Valor real&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">cm</span><span class="p">,</span> <span class="n">pipeline</span>
+    <span class="k">return</span> <span class="n">resultados</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span><span class="p">,</span> <span class="n">confusion_mat</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">train_and_evaluate_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span> <span class="n">best_overall_params</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">presentar_resultados</span><span class="p">(</span><span class="n">resultados</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🎯 Mejores Hiperparámetros Encontrados:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;best_params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📈 ROC AUC Score en Test Externo:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - ROC AUC: </span><span class="si">{</span><span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📝 Reporte de Clasificación:&quot;</span><span class="p">)</span>
+    <span class="n">report_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;classification_report&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">report_df</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🧩 Matriz de Confusión:&quot;</span><span class="p">)</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;confusion_matrix&#39;</span><span class="p">]</span>
+    <span class="n">matrix_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">matrix</span><span class="p">,</span>
+        <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Actual 0&quot;</span><span class="p">,</span> <span class="s2">&quot;Actual 1&quot;</span><span class="p">],</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Predicho 0&quot;</span><span class="p">,</span> <span class="s2">&quot;Predicho 1&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">matrix_df</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⏳ Tiempo Total de Entrenamiento y Evaluación:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - </span><span class="si">{</span><span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;tiempo_total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resultados</span> <span class="o">=</span> <span class="n">train_and_evaluate_final_model</span><span class="p">(</span>
+    <span class="n">pipe</span><span class="o">=</span><span class="n">pipe</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+    <span class="n">X_train_inner</span><span class="o">=</span><span class="n">X_train_inner</span><span class="p">,</span>
+    <span class="n">y_train_inner</span><span class="o">=</span><span class="n">y_train_inner</span><span class="p">,</span>
+    <span class="n">X_test_ext</span><span class="o">=</span><span class="n">X_test_ext</span><span class="p">,</span>
+    <span class="n">y_test_ext</span><span class="o">=</span><span class="n">y_test_ext</span>
+<span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">confusion_mat</span><span class="p">)</span>
+<span class="n">presentar_resultados</span><span class="p">(</span><span class="n">resultados</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🎯 Mejores Hiperparámetros Encontrados:
+ - lineardiscriminantanalysis__shrinkage: None
+ - lineardiscriminantanalysis__solver: svd
+
+📈 ROC AUC Score en Test Externo:
+ - ROC AUC: 0.8333
+
+📝 Reporte de Clasificación:
 </pre></div>
 </div>
-<img alt="_images/445de1013f1a0fe228a67baf5f40df2c301a6a1a67db00599957fe776509cdd9.png" src="_images/445de1013f1a0fe228a67baf5f40df2c301a6a1a67db00599957fe776509cdd9.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;accuracy&#39;: 0.6, &#39;precision&#39;: 1.0, &#39;recall&#39;: 0.3333333333333333, &#39;f1_score&#39;: 0.5, &#39;roc_auc&#39;: 1.0}
-[[2 0]
- [2 1]]
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>precision</th>
+      <th>recall</th>
+      <th>f1-score</th>
+      <th>support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.666667</td>
+      <td>1.000000</td>
+      <td>0.8</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.000000</td>
+      <td>0.666667</td>
+      <td>0.8</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>accuracy</th>
+      <td>0.800000</td>
+      <td>0.800000</td>
+      <td>0.8</td>
+      <td>0.8</td>
+    </tr>
+    <tr>
+      <th>macro avg</th>
+      <td>0.833333</td>
+      <td>0.833333</td>
+      <td>0.8</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>weighted avg</th>
+      <td>0.866667</td>
+      <td>0.800000</td>
+      <td>0.8</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🧩 Matriz de Confusión:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Predicho 0</th>
+      <th>Predicho 1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Actual 0</th>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Actual 1</th>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
+ - 0.04 segundos
 </pre></div>
 </div>
 </div>
