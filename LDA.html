@@ -456,7 +456,7 @@ document.write(`
 <span class="p">)</span>
 
 <span class="c1"># Crear pipeline con escalado y clasificador LDA</span>
-<span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">())</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lsqr&#39;</span><span class="p">,</span> <span class="n">shrinkage</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">))</span>
 
 <span class="c1"># Definir hiperparámetros para GridSearch</span>
 <span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
@@ -473,7 +473,11 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># Variables para guardar resultados</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+ 
+ <span class="c1"># Variables para guardar resultados</span>
 <span class="n">all_y_true</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_pred</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_scores</span> <span class="o">=</span> <span class="p">[]</span>
@@ -538,29 +542,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.30 segundos
+⏳ Tiempo total del fold 2: 0.08 segundos
+⏳ Tiempo total del fold 3: 0.12 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.21 segundos
-⏳ Tiempo total del fold 2: 0.13 segundos
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 3: 0.15 segundos
-⏳ Tiempo total del fold 4: 0.05 segundos
-⏳ Tiempo total del fold 5: 0.05 segundos
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
-/opt/miniconda3/envs/ml_venv/lib/python3.9/site-packages/sklearn/base.py:474: FutureWarning: `BaseEstimator._validate_data` is deprecated in 1.6 and will be removed in 1.7. Use `sklearn.utils.validation.validate_data` instead. This function becomes public and is part of the scikit-learn developer API.
-  warnings.warn(
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.05 segundos
+⏳ Tiempo total del fold 5: 0.04 segundos
 </pre></div>
 </div>
 </div>
@@ -617,7 +605,7 @@ Name: count, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;lineardiscriminantanalysis&#39;: 0.0037 segundos (promedio en 6 ejecuciones)
+🔧 &#39;lineardiscriminantanalysis&#39;: 0.0030 segundos (promedio en 6 ejecuciones)
 Mejores hiperparámetros globales: {&#39;shrinkage&#39;: &#39;auto&#39;, &#39;solver&#39;: &#39;lsqr&#39;}
 </pre></div>
 </div>
@@ -649,7 +637,7 @@ Este análisis muestra que el modelo LDA es rápido y está optimizado para func
 <img alt="_images/7ca79c5ebf1c0755e3291305ac06f59ae7a205c9303f40adcaecfd7b4639efcd.png" src="_images/7ca79c5ebf1c0755e3291305ac06f59ae7a205c9303f40adcaecfd7b4639efcd.png" />
 </div>
 </div>
-<p>La matriz de confusión muestra que el modelo LDA logra clasificar correctamente la mayoría de los casos, identificando adecuadamente tanto situaciones de “No Falla” como de “Falla”. Se observan 7 predicciones correctas de “No Falla” y 10 de “Falla”, mientras que solo se presentan 2 errores en cada clase. Esto indica que el modelo tiene un buen nivel de acierto en ambas categorías, con pocos casos en los que se confunde una falla con una condición normal o viceversa, lo que sugiere un rendimiento bastante equilibrado y confiable según lo visualizado en la gráfica.</p>
+<p>La matriz de confusión muestra que el modelo LDA logra clasificar correctamente la mayoría de los casos, identificando adecuadamente tanto situaciones de “No Falla” como de “Falla”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluación final</span>
