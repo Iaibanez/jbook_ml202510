@@ -476,7 +476,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 
- 
+
  <span class="c1"># Variables para guardar resultados</span>
 <span class="n">all_y_true</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">all_y_pred</span> <span class="o">=</span> <span class="p">[]</span>
@@ -493,7 +493,7 @@ document.write(`
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
     <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
-    
+
     <span class="c1"># Antes de SMOTE</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
     <span class="n">minority_class_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -542,20 +542,20 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 2.30 segundos
-⏳ Tiempo total del fold 2: 0.08 segundos
-⏳ Tiempo total del fold 3: 0.12 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 1: 1.86 segundos
+⏳ Tiempo total del fold 2: 0.07 segundos
+⏳ Tiempo total del fold 3: 0.06 segundos
+⏳ Tiempo total del fold 4: 0.06 segundos
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 4: 0.05 segundos
-⏳ Tiempo total del fold 5: 0.04 segundos
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo total del fold 5: 0.06 segundos
 </pre></div>
 </div>
 </div>
 </div>
 <p>Estos resultados reflejan el tiempo total que tomó cada pliegue (fold) en un proceso de validación cruzada, que generalmente se utiliza en modelos de machine learning para evaluar su rendimiento de manera más robusta. En este caso, los tiempos mostrados son bastante cortos, lo que indica que el modelo está siendo evaluado eficientemente en cada iteración.</p>
-<p>Antes de aplicar SMOTE, se evidenciaba un leve desequilibrio en la variable objetivo Falla, con 10 registros pertenecientes a la clase 1 (falla) y solo 7 a la clase 0 (no falla). Aunque la diferencia no es drástica, este desbalance puede afectar el desempeño de algunos algoritmos de clasificación, haciendo que tiendan a favorecer la clase mayoritaria.</p>
-<p>Tras aplicar SMOTE (Synthetic Minority Over-sampling Technique), la distribución de clases se balanceó completamente, generando 3 nuevas instancias sintéticas para la clase minoritaria (0). Como resultado, ambas clases quedaron con 10 instancias cada una. Este balance permite entrenar modelos más justos y robustos, ya que reduce el sesgo hacia una clase específica y mejora el aprendizaje de patrones en ambas categorías.</p>
+<p>Antes de aplicar SMOTE, se evidenciaba un leve desequilibrio en la variable objetivo Falla, con 7 registros pertenecientes a la clase 1 (falla) y solo 6 a la clase 0 (no falla). Aunque la diferencia no es drástica, este desbalance puede afectar el desempeño de algunos algoritmos de clasificación, haciendo que tiendan a favorecer la clase mayoritaria.</p>
+<p>Tras aplicar SMOTE (Synthetic Minority Over-sampling Technique), la distribución de clases se balanceó completamente, generando 1 nueva instancia sintética para la clase minoritaria (0). Como resultado, ambas clases quedaron con 7 instancias cada una. Este balance permite entrenar modelos más justos y robustos, ya que reduce el sesgo hacia una clase específica y mejora el aprendizaje de patrones en ambas categorías.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verificar distribución antes de SMOTE</span>
@@ -605,12 +605,16 @@ Name: count, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Tiempo promedio por tipo de algoritmo:
-🔧 &#39;lineardiscriminantanalysis&#39;: 0.0030 segundos (promedio en 6 ejecuciones)
-Mejores hiperparámetros globales: {&#39;shrinkage&#39;: &#39;auto&#39;, &#39;solver&#39;: &#39;lsqr&#39;}
+🔧 &#39;lineardiscriminantanalysis&#39;: 0.0034 segundos (promedio en 6 ejecuciones)
+Mejores hiperparámetros globales: {&#39;solver&#39;: &#39;lsqr&#39;, &#39;shrinkage&#39;: &#39;auto&#39;}
 </pre></div>
 </div>
 </div>
 </div>
+<p>El algoritmo Linear Discriminant Analysis (LDA) tuvo un tiempo promedio de ejecución de 0.0037 segundos por iteración, calculado a partir de 6 ejecuciones. Esto indica que el modelo es extremadamente rápido tanto en su entrenamiento como en su evaluación, lo que lo convierte en una opción eficiente en contextos donde la velocidad de procesamiento es importante.</p>
+<p>En cuanto a la optimización de sus parámetros, los mejores hiperparámetros encontrados fueron:</p>
+<p>shrinkage: ‘auto’</p>
+<p>solver: ‘lsqr’</p>
 </section>
 <section id="metricas-de-desempeno">
 <h2>Métricas de desempeño<a class="headerlink" href="#metricas-de-desempeno" title="Link to this heading">#</a></h2>
@@ -637,7 +641,11 @@ Este análisis muestra que el modelo LDA es rápido y está optimizado para func
 <img alt="_images/7ca79c5ebf1c0755e3291305ac06f59ae7a205c9303f40adcaecfd7b4639efcd.png" src="_images/7ca79c5ebf1c0755e3291305ac06f59ae7a205c9303f40adcaecfd7b4639efcd.png" />
 </div>
 </div>
-<p>La matriz de confusión muestra que el modelo LDA logra clasificar correctamente la mayoría de los casos, identificando adecuadamente tanto situaciones de “No Falla” como de “Falla”.</p>
+<p>La matriz de confusión obtenida para el modelo LDA (Linear Discriminant Analysis) muestra el desempeño de la clasificación en un esquema de validación cruzada anidada (Nested CV):</p>
+<p>Se clasificaron correctamente 2 casos de “No Falla”.</p>
+<p>Se clasificaron correctamente 7 casos de “Falla”.</p>
+<p>Hubo 4 falsos positivos, donde el modelo predijo “Falla” cuando en realidad era “No Falla”.</p>
+<p>Hubo 3 falsos negativos, donde el modelo predijo “No Falla” cuando en realidad era una “Falla”</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluación final</span>
@@ -665,7 +673,8 @@ weighted avg       0.55      0.56      0.55        16
 </div>
 </div>
 </div>
-<p>El desempeño del modelo LDA evaluado mediante Nested Cross-Validation evidencia una capacidad general sólida para clasificar correctamente los casos entre las categorías “Falla” y “No Falla”. La matriz de confusión muestra que el modelo comete pocos errores: solo dos casos reales de falla no fueron detectados y dos casos sin falla fueron mal clasificados como fallas, lo cual sugiere un comportamiento bastante equilibrado y sin sesgo evidente hacia alguna de las clases.</p>
+<p>Para la clase 0 (No Falla): Precisión de 0.40, lo que indica que de todas las predicciones realizadas como “No Falla”, solo el 40% fueron correctas. Recall de 0.33, evidenciando que solo se identificaron correctamente un tercio de los verdaderos casos de “No Falla”. F1-score de 0.36, lo que refleja un bajo balance entre precisión y recall para esta clase.</p>
+<p>Para la clase 1 (Falla):Precisión de 0.64, indicando un mejor desempeño en identificar correctamente los casos predichos como “Falla”. Recall de 0.70, mostrando que se recuperó el 70% de los casos reales de falla.F1-score de 0.67, lo que refleja un desempeño aceptable en esta clase.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span>
@@ -698,7 +707,7 @@ weighted avg       0.55      0.56      0.55        16
 <img alt="_images/d733fc437cdf4ab9369027b5e907b7c233460fb9a9fe7e7b4eac53c61838a3a2.png" src="_images/d733fc437cdf4ab9369027b5e907b7c233460fb9a9fe7e7b4eac53c61838a3a2.png" />
 </div>
 </div>
-<p>La curva ROC del modelo LDA muestra una separación moderada entre las clases, con un área bajo la curva (AUC) de aproximadamente 0.70. Este valor indica que el modelo tiene una capacidad aceptable para distinguir entre clases positivas y negativas, es decir, entre casos de “Falla” y “No Falla”.</p>
+<p>un AUC de 0.5833 indica que el modelo tiene una capacidad de discriminación apenas superior al azar, pero lejos de ser óptima. Esto confirma lo observado en las métricas anteriores: el modelo presenta un rendimiento modesto, especialmente en la diferenciación entre las clases “Falla” y “No Falla”.</p>
 </section>
 <section id="evaluacion-del-modelo-testing">
 <h2>Evaluacion del modelo - Testing<a class="headerlink" href="#evaluacion-del-modelo-testing" title="Link to this heading">#</a></h2>
@@ -721,7 +730,7 @@ weighted avg       0.55      0.56      0.55        16
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">train_and_evaluate_final_model</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">X_train_inner</span><span class="p">,</span> <span class="n">y_train_inner</span><span class="p">,</span> <span class="n">X_test_ext</span><span class="p">,</span> <span class="n">y_test_ext</span><span class="p">,</span> <span class="n">use_smote</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    
+
     <span class="n">resultados</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">cv_inner</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">41</span><span class="p">)</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -784,14 +793,14 @@ weighted avg       0.55      0.56      0.55        16
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🎯 Mejores Hiperparámetros Encontrados:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;best_params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📈 ROC AUC Score en Test Externo:&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - ROC AUC: </span><span class="si">{</span><span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📝 Reporte de Clasificación:&quot;</span><span class="p">)</span>
     <span class="n">report_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;classification_report&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
     <span class="n">display</span><span class="p">(</span><span class="n">report_df</span><span class="p">)</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🧩 Matriz de Confusión:&quot;</span><span class="p">)</span>
     <span class="n">matrix</span> <span class="o">=</span> <span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;confusion_matrix&#39;</span><span class="p">]</span>
     <span class="n">matrix_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -800,7 +809,7 @@ weighted avg       0.55      0.56      0.55        16
         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Predicho 0&quot;</span><span class="p">,</span> <span class="s2">&quot;Predicho 1&quot;</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">matrix_df</span><span class="p">)</span>
-    
+
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⏳ Tiempo Total de Entrenamiento y Evaluación:&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - </span><span class="si">{</span><span class="n">resultados</span><span class="p">[</span><span class="s1">&#39;tiempo_total&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span>
 </pre></div>
@@ -934,12 +943,12 @@ weighted avg       0.55      0.56      0.55        16
   </tbody>
 </table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>⏳ Tiempo Total de Entrenamiento y Evaluación:
- - 0.04 segundos
+ - 0.03 segundos
 </pre></div>
 </div>
 </div>
 </div>
-<p>La matriz de confusión correspondiente a la fase de prueba muestra que el modelo acierta en 3 de los 5 casos evaluados, lo que se traduce en un desempeño más modesto respecto a los resultados obtenidos durante la validación. El modelo logró clasificar correctamente los dos casos de “No Falla”, sin cometer falsos positivos, lo que se refleja en una precisión perfecta del 100%.</p>
+<p>La matriz de confusión muestra el siguiente desempeño del modelo: Se clasificaron correctamente 2 casos de “No Falla” (Actual 0 predicho como 0). Se clasificaron correctamente 2 casos de “Falla” (Actual 1 predicho como 1). Hubo 1 falso negativo, es decir, un caso de “Falla” que fue clasificado incorrectamente como “No Falla”. No hubo falsos positivos, ya que no se clasificó incorrectamente ningún “No Falla” como “Falla”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
